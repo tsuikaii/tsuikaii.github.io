@@ -1,0 +1,17 @@
+title: tsuikaii
+email: hello@tsuikaii.dev
+description: "A personal blog powered by Jekyll and GitHub Pages."
+baseurl: ""
+url: "https://tsuikaii.github.io"
+lang: zh-CN
+timezone: Asia/Shanghai
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+header_pages:
+  - about.md
+permalink: /:categories/:year/:month/:day/:title/
+markdown: kramdown
+kramdown:
+  input: GFM
