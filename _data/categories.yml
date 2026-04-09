@@ -1,0 +1,8 @@
+article:
+  label: 文章
+album:
+  label: 相册
+music:
+  label: 音乐
+poetry:
+  label: 诗词

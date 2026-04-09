@@ -2,17 +2,27 @@
 layout: default
 ---
 
-<article class="entry entry-post">
+<article class="post type-post hentry">
   <header class="entry-header">
-    <p class="entry-date">{{ page.date | date: "%Y-%m-%d" }}</p>
     <h1 class="entry-title">{{ page.title }}</h1>
   </header>
 
   <div class="entry-content">
-    {{ content | replace: '<!--more-->', '' }}
+    {{ content }}
   </div>
 
-  <nav class="entry-nav" aria-label="文章导航">
-    <a href="{{ '/' | relative_url }}">返回首页</a>
-  </nav>
+  <footer class="entry-footer">
+    <span class="posted-on">
+      <a href="{{ page.url | relative_url }}" rel="bookmark">
+        <time class="entry-date published" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y年%-m月%-d日" }}</time>
+      </a>
+    </span>
+    {% if page.categories and page.categories.first %}
+      {% assign category_slug = page.categories.first %}
+      {% assign category_item = site.data.categories[category_slug] %}
+      <span class="cat-links">
+        <a href="{{ '/categories/' | relative_url }}#{{ category_slug }}">{{ category_item.label | default: category_slug }}</a>
+      </span>
+    {% endif %}
+  </footer>
 </article>

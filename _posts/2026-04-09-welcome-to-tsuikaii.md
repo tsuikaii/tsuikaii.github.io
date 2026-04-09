@@ -2,7 +2,7 @@
 layout: post
 title: "欢迎来到 tsuikaii"
 date: 2026-04-09 22:00:00 +0800
-categories: update
+categories: article
 excerpt: "这个博客正式上线了。我想把这里做成一个节制、安静、适合认真阅读的地方。"
 ---
 

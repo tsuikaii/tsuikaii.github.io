@@ -2,21 +2,32 @@
 layout: default
 ---
 
-<section class="hero">
-  <p class="hero-eyebrow">{{ site.author }}</p>
-  <h1 class="hero-title">{{ site.motto }}</h1>
-  <p class="hero-description">{{ site.description }}</p>
-</section>
-
-<section class="post-list" aria-label="文章列表">
-  {% for post in site.posts %}
-    <a class="post-link-card" href="{{ post.url | relative_url }}">
-      <article class="post-list-item">
-        <h2 class="post-list-title">{{ post.title }}</h2>
-        <p class="post-list-excerpt">
-          <span class="post-list-date">【{{ post.date | date: "%Y-%m-%d" }}】</span>{{ post.excerpt | strip_html | strip_newlines | strip }}
-        </p>
-      </article>
-    </a>
-  {% endfor %}
-</section>
+{% for post in site.posts %}
+  <article class="post hentry">
+    <header class="entry-header">
+      <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
+    </header>
+    <div class="entry-content">
+      <p>
+        {{ post.excerpt | strip_html | strip_newlines | strip }}
+        <span class="more-tag">
+          <a href="{{ post.url | relative_url }}" class="more-link">继续阅读<span class="screen-reader-text">{{ post.title }}</span></a>
+        </span>
+      </p>
+    </div>
+    <footer class="entry-footer">
+      <span class="posted-on">
+        <a href="{{ post.url | relative_url }}" rel="bookmark">
+          <time class="entry-date published" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y年%-m月%-d日" }}</time>
+        </a>
+      </span>
+      {% if post.categories and post.categories.first %}
+        {% assign category_slug = post.categories.first %}
+        {% assign category_item = site.data.categories[category_slug] %}
+        <span class="cat-links">
+          <a href="{{ '/categories/' | relative_url }}#{{ category_slug }}">{{ category_item.label | default: category_slug }}</a>
+        </span>
+      {% endif %}
+    </footer>
+  </article>
+{% endfor %}

@@ -2,8 +2,9 @@ title: tsuikaii
 author: tsuikaii
 email: hello@tsuikaii.dev
 description: "记录阅读、技术与日常生活的极简博客。"
-motto: "Keep it simple, and write what matters."
+sidebar_note: "一个安静写字的地方。"
 location: "Shanghai"
+logo: "/assets/logo.png"
 baseurl: ""
 url: "https://tsuikaii.github.io"
 lang: zh-CN

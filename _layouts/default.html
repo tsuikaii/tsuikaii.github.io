@@ -3,31 +3,66 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#fbfaf6">
-    <link rel="preconnect" href="https://gw.alipayobjects.com" crossorigin>
-    <link rel="stylesheet" href="https://gw.alipayobjects.com/os/k/font/lxgwwenkaiscreenr.css">
+    <meta name="theme-color" content="#f1f1f1">
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
     {% seo %}
   </head>
-  <body class="page-{{ page.layout | default: 'default' }}">
-    <div class="page-frame">
-      <header class="site-header">
-        <nav class="site-nav" aria-label="主导航">
-          <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-          <div class="site-links">
-            <a href="{{ '/about/' | relative_url }}">About</a>
+  <body class="{% if page.url == '/' %}home{% endif %} layout-{{ page.layout | default: 'default' }}">
+    <div id="page" class="site">
+      <a class="skip-link" href="#content">跳至内容</a>
+
+      <div id="sidebar" class="sidebar">
+        <header id="masthead" class="site-header">
+          <div class="site-branding">
+            <button class="sidebar-toggle" type="button" aria-expanded="true" aria-controls="sidebar">收起侧栏</button>
+            <a href="{{ '/' | relative_url }}" class="custom-logo-link" rel="home">
+              <img src="{{ site.logo | relative_url }}" class="custom-logo" alt="{{ site.title }}">
+            </a>
+            <h1 class="site-title"><a href="{{ '/' | relative_url }}" rel="home">{{ site.title }}</a></h1>
+            <p class="site-description">{{ site.sidebar_note }}</p>
+            <button class="secondary-toggle" type="button" aria-expanded="false" aria-controls="secondary">菜单</button>
           </div>
-        </nav>
-      </header>
+        </header>
 
-      <main class="site-main">
-        {{ content }}
-      </main>
+        <div id="secondary" class="secondary">
+          <nav id="site-navigation" class="main-navigation" aria-label="主导航">
+            <ul class="nav-menu">
+              <li class="{% if page.url == '/' %}current-menu-item{% endif %}"><a href="{{ '/' | relative_url }}">首页</a></li>
+              <li class="{% if page.url == '/categories/' %}current-menu-item current-menu-ancestor open{% endif %} menu-item-has-children">
+                <div class="menu-item-row">
+                  <a href="{{ '/categories/' | relative_url }}">分类</a>
+                  <button class="submenu-toggle" type="button" aria-expanded="{% if page.url == '/categories/' %}true{% else %}false{% endif %}">展开分类</button>
+                </div>
+                <ul class="sub-menu">
+                  {% for pair in site.data.categories %}
+                    {% assign slug = pair[0] %}
+                    {% assign item = pair[1] %}
+                    <li><a href="{{ '/categories/' | relative_url }}#{{ slug }}">{{ item.label }}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+              <li class="{% if page.url == '/about/' %}current-menu-item{% endif %}"><a href="{{ '/about/' | relative_url }}">关于</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
 
-      <footer class="site-footer">
-        <p>{{ site.title }} · {{ site.time | date: "%Y" }} · {{ site.location }}</p>
+      <div id="content" class="site-content">
+        <div id="primary" class="content-area">
+          <main id="main" class="site-main">
+            {{ content }}
+          </main>
+        </div>
+      </div>
+
+      <footer id="colophon" class="site-footer">
+        <div class="site-info">
+          <a href="{{ '/' | relative_url }}" class="imprint">{{ site.title }}</a>
+          <span>自豪地采用 Jekyll</span>
+        </div>
       </footer>
     </div>
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
   </body>
 </html>
