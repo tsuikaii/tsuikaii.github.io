@@ -17,6 +17,7 @@
     menuToggle.addEventListener("click", function () {
       var expanded = menuToggle.getAttribute("aria-expanded") === "true";
       menuToggle.setAttribute("aria-expanded", expanded ? "false" : "true");
+      menuToggle.classList.toggle("toggled-on");
       secondary.classList.toggle("toggled-on");
     });
   }
