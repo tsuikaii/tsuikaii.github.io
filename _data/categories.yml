@@ -1,8 +1,12 @@
 article:
   label: 文章
+  path: /category/article/
 album:
   label: 相册
+  path: /category/album/
 music:
   label: 音乐
+  path: /category/music/
 poetry:
   label: 诗词
+  path: /category/poetry/

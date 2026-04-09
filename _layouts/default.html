@@ -20,7 +20,6 @@
               <img src="{{ site.logo | relative_url }}" class="custom-logo" alt="{{ site.title }}">
             </a>
             <h1 class="site-title"><a href="{{ '/' | relative_url }}" rel="home">{{ site.title }}</a></h1>
-            <p class="site-description">{{ site.sidebar_note }}</p>
             <button class="secondary-toggle" type="button" aria-expanded="false" aria-controls="secondary">菜单</button>
           </div>
         </header>
@@ -29,16 +28,16 @@
           <nav id="site-navigation" class="main-navigation" aria-label="主导航">
             <ul class="nav-menu">
               <li class="{% if page.url == '/' %}current-menu-item{% endif %}"><a href="{{ '/' | relative_url }}">首页</a></li>
-              <li class="{% if page.url == '/categories/' %}current-menu-item current-menu-ancestor open{% endif %} menu-item-has-children">
+              <li class="{% if page.layout == 'category_archive' %}current-menu-item current-menu-ancestor open{% endif %} menu-item-has-children">
                 <div class="menu-item-row">
-                  <a href="{{ '/categories/' | relative_url }}">分类</a>
-                  <button class="submenu-toggle" type="button" aria-expanded="{% if page.url == '/categories/' %}true{% else %}false{% endif %}">展开分类</button>
+                  <a href="#" aria-current="{% if page.layout == 'category_archive' %}page{% endif %}">分类</a>
+                  <button class="submenu-toggle" type="button" aria-expanded="{% if page.layout == 'category_archive' %}true{% else %}false{% endif %}">展开分类</button>
                 </div>
                 <ul class="sub-menu">
                   {% for pair in site.data.categories %}
                     {% assign slug = pair[0] %}
                     {% assign item = pair[1] %}
-                    <li><a href="{{ '/categories/' | relative_url }}#{{ slug }}">{{ item.label }}</a></li>
+                    <li class="{% if page.category_slug == slug %}current-menu-item{% endif %}"><a href="{{ item.path | relative_url }}">{{ item.label }}</a></li>
                   {% endfor %}
                 </ul>
               </li>
@@ -55,13 +54,6 @@
           </main>
         </div>
       </div>
-
-      <footer id="colophon" class="site-footer">
-        <div class="site-info">
-          <a href="{{ '/' | relative_url }}" class="imprint">{{ site.title }}</a>
-          <span>自豪地采用 Jekyll</span>
-        </div>
-      </footer>
     </div>
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
   </body>

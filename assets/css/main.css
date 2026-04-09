@@ -121,6 +121,10 @@ body.sidebar-collapsed .sidebar {
   color: #333;
 }
 
+.site-title {
+  display: none;
+}
+
 .site-description {
   color: rgba(51, 51, 51, 0.7);
   font-size: 1.3rem;
@@ -128,7 +132,6 @@ body.sidebar-collapsed .sidebar {
 }
 
 body.sidebar-collapsed .site-title,
-body.sidebar-collapsed .site-description,
 body.sidebar-collapsed .secondary {
   display: none;
 }
@@ -271,7 +274,22 @@ body.sidebar-collapsed .site-content {
   border-top: 0;
 }
 
+.layout-category_archive .hentry {
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(51, 51, 51, 0.08);
+  margin: 0 3rem 2.4rem;
+  overflow: hidden;
+}
+
+.layout-category_archive .hentry + .hentry {
+  border-top: 0;
+}
+
 .layout-home .entry-header {
+  padding-top: 1rem;
+}
+
+.layout-category_archive .entry-header {
   padding-top: 1rem;
 }
 
@@ -279,7 +297,15 @@ body.sidebar-collapsed .site-content {
   padding-bottom: 1.6rem;
 }
 
+.layout-category_archive .entry-title {
+  padding-bottom: 1.6rem;
+}
+
 .layout-home .entry-content {
+  padding-bottom: 3.2rem;
+}
+
+.layout-category_archive .entry-content {
   padding-bottom: 3.2rem;
 }
 
@@ -287,6 +313,21 @@ body.sidebar-collapsed .site-content {
 .layout-page .hentry,
 .layout-categories .hentry {
   margin: 0 3rem 3rem;
+}
+
+.layout-category_archive .archive-empty {
+  box-shadow: none;
+}
+
+.archive-heading {
+  margin: 0 3rem 2rem;
+  padding: 0 0.6rem;
+}
+
+.archive-title {
+  font-size: 2.8rem;
+  line-height: 1.2;
+  margin: 0;
 }
 
 .entry-header {
@@ -366,25 +407,6 @@ body.sidebar-collapsed .site-content {
   white-space: nowrap;
 }
 
-.site-footer {
-  margin-left: 29%;
-  padding: 3.84615% 7.6923%;
-  transition: margin-left 0.22s ease;
-}
-
-body.sidebar-collapsed .site-footer {
-  margin-left: 9.6rem;
-}
-
-.site-info {
-  color: rgba(51, 51, 51, 0.7);
-  font-size: 1.2rem;
-}
-
-.site-info .imprint {
-  margin-right: 0.6rem;
-}
-
 .category-section + .category-section {
   margin-top: 3.2rem;
 }
@@ -429,8 +451,7 @@ body.sidebar-collapsed .site-footer {
   }
 
   .sidebar,
-  .site-content,
-  .site-footer {
+  .site-content {
     margin-left: 0;
     width: 100%;
   }
@@ -492,11 +513,6 @@ body.sidebar-collapsed .site-footer {
     transform: translate(-50%, -50%) rotate(-45deg);
   }
 
-  .site-title,
-  .site-description {
-    display: none;
-  }
-
   .custom-logo {
     max-height: 5.6rem;
   }
@@ -517,10 +533,16 @@ body.sidebar-collapsed .site-footer {
   }
 
   .layout-home .hentry,
+  .layout-category_archive .hentry,
   .layout-post .hentry,
   .layout-page .hentry,
   .layout-categories .hentry {
     margin: 0 0 2rem;
+  }
+
+  .archive-heading {
+    margin: 0 0 2rem;
+    padding: 0;
   }
 }
 

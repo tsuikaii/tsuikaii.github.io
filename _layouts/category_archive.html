@@ -1,0 +1,44 @@
+---
+layout: default
+---
+
+{% assign item = site.data.categories[page.category_slug] %}
+{% assign posts = site.categories[page.category_slug] %}
+
+<header class="archive-heading">
+  <h1 class="archive-title">{{ item.label }}</h1>
+</header>
+
+{% if posts and posts.size > 0 %}
+  {% for post in posts %}
+    <article class="post hentry">
+      <header class="entry-header">
+        <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
+      </header>
+      <div class="entry-content">
+        <p>
+          {{ post.excerpt | strip_html | strip_newlines | strip }}
+          <span class="more-tag">
+            <a href="{{ post.url | relative_url }}" class="more-link">继续阅读<span class="screen-reader-text">{{ post.title }}</span></a>
+          </span>
+        </p>
+      </div>
+      <footer class="entry-footer">
+        <span class="posted-on">
+          <a href="{{ post.url | relative_url }}" rel="bookmark">
+            <time class="entry-date published" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y年%-m月%-d日" }}</time>
+          </a>
+        </span>
+        <span class="cat-links">
+          <a href="{{ item.path | relative_url }}">{{ item.label }}</a>
+        </span>
+      </footer>
+    </article>
+  {% endfor %}
+{% else %}
+  <article class="page type-page hentry archive-empty">
+    <div class="entry-content">
+      <p class="category-empty">这里还没有文章。</p>
+    </div>
+  </article>
+{% endif %}

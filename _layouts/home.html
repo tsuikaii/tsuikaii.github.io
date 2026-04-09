@@ -25,7 +25,7 @@ layout: default
         {% assign category_slug = post.categories.first %}
         {% assign category_item = site.data.categories[category_slug] %}
         <span class="cat-links">
-          <a href="{{ '/categories/' | relative_url }}#{{ category_slug }}">{{ category_item.label | default: category_slug }}</a>
+          <a href="{{ category_item.path | relative_url }}">{{ category_item.label | default: category_slug }}</a>
         </span>
       {% endif %}
     </footer>
