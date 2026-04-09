@@ -1,0 +1,22 @@
+---
+layout: default
+---
+
+<section class="hero">
+  <p class="hero-eyebrow">{{ site.author }}</p>
+  <h1 class="hero-title">{{ site.motto }}</h1>
+  <p class="hero-description">{{ site.description }}</p>
+</section>
+
+<section class="post-list" aria-label="文章列表">
+  {% for post in site.posts %}
+    <a class="post-link-card" href="{{ post.url | relative_url }}">
+      <article class="post-list-item">
+        <h2 class="post-list-title">{{ post.title }}</h2>
+        <p class="post-list-excerpt">
+          <span class="post-list-date">【{{ post.date | date: "%Y-%m-%d" }}】</span>{{ post.excerpt | strip_html | strip_newlines | strip }}
+        </p>
+      </article>
+    </a>
+  {% endfor %}
+</section>

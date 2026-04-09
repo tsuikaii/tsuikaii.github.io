@@ -1,11 +1,13 @@
 title: tsuikaii
+author: tsuikaii
 email: hello@tsuikaii.dev
-description: "A personal blog powered by Jekyll and GitHub Pages."
+description: "记录阅读、技术与日常生活的极简博客。"
+motto: "Keep it simple, and write what matters."
+location: "Shanghai"
 baseurl: ""
 url: "https://tsuikaii.github.io"
 lang: zh-CN
 timezone: Asia/Shanghai
-theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
