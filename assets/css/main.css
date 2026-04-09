@@ -351,6 +351,10 @@ body.sidebar-collapsed .site-content {
   padding-bottom: 2.4rem;
 }
 
+.album-post .entry-title {
+  text-align: center;
+}
+
 .entry-content,
 .entry-summary {
   padding: 0 7.6923% 7.6923%;
@@ -392,6 +396,27 @@ body.sidebar-collapsed .site-content {
 .entry-content pre code {
   background: transparent;
   padding: 0;
+}
+
+.photo-block {
+  margin: 0 0 3.2rem;
+  text-align: center;
+}
+
+.photo-block a {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.photo-block img {
+  display: block;
+  margin: 0 auto;
+}
+
+.photo-block figcaption {
+  color: rgba(51, 51, 51, 0.72);
+  font-size: 1.4rem;
+  margin-top: 1rem;
 }
 
 .entry-footer {
