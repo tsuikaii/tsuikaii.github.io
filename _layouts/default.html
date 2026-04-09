@@ -8,13 +8,14 @@
     <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
     {% seo %}
   </head>
-  <body class="{% if page.url == '/' %}home {% endif %}{% if page.layout == 'post' %}sidebar-collapsed {% endif %}layout-{{ page.layout | default: 'default' }}">
+  <body class="{% if page.url == '/' %}home{% endif %} layout-{{ page.layout | default: 'default' }}">
     <div id="page" class="site">
       <a class="skip-link" href="#content">跳至内容</a>
 
       <div id="sidebar" class="sidebar">
         <header id="masthead" class="site-header">
           <div class="site-branding">
+            <button class="sidebar-toggle" type="button" aria-expanded="true" aria-controls="sidebar">收起侧栏</button>
             <a href="{{ '/' | relative_url }}" class="custom-logo-link" rel="home">
               <img src="{{ site.logo | relative_url }}" class="custom-logo" alt="{{ site.title }}">
             </a>

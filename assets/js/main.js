@@ -1,7 +1,17 @@
 (function () {
+  var body = document.body;
+  var sidebarToggle = document.querySelector(".sidebar-toggle");
   var menuToggle = document.querySelector(".secondary-toggle");
   var secondary = document.getElementById("secondary");
   var submenuToggles = document.querySelectorAll(".submenu-toggle");
+
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener("click", function () {
+      var collapsed = body.classList.toggle("sidebar-collapsed");
+      sidebarToggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      sidebarToggle.textContent = collapsed ? "展开侧栏" : "收起侧栏";
+    });
+  }
 
   if (menuToggle && secondary) {
     menuToggle.addEventListener("click", function () {
