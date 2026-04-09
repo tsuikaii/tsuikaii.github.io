@@ -500,24 +500,8 @@ body.sidebar-collapsed .site-content {
     padding-right: 5.6rem;
   }
 
-  body.sidebar-collapsed .sidebar {
-    width: 100%;
-  }
-
-  body.sidebar-collapsed .site-header {
-    padding: 7.6923%;
-  }
-
-  body.sidebar-collapsed .site-branding {
-    min-height: 5.6rem;
-    padding-right: 5.6rem;
-    padding-bottom: 0;
-    text-align: left;
-  }
-
-  body.sidebar-collapsed .custom-logo {
-    margin: 0;
-    max-height: 5.6rem;
+  .sidebar-toggle {
+    display: none;
   }
 
   .secondary-toggle {
@@ -574,44 +558,8 @@ body.sidebar-collapsed .site-content {
     padding-bottom: 2rem;
   }
 
-  body.sidebar-collapsed .secondary {
-    display: none;
-    padding: 1.2rem 7.6923% 2rem;
-  }
-
   .secondary.toggled-on {
     display: block;
-  }
-
-  body.sidebar-collapsed .secondary.toggled-on {
-    display: block;
-  }
-
-  body.sidebar-collapsed .main-navigation a {
-    font-size: 1.5rem;
-    line-height: 1.8;
-    padding: 0.8em 0;
-    text-align: left;
-  }
-
-  body.sidebar-collapsed .menu-item-row {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  body.sidebar-collapsed .submenu-toggle {
-    display: block !important;
-  }
-
-  body.sidebar-collapsed .sub-menu {
-    display: none !important;
-    margin: 0 0 0 1.2rem;
-    padding-top: 0.8em;
-  }
-
-  body.sidebar-collapsed .menu-item-has-children.open > .sub-menu {
-    display: block !important;
   }
 
   .site-main {
