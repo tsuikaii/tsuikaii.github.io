@@ -83,21 +83,7 @@ body.sidebar-collapsed .sidebar {
 
 .site-branding {
   min-height: 2em;
-  padding-right: 60px;
   position: relative;
-}
-
-.sidebar-toggle {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  color: rgba(51, 51, 51, 0.6);
-  cursor: pointer;
-  font: inherit;
-  padding: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 
 .custom-logo-link {
@@ -144,13 +130,6 @@ body.sidebar-collapsed .site-branding {
 body.sidebar-collapsed .custom-logo {
   margin: 0 auto;
   max-height: 5.6rem;
-}
-
-body.sidebar-collapsed .sidebar-toggle {
-  left: 50%;
-  right: auto;
-  top: 7.2rem;
-  transform: translateX(-50%);
 }
 
 body.sidebar-collapsed .site-header {
