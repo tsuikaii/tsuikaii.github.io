@@ -153,6 +153,36 @@ body.sidebar-collapsed .sidebar-toggle {
   transform: translateX(-50%);
 }
 
+body.sidebar-collapsed .site-header {
+  padding: 2rem 1rem 1.2rem;
+}
+
+body.sidebar-collapsed .site-branding {
+  min-height: auto;
+  padding-bottom: 3rem;
+}
+
+body.sidebar-collapsed .secondary {
+  display: block;
+  padding: 0 1rem 1.4rem;
+}
+
+body.sidebar-collapsed .main-navigation a {
+  font-size: 1.3rem;
+  line-height: 1.4;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+body.sidebar-collapsed .menu-item-row {
+  display: block;
+}
+
+body.sidebar-collapsed .submenu-toggle,
+body.sidebar-collapsed .sub-menu {
+  display: none !important;
+}
+
 .secondary-toggle {
   display: none;
 }
