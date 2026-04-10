@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "关于本站"
+title: "关于"
 date: 2022-10-09 22:00:00 +0800
 categories: article
 excerpt: "欢迎来到 tsuikaii "
