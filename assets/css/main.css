@@ -365,6 +365,18 @@ body.sidebar-collapsed .site-content {
   margin: 0 0 1.6em;
 }
 
+.entry-content [align="center"] > a,
+.entry-content [align="center"] > img {
+  display: block;
+  margin: 0 auto 1.2rem;
+  max-width: 100%;
+}
+
+.entry-content [align="center"] img {
+  display: block;
+  margin: 0 auto;
+}
+
 .entry-content ul,
 .entry-content ol {
   margin-left: 1.6em;
@@ -553,7 +565,7 @@ body.sidebar-collapsed .site-content {
 
   .archive-heading {
     margin: 0 0 2rem;
-    padding: 0;
+    padding: 0 7.6923%;
   }
 }
 
