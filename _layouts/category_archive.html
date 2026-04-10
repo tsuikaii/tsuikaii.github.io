@@ -16,12 +16,7 @@ layout: default
         <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
       </header>
       <div class="entry-content">
-        <p>
-          {{ post.excerpt | strip_html | strip_newlines | strip }}
-          <span class="more-tag">
-            <a href="{{ post.url | relative_url }}" class="more-link">继续阅读<span class="screen-reader-text">{{ post.title }}</span></a>
-          </span>
-        </p>
+        <p>{{ post.excerpt | strip_html | strip_newlines | strip }}</p>
       </div>
       <footer class="entry-footer">
         <span class="posted-on">
