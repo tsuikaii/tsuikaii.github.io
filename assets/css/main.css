@@ -394,6 +394,16 @@ body.sidebar-collapsed .site-content {
   padding: 0;
 }
 
+.audio-block {
+  margin: 2.4rem 0;
+}
+
+.audio-block audio {
+  display: block;
+  max-width: 48rem;
+  width: 100%;
+}
+
 .entry-footer {
   background-color: #f7f7f7;
   color: rgba(51, 51, 51, 0.7);
