@@ -570,6 +570,107 @@ body.sidebar-collapsed .site-content {
 }
 
 @media screen and (min-width: 59.6875em) {
+  body.layout-post.content-focused::before {
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(104rem, calc(100vw - 14rem));
+  }
+
+  .layout-post.content-focused .sidebar {
+    height: auto;
+    margin: 0 auto;
+    max-width: min(104rem, calc(100vw - 14rem));
+    position: relative;
+    width: 100%;
+  }
+
+  .layout-post.content-focused .site-content {
+    margin-left: 0;
+  }
+
+  .layout-post.content-focused .content-area {
+    float: none;
+    margin: 0 auto;
+    max-width: min(104rem, calc(100vw - 14rem));
+  }
+
+  .layout-post.content-focused .site-header {
+    padding: 7.6923%;
+  }
+
+  .layout-post.content-focused .site-branding {
+    min-height: 5.6rem;
+    padding-right: 5.6rem;
+  }
+
+  .layout-post.content-focused .custom-logo {
+    margin: 0;
+    max-height: 5.6rem;
+  }
+
+  .layout-post.content-focused .secondary-toggle {
+    appearance: none;
+    background: transparent;
+    border: 1px solid rgba(51, 51, 51, 0.14);
+    color: transparent;
+    cursor: pointer;
+    display: block;
+    font-size: 0;
+    height: 4.2rem;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 4.2rem;
+  }
+
+  .layout-post.content-focused .secondary-toggle::before,
+  .layout-post.content-focused .secondary-toggle::after {
+    background: #333;
+    content: "";
+    height: 1px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    width: 1.6rem;
+  }
+
+  .layout-post.content-focused .secondary-toggle::before {
+    box-shadow: 0 -0.5rem 0 #333, 0 0.5rem 0 #333;
+  }
+
+  .layout-post.content-focused .secondary-toggle.toggled-on::before {
+    box-shadow: none;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .layout-post.content-focused .secondary-toggle.toggled-on::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .layout-post.content-focused .secondary {
+    border-top: 1px solid rgba(51, 51, 51, 0.1);
+    display: none;
+    padding-top: 1.2rem;
+    padding-bottom: 2rem;
+  }
+
+  .layout-post.content-focused .secondary.toggled-on {
+    display: block;
+  }
+
+  .layout-post.content-focused .site-main {
+    padding-top: 0;
+  }
+
+  .layout-post.content-focused .hentry {
+    margin: 0 auto 3rem;
+    max-width: 96rem;
+  }
+
   .secondary {
     display: block;
   }
