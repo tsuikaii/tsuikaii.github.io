@@ -1,18 +1,18 @@
 ---
 layout: post
-title: "似水年华"
-date: 2025-04-12 00:00:00 +0800
+title: "在埃因霍温"
+date: 2026-04-12 00:00:00 +0800
 categories: album
-excerpt: "摄于2024年。"
+excerpt: "摄于2024/25年。"
 ---
 
-这是2024年在eindhoven留下的痕迹，以此纪念转瞬即逝的岁月。<span class="more-tag"><!--more--></span>
+这是在eindhoven留下的痕迹，以此纪念转瞬即逝的岁月，当时的处境请看[***告别***]({% post_url 2024-08-24-eind %})。
 
 <div align="center">
 
 <figure>
   <img src="/assets/images/eind/eind-1.webp" alt="在埃因霍温 1" />
-  <figcaption>1月回到学校的雪景</figcaption>
+  <figcaption>回到学校的雪景</figcaption>
 </figure>
 
 <figure>
