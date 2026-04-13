@@ -1,43 +1,47 @@
 (function () {
-  var menuToggle = document.querySelector(".secondary-toggle");
-  var secondary = document.getElementById("secondary");
-  var submenuToggles = document.querySelectorAll(".submenu-toggle");
-  var submenuLinks = document.querySelectorAll(".menu-item-has-children > .menu-item-row > a");
+  var submenuLinks = document.querySelectorAll(".menu-item-has-children > .submenu-link");
 
-  function toggleSubmenu(parent, toggle) {
-    var expanded = toggle.getAttribute("aria-expanded") === "true";
+  function setSubmenuState(parent, link, isOpen) {
+    if (!parent || !link) {
+      return;
+    }
 
-    toggle.setAttribute("aria-expanded", expanded ? "false" : "true");
-    parent.classList.toggle("open");
+    link.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    parent.classList.toggle("open", isOpen);
   }
-
-  if (menuToggle && secondary) {
-    menuToggle.addEventListener("click", function () {
-      var expanded = menuToggle.getAttribute("aria-expanded") === "true";
-      menuToggle.setAttribute("aria-expanded", expanded ? "false" : "true");
-      menuToggle.classList.toggle("toggled-on");
-      secondary.classList.toggle("toggled-on");
-    });
-  }
-
-  submenuToggles.forEach(function (toggle) {
-    toggle.addEventListener("click", function () {
-      var parent = toggle.closest(".menu-item-has-children");
-      toggleSubmenu(parent, toggle);
-    });
-  });
 
   submenuLinks.forEach(function (link) {
     link.addEventListener("click", function (event) {
       var parent = link.closest(".menu-item-has-children");
-      var toggle = parent && parent.querySelector(".submenu-toggle");
-
-      if (!toggle) {
-        return;
-      }
+      var expanded = link.getAttribute("aria-expanded") === "true";
 
       event.preventDefault();
-      toggleSubmenu(parent, toggle);
+      submenuLinks.forEach(function (otherLink) {
+        if (otherLink !== link) {
+          setSubmenuState(otherLink.closest(".menu-item-has-children"), otherLink, false);
+        }
+      });
+      setSubmenuState(parent, link, !expanded);
+    });
+  });
+
+  document.addEventListener("click", function (event) {
+    submenuLinks.forEach(function (link) {
+      var parent = link.closest(".menu-item-has-children");
+
+      if (parent && !parent.contains(event.target)) {
+        setSubmenuState(parent, link, false);
+      }
+    });
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") {
+      return;
+    }
+
+    submenuLinks.forEach(function (link) {
+      setSubmenuState(link.closest(".menu-item-has-children"), link, false);
     });
   });
 })();

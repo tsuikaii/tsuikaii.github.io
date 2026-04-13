@@ -21,21 +21,20 @@
             <a href="{{ '/' | relative_url }}" class="custom-logo-link" rel="home">
               <img src="{{ site.logo | relative_url }}" class="custom-logo" alt="{{ site.title }}">
             </a>
-            <h1 class="site-title"><a href="{{ '/' | relative_url }}" rel="home">{{ site.title }}</a></h1>
-            <button class="secondary-toggle" type="button" aria-expanded="false" aria-controls="secondary">菜单</button>
           </div>
-        </header>
 
-        <div id="secondary" class="secondary">
           <nav id="site-navigation" class="main-navigation" aria-label="主导航">
             <ul class="nav-menu">
               <li class="{% if page.url == '/' %}current-menu-item{% endif %}"><a href="{{ '/' | relative_url }}">首页</a></li>
               <li class="{% if page.layout == 'category_archive' %}current-menu-item current-menu-ancestor open{% endif %} menu-item-has-children">
-                <div class="menu-item-row">
-                  <a href="#" aria-current="{% if page.layout == 'category_archive' %}page{% endif %}">分类</a>
-                  <button class="submenu-toggle" type="button" aria-expanded="{% if page.layout == 'category_archive' %}true{% else %}false{% endif %}">展开分类</button>
-                </div>
-                <ul class="sub-menu">
+                <a
+                  href="#"
+                  class="submenu-link"
+                  aria-current="{% if page.layout == 'category_archive' %}page{% endif %}"
+                  aria-expanded="{% if page.layout == 'category_archive' %}true{% else %}false{% endif %}"
+                  aria-controls="category-submenu"
+                >分类</a>
+                <ul id="category-submenu" class="sub-menu">
                   {% for pair in site.data.categories %}
                     {% assign slug = pair[0] %}
                     {% assign item = pair[1] %}
@@ -46,7 +45,7 @@
               <li class="{% if page.url == '/article/2022/10/09/welcome-to-tsuikaii/' %}current-menu-item{% endif %}"><a href="{{ '/article/2022/10/09/welcome-to-tsuikaii/' | relative_url }}">关于</a></li>
             </ul>
           </nav>
-        </div>
+        </header>
       </div>
 
       <div id="content" class="site-content">
