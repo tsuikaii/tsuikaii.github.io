@@ -12,6 +12,7 @@ html {
 :root {
   --frame-width: min(84rem, calc(100vw - 8rem));
   --content-width: min(64rem, calc(100vw - 8rem));
+  --reading-width: min(84rem, calc(100vw - 6rem));
   --surface-shadow: 0 14px 36px rgba(51, 51, 51, 0.08);
 }
 
@@ -610,6 +611,10 @@ body.sidebar-collapsed .sub-menu {
   body::before,
   body.sidebar-collapsed::before {
     display: none;
+  }
+
+  .layout-post .content-area {
+    max-width: var(--reading-width);
   }
 
   .sidebar {
