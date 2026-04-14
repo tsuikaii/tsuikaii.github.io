@@ -3,16 +3,16 @@ layout: post
 title: "在爱因霍温"
 date: 2026-04-12 00:00:00 +0800
 categories: album
-excerpt: "一座小城，喧嚣却安静，痛苦但快乐。"
+excerpt: "喧嚣却平静，痛苦但自由。"
 cover_image: "https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-25.jpg"
-cover_alt: "在爱因霍温的大草坪边的树"
+cover_alt: "树"
 ---
 
 这些照片拍摄于2024/25年，以此纪念转瞬即逝的岁月，具体请看[***告别***]({% post_url 2024-08-24-eind %})。
 
 <figure style="text-align: center;">
-  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-1.jpg" alt="回到学校的雪景" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-1.jpg" />
-  <figcaption style="text-align: center;">回到学校的雪景</figcaption>
+  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-1.jpg" alt="雪景" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-1.jpg" />
+  <figcaption style="text-align: center;">雪景</figcaption>
 </figure>
 
 <figure style="text-align: center;">
@@ -41,8 +41,8 @@ cover_alt: "在爱因霍温的大草坪边的树"
 </figure>
 
 <figure style="text-align: center;">
-  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-7.jpg" alt="4月的公园" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-7.jpg" />
-  <figcaption style="text-align: center;">4月的公园</figcaption>
+  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-7.jpg" alt="公园" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-7.jpg" />
+  <figcaption style="text-align: center;">公园</figcaption>
 </figure>
 
 <figure style="text-align: center;">
@@ -62,12 +62,12 @@ cover_alt: "在爱因霍温的大草坪边的树"
 
 <figure style="text-align: center;">
   <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-11.jpg" alt="在veldhoven" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-11.jpg" />
-  <figcaption style="text-align: center;">在veldhoven</figcaption>
+  <figcaption style="text-align: center;">在veldhoven骑车</figcaption>
 </figure>
 
 <figure style="text-align: center;">
-  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-12.jpg" alt="骑车在湿地公园" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-12.jpg" />
-  <figcaption style="text-align: center;">骑车在湿地公园</figcaption>
+  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-12.jpg" alt="在湿地公园" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-12.jpg" />
+  <figcaption style="text-align: center;">在湿地公园</figcaption>
 </figure>
 
 <figure style="text-align: center;">
@@ -81,13 +81,13 @@ cover_alt: "在爱因霍温的大草坪边的树"
 </figure>
 
 <figure style="text-align: center;">
-  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-15.jpg" alt="骑车到机场闲逛" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-15.jpg" />
-  <figcaption style="text-align: center;">骑车到机场闲逛</figcaption>
+  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-15.jpg" alt="机场" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-15.jpg" />
+  <figcaption style="text-align: center;">机场</figcaption>
 </figure>
 
 <figure style="text-align: center;">
-  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-16.jpg" alt="在家里做完饭" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-16.jpg" />
-  <figcaption style="text-align: center;">在家里做完饭</figcaption>
+  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-16.jpg" alt="在家做饭" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-16.jpg" />
+  <figcaption style="text-align: center;">在家做饭</figcaption>
 </figure>
 
 <figure style="text-align: center;">
@@ -101,8 +101,8 @@ cover_alt: "在爱因霍温的大草坪边的树"
 </figure>
 
 <figure style="text-align: center;">
-  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-22.jpg" alt="学校少有的电动车" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-22.jpg" />
-  <figcaption style="text-align: center;">学校少有的电动车</figcaption>
+  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-22.jpg" alt="少有的电动车" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-22.jpg" />
+  <figcaption style="text-align: center;">少有的电动车</figcaption>
 </figure>
 
 <figure style="text-align: center;">
@@ -121,8 +121,8 @@ cover_alt: "在爱因霍温的大草坪边的树"
 </figure>
 
 <figure style="text-align: center;">
-  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-26.jpg" alt="图书馆前的一排树" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-26.jpg" />
-  <figcaption style="text-align: center;">图书馆前的一排树</figcaption>
+  <img src="https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-26.jpg" alt="图书馆通道" class="zoomable-image" data-full-src="https://hszhe9.com/eind/eind-26.jpg" />
+  <figcaption style="text-align: center;">图书馆通道</figcaption>
 </figure>
 
 <figure style="text-align: center;">
