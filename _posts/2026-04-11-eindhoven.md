@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "在埃因霍温"
+title: "在爱因霍温"
 date: 2026-04-12 00:00:00 +0800
 categories: album
 excerpt: "摄于2024/25年。"
+cover_image: "/assets/images/eind/eind-25.webp"
+cover_alt: "在爱因霍温的雪景"
 ---
 
-这是在eindhoven留下的痕迹，以此纪念转瞬即逝的岁月，当时的处境请看[***告别***]({% post_url 2024-08-24-eind %})。
+这是在eindhoven留下的痕迹，以此纪念转瞬即逝的岁月，具体请看[***告别***]({% post_url 2024-08-24-eind %})。
 
 <div align="center">
 

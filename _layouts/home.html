@@ -3,13 +3,18 @@ layout: default
 ---
 
 {% for post in site.posts %}
-  <article class="post hentry">
+  <article class="post hentry{% if post.cover_image %} has-cover{% endif %}">
     <header class="entry-header">
       <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
     </header>
     <div class="entry-content">
       <p>{{ post.excerpt | strip_html | strip_newlines | strip }}</p>
     </div>
+    {% if post.cover_image %}
+      <a class="entry-cover" href="{{ post.url | relative_url }}" rel="bookmark" aria-label="{{ post.title }}">
+        <img src="{{ post.cover_image | relative_url }}" alt="{{ post.cover_alt | default: post.title }}">
+      </a>
+    {% endif %}
     <footer class="entry-footer">
       <span class="posted-on">
         <a href="{{ post.url | relative_url }}" rel="bookmark">
