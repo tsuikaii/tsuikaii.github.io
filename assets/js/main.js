@@ -72,7 +72,7 @@
 
   function openLightbox(image) {
     ensureLightbox();
-    lightboxImage.src = image.currentSrc || image.src;
+    lightboxImage.src = image.getAttribute("data-full-src") || image.currentSrc || image.src;
     lightboxImage.alt = image.alt || "";
     lightbox.classList.add("is-visible");
     lightbox.setAttribute("aria-hidden", "false");
