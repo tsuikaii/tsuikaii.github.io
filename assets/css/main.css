@@ -57,6 +57,40 @@ img {
   max-width: 100%;
 }
 
+.zoomable-image {
+  cursor: zoom-in;
+}
+
+.image-lightbox {
+  align-items: center;
+  background: rgba(17, 17, 17, 0.88);
+  cursor: zoom-out;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  opacity: 0;
+  padding: 2.4rem;
+  pointer-events: none;
+  position: fixed;
+  transition: opacity 0.18s ease;
+  z-index: 9999;
+}
+
+.image-lightbox.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.image-lightbox img {
+  border-radius: 1.2rem;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  display: block;
+  height: auto;
+  max-height: 92vh;
+  max-width: min(96vw, 140rem);
+  width: auto;
+}
+
 .screen-reader-text,
 .skip-link {
   position: absolute;

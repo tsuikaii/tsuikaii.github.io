@@ -45,3 +45,65 @@
     });
   });
 })();
+
+(function () {
+  var lightbox;
+  var lightboxImage;
+
+  function ensureLightbox() {
+    if (lightbox) {
+      return;
+    }
+
+    lightbox = document.createElement("div");
+    lightbox.className = "image-lightbox";
+    lightbox.setAttribute("aria-hidden", "true");
+
+    lightboxImage = document.createElement("img");
+    lightboxImage.alt = "";
+
+    lightbox.appendChild(lightboxImage);
+    document.body.appendChild(lightbox);
+
+    lightbox.addEventListener("click", function () {
+      closeLightbox();
+    });
+  }
+
+  function openLightbox(image) {
+    ensureLightbox();
+    lightboxImage.src = image.currentSrc || image.src;
+    lightboxImage.alt = image.alt || "";
+    lightbox.classList.add("is-visible");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    if (!lightbox) {
+      return;
+    }
+
+    lightbox.classList.remove("is-visible");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightboxImage.removeAttribute("src");
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("click", function (event) {
+    var image = event.target.closest(".zoomable-image");
+
+    if (!image) {
+      return;
+    }
+
+    event.preventDefault();
+    openLightbox(image);
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+  });
+})();
