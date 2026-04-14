@@ -1,11 +1,10 @@
 # tsuikaii
 
-A Jekyll blog for GitHub Pages.
+https://tsuikaii.com
 
 ## Local development
 
 ```bash
-bundle install
 bundle exec jekyll serve
 ```
 
