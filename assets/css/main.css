@@ -549,6 +549,10 @@ body.sidebar-collapsed .sub-menu {
 }
 
 @media screen and (max-width: 59.6875em) {
+  body {
+    font-family: "Songti SC", "STSong", serif;
+  }
+
   body::before {
     display: none;
   }
