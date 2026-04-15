@@ -556,7 +556,7 @@ body.sidebar-collapsed .sub-menu {
   font-size: 1.3rem;
 }
 
-@media screen and (max-width: 59.6875em) {
+@media screen and (max-width: 48em) {
   body {
     font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
   }
@@ -774,7 +774,7 @@ body.sidebar-collapsed .sub-menu {
   }
 }
 
-@media screen and (min-width: 59.6875em) {
+@media screen and (min-width: 48em) {
   body::before,
   body.sidebar-collapsed::before {
     display: none;
@@ -1196,7 +1196,7 @@ body.sidebar-collapsed::before {
   padding-top: 1.2rem;
 }
 
-@media screen and (max-width: 59.6875em) {
+@media screen and (max-width: 48em) {
   .sidebar {
     max-width: none;
     padding-top: 1.8rem;
