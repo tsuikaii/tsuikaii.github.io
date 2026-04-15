@@ -3,7 +3,7 @@ layout: default
 ---
 
 {% for post in site.posts %}
-  <article class="post hentry{% if post.cover_image %} has-cover{% endif %}">
+  <article class="post hentry{% if post.cover_image %} has-cover{% endif %} photo-format-{{ post.photo_format | default: 'none' }}">
     <header class="entry-header">
       <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
     </header>

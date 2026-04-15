@@ -3,9 +3,10 @@ layout: post
 title: "在爱因霍温"
 date: 2026-04-12 00:00:00 +0800
 categories: album
-excerpt: "喧嚣却平静，痛苦但自由。"
+excerpt: "喧嚣却安静，痛苦但自由。"
 cover_image: "https://hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-25.jpg"
 cover_alt: "树"
+photo_format: r2
 ---
 
 这些照片拍摄于2024/25年，以此纪念转瞬即逝的岁月，具体请看[***告别***]({% post_url 2024-08-24-eind %})。

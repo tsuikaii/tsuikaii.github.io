@@ -4,17 +4,19 @@ title: "Sunlit Daydream"
 date: 2025-12-23 09:30:00 +0800
 categories: music
 excerpt: "An instrumental demo"
+cover_image: "/assets/images/day.webp"
+photo_format: webp
 ---
 
-Composed by hszhe9, made by <a href="https://www.suno.com">Suno</a>。
+composed by hszhe9, made by <a href="https://www.suno.com">suno</a>.
 
 <div class="audio-block">
   <audio controls preload="metadata">
-    <source src="/assets/Untitled.mp3" type="audio/mpeg">
-    你的浏览器不支持音频播放。
+    <source src="/assets/sunlit.mp3" type="audio/mpeg">
+    你的浏览器不支持音频播放。Your browser is not supported.
   </audio>
 </div>
 
-A demo made for ZXY. 
+A demo made for *ZXY*. 
 
-May happiness always be with you.
+***May happiness always be with you.***

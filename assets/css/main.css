@@ -499,19 +499,27 @@ body.sidebar-collapsed .sub-menu {
 .entry-footer {
   background-color: #f7f7f7;
   color: rgba(51, 51, 51, 0.7);
+  display: flex;
   font-size: 1.2rem;
+  gap: 1.2rem;
+  justify-content: flex-start;
   line-height: 1.5;
   padding: 3.8461% 7.6923%;
+  flex-wrap: wrap;
 }
 
 .entry-footer a {
   color: rgba(51, 51, 51, 0.7);
 }
 
-.cat-links::before {
-  content: "";
-  display: inline-block;
-  width: 1.2rem;
+.posted-on,
+.cat-links {
+  align-items: center;
+  display: inline-flex;
+}
+
+.cat-links {
+  white-space: nowrap;
 }
 
 .category-section + .category-section {
@@ -722,10 +730,6 @@ body.sidebar-collapsed .sub-menu {
 
   .layout-home .hentry.has-cover .entry-footer {
     order: 4;
-  }
-
-  .layout-home .entry-footer .cat-links {
-    display: none;
   }
 
   .layout-home .hentry.has-cover .entry-footer a {
