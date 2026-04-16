@@ -11,7 +11,10 @@ lang: zh-CN
 timezone: Asia/Shanghai
 plugins:
   - jekyll-feed
+  - jekyll-paginate
   - jekyll-seo-tag
+paginate: 10
+paginate_path: "/page/:num/"
 header_pages:
   - about.md
 permalink: /:categories/:year/:month/:day/:title/

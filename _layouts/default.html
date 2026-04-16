@@ -18,7 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
     {% seo %}
   </head>
-  <body class="{% if page.url == '/' %}home{% endif %} {% if page.layout == 'post' %}content-focused{% endif %} layout-{{ page.layout | default: 'default' }}">
+  <body class="{% if page.layout == 'home' %}home{% endif %} {% if page.layout == 'post' %}content-focused{% endif %} layout-{{ page.layout | default: 'default' }}">
     <div id="page" class="site">
       <a class="skip-link" href="#content">跳至内容</a>
 
@@ -32,7 +32,7 @@
 
           <nav id="site-navigation" class="main-navigation" aria-label="主导航">
             <ul class="nav-menu">
-              <li class="{% if page.url == '/' %}current-menu-item{% endif %}"><a href="{{ '/' | relative_url }}">首页</a></li>
+              <li class="{% if page.layout == 'home' %}current-menu-item{% endif %}"><a href="{{ '/' | relative_url }}">首页</a></li>
               <li class="{% if page.layout == 'category_archive' %}current-menu-item current-menu-ancestor open{% endif %} menu-item-has-children">
                 <a
                   href="#"

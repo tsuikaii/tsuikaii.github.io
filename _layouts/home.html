@@ -2,55 +2,97 @@
 layout: default
 ---
 
-{% for post in site.posts %}
-  <article class="post hentry{% if post.cover_image %} has-cover{% endif %} photo-format-{{ post.photo_format | default: 'none' }}">
-    <header class="entry-header">
-      <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
-    </header>
-    <div class="entry-content">
-      <p>{{ post.excerpt | strip_html | strip_newlines | strip }}</p>
-    </div>
-    {% if post.cover_image %}
-      {% assign cover_image_url = post.cover_image %}
-      {% unless cover_image_url contains '://' %}
-        {% assign cover_image_url = post.cover_image | relative_url %}
-      {% endunless %}
-      {% assign uses_cloudflare_image = false %}
-      {% if cover_image_url contains 'assets.hszhe9.com/cdn-cgi/image/width=' %}
-        {% assign uses_cloudflare_image = true %}
-      {% endif %}
-      <a class="entry-cover" href="{{ post.url | relative_url }}" rel="bookmark" aria-label="{{ post.title }}">
-        <img
-          src="{{ cover_image_url }}"
-          {% if uses_cloudflare_image %}
-          srcset="{{ cover_image_url | replace: 'width=1200', 'width=480' }} 480w, {{ cover_image_url | replace: 'width=1200', 'width=800' }} 800w, {{ cover_image_url }} 1200w"
-          sizes="{% if forloop.index == 1 %}(min-width: 48em) 52vw, calc(100vw - 1.6rem){% else %}(min-width: 48em) 31vw, calc(100vw - 1.6rem){% endif %}"
-          {% endif %}
-          alt="{{ post.cover_alt | default: post.title }}"
-          decoding="async"
-          {% if forloop.index == 1 %}
-          loading="eager"
-          fetchpriority="high"
-          {% else %}
-          loading="lazy"
-          fetchpriority="low"
-          {% endif %}
-        >
-      </a>
-    {% endif %}
-    <footer class="entry-footer">
-      <span class="posted-on">
-        <a href="{{ post.url | relative_url }}" rel="bookmark">
-          <time class="entry-date published" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y年%-m月%-d日" }}</time>
+{% assign home_posts = paginator.posts | default: site.posts %}
+
+<div class="home-posts">
+  {% for post in home_posts %}
+    <article class="post hentry{% if post.cover_image %} has-cover{% endif %} photo-format-{{ post.photo_format | default: 'none' }}">
+      <header class="entry-header">
+        <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
+      </header>
+      <div class="entry-content">
+        <p>{{ post.excerpt | strip_html | strip_newlines | strip }}</p>
+      </div>
+      {% if post.cover_image %}
+        {% assign cover_image_url = post.cover_image %}
+        {% unless cover_image_url contains '://' %}
+          {% assign cover_image_url = post.cover_image | relative_url %}
+        {% endunless %}
+        {% assign uses_cloudflare_image = false %}
+        {% if cover_image_url contains 'assets.hszhe9.com/cdn-cgi/image/width=' %}
+          {% assign uses_cloudflare_image = true %}
+        {% endif %}
+        <a class="entry-cover" href="{{ post.url | relative_url }}" rel="bookmark" aria-label="{{ post.title }}">
+          <img
+            src="{{ cover_image_url }}"
+            {% if uses_cloudflare_image %}
+            srcset="{{ cover_image_url | replace: 'width=1200', 'width=480' }} 480w, {{ cover_image_url | replace: 'width=1200', 'width=800' }} 800w, {{ cover_image_url }} 1200w"
+            sizes="{% if forloop.index == 1 %}(min-width: 48em) 52vw, calc(100vw - 1.6rem){% else %}(min-width: 48em) 31vw, calc(100vw - 1.6rem){% endif %}"
+            {% endif %}
+            alt="{{ post.cover_alt | default: post.title }}"
+            decoding="async"
+            {% if forloop.index == 1 %}
+            loading="eager"
+            fetchpriority="high"
+            {% else %}
+            loading="lazy"
+            fetchpriority="low"
+            {% endif %}
+          >
         </a>
-      </span>
-      {% if post.categories and post.categories.first %}
-        {% assign category_slug = post.categories.first %}
-        {% assign category_item = site.data.categories[category_slug] %}
-        <span class="cat-links">
-          <a href="{{ category_item.path | relative_url }}">{{ category_item.label | default: category_slug }}</a>
-        </span>
       {% endif %}
-    </footer>
-  </article>
-{% endfor %}
+      <footer class="entry-footer">
+        <span class="posted-on">
+          <a href="{{ post.url | relative_url }}" rel="bookmark">
+            <time class="entry-date published" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y年%-m月%-d日" }}</time>
+          </a>
+        </span>
+        {% if post.categories and post.categories.first %}
+          {% assign category_slug = post.categories.first %}
+          {% assign category_item = site.data.categories[category_slug] %}
+          <span class="cat-links">
+            <a href="{{ category_item.path | relative_url }}">{{ category_item.label | default: category_slug }}</a>
+          </span>
+        {% endif %}
+      </footer>
+    </article>
+  {% endfor %}
+</div>
+
+{% if paginator and paginator.total_pages > 1 %}
+  <nav class="home-pagination" aria-label="首页分页导航">
+    {% if paginator.previous_page %}
+      {% if paginator.previous_page == 1 %}
+        {% assign previous_page_url = '/' | relative_url %}
+      {% else %}
+        {% assign previous_page_url = paginator.previous_page_path | relative_url %}
+      {% endif %}
+      <a class="home-pagination-link home-pagination-arrow" href="{{ previous_page_url }}">上一页</a>
+    {% else %}
+      <span class="home-pagination-link home-pagination-arrow is-disabled" aria-disabled="true">上一页</span>
+    {% endif %}
+
+    <ol class="home-pagination-list">
+      {% for page_number in (1..paginator.total_pages) %}
+        {% if page_number == 1 %}
+          {% assign page_url = '/' | relative_url %}
+        {% else %}
+          {% assign page_url = site.paginate_path | replace: ':num', page_number | relative_url %}
+        {% endif %}
+        <li>
+          <a
+            class="home-pagination-link{% if page_number == paginator.page %} is-current{% endif %}"
+            href="{{ page_url }}"
+            {% if page_number == paginator.page %}aria-current="page"{% endif %}
+          >{{ page_number }}</a>
+        </li>
+      {% endfor %}
+    </ol>
+
+    {% if paginator.next_page %}
+      <a class="home-pagination-link home-pagination-arrow" href="{{ paginator.next_page_path | relative_url }}">下一页</a>
+    {% else %}
+      <span class="home-pagination-link home-pagination-arrow is-disabled" aria-disabled="true">下一页</span>
+    {% endif %}
+  </nav>
+{% endif %}
