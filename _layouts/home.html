@@ -13,7 +13,7 @@ layout: default
     {% if post.cover_image %}
       {% assign cover_image_url = post.cover_image | relative_url %}
       {% assign uses_cloudflare_image = false %}
-      {% if cover_image_url contains 'hszhe9.com/cdn-cgi/image/width=' %}
+      {% if cover_image_url contains 'assets.hszhe9.com/cdn-cgi/image/width=' %}
         {% assign uses_cloudflare_image = true %}
       {% endif %}
       <a class="entry-cover" href="{{ post.url | relative_url }}" rel="bookmark" aria-label="{{ post.title }}">
