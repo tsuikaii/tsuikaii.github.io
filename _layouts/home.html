@@ -11,7 +11,10 @@ layout: default
       <p>{{ post.excerpt | strip_html | strip_newlines | strip }}</p>
     </div>
     {% if post.cover_image %}
-      {% assign cover_image_url = post.cover_image | relative_url %}
+      {% assign cover_image_url = post.cover_image %}
+      {% unless cover_image_url contains '://' %}
+        {% assign cover_image_url = post.cover_image | relative_url %}
+      {% endunless %}
       {% assign uses_cloudflare_image = false %}
       {% if cover_image_url contains 'assets.hszhe9.com/cdn-cgi/image/width=' %}
         {% assign uses_cloudflare_image = true %}
