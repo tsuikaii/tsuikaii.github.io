@@ -10,26 +10,29 @@ layout: default
 </header>
 
 {% if posts and posts.size > 0 %}
-  {% for post in posts %}
-    <article class="post hentry">
-      <header class="entry-header">
-        <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
-      </header>
-      <div class="entry-content">
-        <p>{{ post.excerpt | strip_html | strip_newlines | strip }}</p>
-      </div>
-      <footer class="entry-footer">
-        <span class="posted-on">
-          <a href="{{ post.url | relative_url }}" rel="bookmark">
-            <time class="entry-date published" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y年%-m月%-d日" }}</time>
-          </a>
-        </span>
-        <span class="cat-links">
-          <a href="{{ item.path | relative_url }}">{{ item.label }}</a>
-        </span>
-      </footer>
-    </article>
-  {% endfor %}
+  <div class="archive-posts" data-category-pagination data-page-size="5">
+    {% for post in posts %}
+      <article class="post hentry archive-post">
+        <header class="entry-header">
+          <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
+        </header>
+        <div class="entry-content">
+          <p>{{ post.excerpt | strip_html | strip_newlines | strip }}</p>
+        </div>
+        <footer class="entry-footer">
+          <span class="posted-on">
+            <a href="{{ post.url | relative_url }}" rel="bookmark">
+              <time class="entry-date published" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y年%-m月%-d日" }}</time>
+            </a>
+          </span>
+          <span class="cat-links">
+            <a href="{{ item.path | relative_url }}">{{ item.label }}</a>
+          </span>
+        </footer>
+      </article>
+    {% endfor %}
+  </div>
+  <nav class="home-pagination archive-pagination" data-category-pagination-nav aria-label="{{ item.label }}分页导航" hidden></nav>
 {% else %}
   <article class="page type-page hentry archive-empty">
     <div class="entry-content">
