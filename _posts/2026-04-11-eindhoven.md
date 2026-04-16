@@ -9,7 +9,7 @@ cover_alt: "树"
 photo_format: r2
 ---
 
-这些照片拍摄于2024/25年，以此纪念转瞬即逝的岁月，具体请看[***告别***]({% post_url 2024-08-24-eind %})。
+这些照片拍摄于2024/25年，以此纪念转瞬即逝的岁月，具体请看[***告别***]({% post_url 2024-08-24-farewell %})。
 
 <figure style="text-align: center;">
   <img src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/eind/eind-1.jpg" alt="雪景" class="zoomable-image" data-full-src="https://assets.hszhe9.com/eind/eind-1.jpg" />
