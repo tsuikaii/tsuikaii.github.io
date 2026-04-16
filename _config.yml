@@ -4,7 +4,7 @@ email: hello@tsuikaii.dev
 description: "记录阅读、技术与日常生活的极简博客。"
 sidebar_note: "一个安静写字的地方。"
 location: "Shanghai"
-logo: "/assets/logo.png"
+logo: "/assets/images/logo.png"
 baseurl: ""
 url: "https://tsuikaii.com"
 lang: zh-CN

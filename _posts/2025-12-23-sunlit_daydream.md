@@ -8,11 +8,9 @@ cover_image: "/assets/images/day.webp"
 photo_format: webp
 ---
 
-composed by hszhe9, made by <a href="https://www.suno.com">suno</a>.
-
 <div class="audio-block">
   <audio controls preload="metadata">
-    <source src="/assets/sunlit.mp3" type="audio/mpeg">
+    <source src="https://assets.hszhe9.com/sunlit.mp3" type="audio/mpeg">
     你的浏览器不支持音频播放。Your browser is not supported.
   </audio>
 </div>
