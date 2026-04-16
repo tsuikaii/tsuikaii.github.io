@@ -570,6 +570,17 @@ body.sidebar-collapsed .sub-menu {
   width: 100%;
 }
 
+.video-block {
+  margin: 2.4rem 0;
+}
+
+.video-block video {
+  border-radius: 1.2rem;
+  display: block;
+  max-width: 72rem;
+  width: 100%;
+}
+
 .entry-footer {
   background-color: #f7f7f7;
   color: rgba(51, 51, 51, 0.7);
