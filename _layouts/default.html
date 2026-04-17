@@ -11,10 +11,13 @@
     <link rel="preconnect" href="https://assets.hszhe9.com" crossorigin>
     <link rel="dns-prefetch" href="//live.staticflickr.com">
     <link rel="preconnect" href="https://live.staticflickr.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="shortcut icon" href="{{ site.logo | relative_url }}">
     <link rel="icon" type="image/jpeg" href="{{ site.logo | relative_url }}">
     <link rel="apple-touch-icon" href="{{ site.logo | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
     {% seo %}
   </head>
@@ -30,15 +33,20 @@
             </a>
           </div>
 
+          {% assign current_category_item = nil %}
+          {% if page.category_slug %}
+            {% assign current_category_item = site.data.categories[page.category_slug] %}
+          {% endif %}
+
           <nav id="site-navigation" class="main-navigation" aria-label="主导航">
             <ul class="nav-menu">
               <li class="{% if page.layout == 'home' %}current-menu-item{% endif %}"><a href="{{ '/' | relative_url }}">首页</a></li>
-              <li class="{% if page.layout == 'category_archive' %}current-menu-item current-menu-ancestor open{% endif %} menu-item-has-children">
+              <li class="{% if current_category_item %}current-menu-item current-menu-ancestor open{% endif %} menu-item-has-children">
                 <a
                   href="#"
                   class="submenu-link"
-                  aria-current="{% if page.layout == 'category_archive' %}page{% endif %}"
-                  aria-expanded="{% if page.layout == 'category_archive' %}true{% else %}false{% endif %}"
+                  aria-current="{% if current_category_item %}page{% endif %}"
+                  aria-expanded="{% if current_category_item %}true{% else %}false{% endif %}"
                   aria-controls="category-submenu"
                 >分类</a>
                 <ul id="category-submenu" class="sub-menu">
@@ -64,5 +72,26 @@
       </div>
     </div>
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof renderMathInElement !== "function") {
+          return;
+        }
+
+        document.querySelectorAll(".entry-content").forEach(function (container) {
+          renderMathInElement(container, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "\\[", right: "\\]", display: true },
+              { left: "$", right: "$", display: false },
+              { left: "\\(", right: "\\)", display: false }
+            ],
+            throwOnError: false
+          });
+        });
+      });
+    </script>
   </body>
 </html>

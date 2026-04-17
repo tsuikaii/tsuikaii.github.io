@@ -1,0 +1,69 @@
+---
+layout: default
+---
+
+{% assign item = site.data.categories[page.category_slug] %}
+{% assign gallery = site.data.gallery %}
+
+<header class="archive-heading gallery-heading">
+  <p class="gallery-kicker">全站照片归档</p>
+  <h1 class="archive-title">{{ page.title | default: item.label }}</h1>
+  <p class="gallery-description">随机卡片画廊，仅R2提供原图。</p>
+
+  {% if gallery and gallery.total_photos %}
+    <div class="gallery-stats" aria-label="图库统计">
+      <span>{{ gallery.total_posts }} 篇文章</span>
+      <span>{{ gallery.total_photos }} 张照片</span>
+      <span>本地 {{ gallery.source_counts.local | default: 0 }}</span>
+      <span>Flickr {{ gallery.source_counts.flickr | default: 0 }}</span>
+      <span>R2 {{ gallery.source_counts.r2 | default: 0 }}</span>
+    </div>
+  {% endif %}
+</header>
+
+{% if gallery and gallery.photos and gallery.photos.size > 0 %}
+  <div class="gallery-pagination-wrap" data-randomize-items data-randomize-selector=".gallery-card" data-pagination-root data-item-selector=".gallery-card" data-nav-selector="[data-gallery-pagination-nav]" data-page-size="12">
+    <section class="gallery-panel" aria-label="随机照片画廊">
+      <div class="gallery-grid">
+        {% for photo in gallery.photos %}
+          {% assign photo_src = photo.src %}
+          {% assign photo_full_src = photo.full_src %}
+          {% unless photo_src contains '://' %}
+            {% assign photo_src = photo_src | relative_url %}
+          {% endunless %}
+          {% unless photo_full_src contains '://' %}
+            {% assign photo_full_src = photo_full_src | relative_url %}
+          {% endunless %}
+          {% assign photo_source_label = photo.source_type %}
+          {% if photo.source_type == 'local' %}
+            {% assign photo_source_label = 'assets' %}
+          {% endif %}
+
+          <figure class="gallery-card">
+            <img
+              src="{{ photo_src }}"
+              alt="{{ photo.alt | default: photo.caption }}"
+              class="zoomable-image"
+              data-full-src="{{ photo_full_src }}"
+              loading="lazy"
+            />
+            <figcaption class="gallery-card-caption">
+              <div class="gallery-card-meta">
+                <a class="gallery-card-post" href="{{ photo.post_url | relative_url }}">{{ photo.post_title }}</a>
+                <span class="gallery-card-source gallery-card-source-{{ photo_source_label }}">{{ photo_source_label }}</span>
+              </div>
+              <span class="gallery-card-text">{{ photo.caption }}</span>
+            </figcaption>
+          </figure>
+        {% endfor %}
+      </div>
+    </section>
+    <nav class="home-pagination archive-pagination gallery-pagination" data-gallery-pagination-nav aria-label="图库分页导航" hidden></nav>
+  </div>
+{% else %}
+  <article class="page type-page hentry archive-empty">
+    <div class="entry-content">
+      <p class="category-empty">这里还没有可展示的照片。</p>
+    </div>
+  </article>
+{% endif %}

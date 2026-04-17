@@ -4,6 +4,9 @@ article:
 album:
   label: 相册
   path: /category/album/
+gallery:
+  label: 图库
+  path: /category/gallery/
 music:
   label: 音乐
   path: /category/music/

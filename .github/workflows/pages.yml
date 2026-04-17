@@ -32,7 +32,9 @@ jobs:
           bundler-cache: true
 
       - name: Build site
-        run: bundle exec jekyll build --baseurl ""
+        run: |
+          ruby scripts/generate_gallery_data.rb
+          bundle exec jekyll build --baseurl ""
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

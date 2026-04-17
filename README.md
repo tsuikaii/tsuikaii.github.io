@@ -5,6 +5,7 @@ https://tsuikaii.com
 ## Local development
 
 ```bash
+ruby scripts/generate_gallery_data.rb
 bundle exec jekyll serve
 ```
 
