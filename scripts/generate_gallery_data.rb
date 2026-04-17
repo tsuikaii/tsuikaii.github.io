@@ -167,14 +167,14 @@ def normalize_categories(categories)
   end
 end
 
-def build_post_url(path, categories)
+def build_post_url(path, categories, date)
   filename = File.basename(path, File.extname(path))
   match = filename.match(POST_URL_PATTERN)
   return "/" unless match
 
   category = categories.first
   prefix = category && !category.empty? ? "/#{category}" : ""
-  "#{prefix}/#{match[1]}/#{match[2]}/#{match[3]}/#{match[4]}/"
+  "#{prefix}/#{date.strftime("%Y/%m/%d")}/#{match[4]}/"
 end
 
 entries = Dir.glob(File.join(POSTS_DIR, "*.*")).sort.filter_map do |path|
@@ -193,7 +193,7 @@ entries = Dir.glob(File.join(POSTS_DIR, "*.*")).sort.filter_map do |path|
     "excerpt" => front_matter["excerpt"].to_s.strip,
     "date" => date.iso8601,
     "date_display" => date.strftime("%Y年%-m月%-d日"),
-    "url" => build_post_url(path, categories),
+    "url" => build_post_url(path, categories, date),
     "category" => categories.first.to_s,
     "photo_count" => photos.size,
     "photos" => photos

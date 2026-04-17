@@ -3,6 +3,7 @@ layout: default
 ---
 
 {% assign home_posts = paginator.posts | default: site.posts %}
+{% assign home_posts = home_posts | where_exp: "post", "post.hidden != true" %}
 
 <div class="home-posts">
   {% for post in home_posts %}

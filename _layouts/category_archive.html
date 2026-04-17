@@ -4,6 +4,7 @@ layout: default
 
 {% assign item = site.data.categories[page.category_slug] %}
 {% assign posts = site.categories[page.category_slug] %}
+{% assign posts = posts | where_exp: "post", "post.hidden != true" %}
 
 <header class="archive-heading">
   <h1 class="archive-title">{{ item.label }}</h1>
