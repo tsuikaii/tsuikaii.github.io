@@ -8,11 +8,10 @@ layout: default
 <header class="archive-heading gallery-heading">
   <p class="gallery-kicker">全站照片归档</p>
   <h1 class="archive-title">{{ page.title | default: item.label }}</h1>
-  <p class="gallery-description">随机卡片画廊，仅R2提供原图。</p>
 
   {% if gallery and gallery.total_photos %}
     <div class="gallery-stats" aria-label="图库统计">
-      <span>{{ gallery.total_posts }} 篇文章</span>
+      <button type="button" class="gallery-stats-button" data-gallery-refresh>刷新卡片</button>
       <span>{{ gallery.total_photos }} 张照片</span>
       <span>本地 {{ gallery.source_counts.local | default: 0 }}</span>
       <span>Flickr {{ gallery.source_counts.flickr | default: 0 }}</span>
@@ -58,6 +57,9 @@ layout: default
         {% endfor %}
       </div>
     </section>
+    <div class="gallery-mobile-refresh-wrap">
+      <button type="button" class="gallery-refresh-button gallery-refresh-button-bottom" data-gallery-refresh>刷新卡片</button>
+    </div>
     <nav class="home-pagination archive-pagination gallery-pagination" data-gallery-pagination-nav aria-label="图库分页导航" hidden></nav>
   </div>
 {% else %}

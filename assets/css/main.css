@@ -548,6 +548,46 @@ body.sidebar-collapsed .sub-menu {
   margin-bottom: 2.6rem;
 }
 
+.gallery-refresh-button {
+  appearance: none;
+  background: #333;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.28rem;
+  line-height: 1;
+  padding: 0.95rem 1.35rem;
+  transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.gallery-refresh-button:hover,
+.gallery-refresh-button:focus {
+  background: #111;
+  transform: translateY(-1px);
+}
+
+.gallery-stats-button {
+  appearance: none;
+  background: #333;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.14rem;
+  line-height: 1;
+  padding: 0.7rem 1rem;
+  transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.gallery-stats-button:hover,
+.gallery-stats-button:focus {
+  background: #111;
+  transform: translateY(-1px);
+}
+
 .gallery-kicker {
   color: rgba(51, 51, 51, 0.56);
   font-size: 1.2rem;
@@ -556,18 +596,11 @@ body.sidebar-collapsed .sub-menu {
   text-transform: uppercase;
 }
 
-.gallery-description {
-  color: rgba(51, 51, 51, 0.72);
-  font-size: 1.45rem;
-  margin: 1.2rem 0 0;
-  max-width: 62rem;
-}
-
 .gallery-stats {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
-  margin-top: 1.6rem;
+  margin-top: 1.2rem;
 }
 
 .gallery-stats span {
@@ -579,6 +612,10 @@ body.sidebar-collapsed .sub-menu {
   font-size: 1.14rem;
   line-height: 1;
   padding: 0.7rem 1rem;
+}
+
+.gallery-mobile-refresh-wrap {
+  display: none;
 }
 
 .gallery-panel {
@@ -595,6 +632,10 @@ body.sidebar-collapsed .sub-menu {
 
 .gallery-pagination {
   margin-top: 2rem;
+}
+
+.layout-gallery .gallery-pagination {
+  display: none;
 }
 
 .gallery-grid {
@@ -1129,6 +1170,16 @@ body.sidebar-collapsed .sub-menu {
     padding: 0 1.4rem;
   }
 
+  .gallery-refresh-button {
+    font-size: 1.18rem;
+    padding: 0.9rem 1.2rem;
+  }
+
+  .gallery-stats-button {
+    font-size: 1.08rem;
+    padding: 0.72rem 0.96rem;
+  }
+
   .gallery-panel {
     border-radius: 1.6rem;
     margin: 0 0.8rem;
@@ -1143,6 +1194,17 @@ body.sidebar-collapsed .sub-menu {
 
   .gallery-grid {
     column-gap: 1.2rem;
+  }
+
+  .gallery-mobile-refresh-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.6rem;
+    padding: 0 0.8rem;
+  }
+
+  .gallery-refresh-button-bottom {
+    width: min(100%, 22rem);
   }
 
   .image-lightbox {
