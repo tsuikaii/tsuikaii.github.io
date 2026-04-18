@@ -115,42 +115,107 @@
   var lightboxImage;
   var closeButton;
   var activePointers = new Map();
+  var dragOrigin = null;
+  var pinchState = null;
   var currentScale = 1;
   var currentX = 0;
   var currentY = 0;
-  var startScale = 1;
-  var startX = 0;
-  var startY = 0;
-  var pinchDistance = 0;
-  var pinchCenter = null;
-  var dragOrigin = null;
-  var fittedImageWidth = 0;
-  var fittedImageHeight = 0;
+  var baseWidth = 0;
+  var baseHeight = 0;
+  var maxScale = 4;
 
-  function updateLightboxImageSize() {
-    var stageWidth;
-    var stageHeight;
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function getStageMetrics() {
+    if (!lightboxStage) {
+      return null;
+    }
+
+    return {
+      width: lightboxStage.clientWidth,
+      height: lightboxStage.clientHeight
+    };
+  }
+
+  function getDisplayedWidth(scale) {
+    return baseWidth * scale;
+  }
+
+  function getDisplayedHeight(scale) {
+    return baseHeight * scale;
+  }
+
+  function clampOffsets() {
+    var metrics = getStageMetrics();
+    var displayedWidth;
+    var displayedHeight;
+    var maxOffsetX;
+    var maxOffsetY;
+
+    if (!metrics) {
+      return;
+    }
+
+    displayedWidth = getDisplayedWidth(currentScale);
+    displayedHeight = getDisplayedHeight(currentScale);
+    maxOffsetX = Math.max(0, (displayedWidth - metrics.width) / 2);
+    maxOffsetY = Math.max(0, (displayedHeight - metrics.height) / 2);
+
+    currentX = clamp(currentX, -maxOffsetX, maxOffsetX);
+    currentY = clamp(currentY, -maxOffsetY, maxOffsetY);
+  }
+
+  function applyTransform() {
+    var displayedWidth;
+    var displayedHeight;
+
+    if (!lightboxImage || !baseWidth || !baseHeight) {
+      return;
+    }
+
+    displayedWidth = getDisplayedWidth(currentScale);
+    displayedHeight = getDisplayedHeight(currentScale);
+
+    lightboxImage.style.width = displayedWidth + "px";
+    lightboxImage.style.height = displayedHeight + "px";
+    lightboxImage.style.transform = "translate3d(" + currentX + "px, " + currentY + "px, 0)";
+    lightbox.classList.toggle("is-zoomed", currentScale > 1.01);
+  }
+
+  function updateLightboxImageSize(preservePosition) {
+    var metrics = getStageMetrics();
+    var previousWidth = getDisplayedWidth(currentScale);
+    var previousHeight = getDisplayedHeight(currentScale);
+    var centerRatioX = previousWidth ? -currentX / previousWidth : 0;
+    var centerRatioY = previousHeight ? -currentY / previousHeight : 0;
     var widthRatio;
     var heightRatio;
     var fitRatio;
 
-    if (!lightboxImage || !lightboxStage || !lightboxImage.naturalWidth || !lightboxImage.naturalHeight) {
+    if (!metrics || !lightboxImage || !lightboxImage.naturalWidth || !lightboxImage.naturalHeight) {
       return;
     }
 
-    stageWidth = lightboxStage.clientWidth;
-    stageHeight = lightboxStage.clientHeight;
-
-    if (!stageWidth || !stageHeight) {
-      return;
-    }
-
-    widthRatio = stageWidth / lightboxImage.naturalWidth;
-    heightRatio = stageHeight / lightboxImage.naturalHeight;
+    widthRatio = metrics.width / lightboxImage.naturalWidth;
+    heightRatio = metrics.height / lightboxImage.naturalHeight;
     fitRatio = Math.min(widthRatio, heightRatio, 1);
 
-    fittedImageWidth = lightboxImage.naturalWidth * fitRatio;
-    fittedImageHeight = lightboxImage.naturalHeight * fitRatio;
+    baseWidth = lightboxImage.naturalWidth * fitRatio;
+    baseHeight = lightboxImage.naturalHeight * fitRatio;
+    maxScale = Math.max(4, 1 / fitRatio);
+    currentScale = clamp(currentScale, 1, maxScale);
+
+    if (preservePosition && previousWidth && previousHeight) {
+      currentX = -centerRatioX * getDisplayedWidth(currentScale);
+      currentY = -centerRatioY * getDisplayedHeight(currentScale);
+    } else if (currentScale <= 1.01) {
+      currentX = 0;
+      currentY = 0;
+    }
+
+    clampOffsets();
     applyTransform();
   }
 
@@ -245,52 +310,85 @@
     });
   }
 
-  function applyTransform() {
-    if (!lightboxImage) {
-      return;
-    }
-
-    if (fittedImageWidth && fittedImageHeight) {
-      lightboxImage.style.width = fittedImageWidth * currentScale + "px";
-      lightboxImage.style.height = fittedImageHeight * currentScale + "px";
-    } else {
-      lightboxImage.style.width = "";
-      lightboxImage.style.height = "";
-    }
-
-    lightboxImage.style.transform = "translate3d(" + currentX + "px, " + currentY + "px, 0)";
-    lightbox.classList.toggle("is-zoomed", currentScale > 1.01);
-  }
-
   function resetTransform() {
     currentScale = 1;
     currentX = 0;
     currentY = 0;
-    startScale = 1;
-    startX = 0;
-    startY = 0;
-    pinchDistance = 0;
-    pinchCenter = null;
     dragOrigin = null;
-    fittedImageWidth = 0;
-    fittedImageHeight = 0;
+    pinchState = null;
+    baseWidth = 0;
+    baseHeight = 0;
+    maxScale = 4;
     activePointers.clear();
     if (lightbox) {
       lightbox.classList.remove("is-panning", "is-zoomed");
     }
-    applyTransform();
   }
 
   function getDistance(first, second) {
-    var dx = second.clientX - first.clientX;
-    var dy = second.clientY - first.clientY;
+    var dx = second.x - first.x;
+    var dy = second.y - first.y;
     return Math.sqrt(dx * dx + dy * dy);
   }
 
   function getCenter(first, second) {
     return {
-      x: (first.clientX + second.clientX) / 2,
-      y: (first.clientY + second.clientY) / 2
+      x: (first.x + second.x) / 2,
+      y: (first.y + second.y) / 2
+    };
+  }
+
+  function getStagePoint(event) {
+    var rect = lightboxStage.getBoundingClientRect();
+
+    return {
+      x: event.clientX - rect.left - rect.width / 2,
+      y: event.clientY - rect.top - rect.height / 2
+    };
+  }
+
+  function getPointerCenterAndDistance() {
+    var pointers = Array.from(activePointers.values());
+
+    if (pointers.length < 2) {
+      return null;
+    }
+
+    return {
+      center: getCenter(pointers[0], pointers[1]),
+      distance: getDistance(pointers[0], pointers[1])
+    };
+  }
+
+  function setScaleAroundPoint(nextScale, point, sourceState) {
+    var originScale = sourceState ? sourceState.scale : currentScale;
+    var originX = sourceState ? sourceState.x : currentX;
+    var originY = sourceState ? sourceState.y : currentY;
+    var originWidth = baseWidth * originScale;
+    var originHeight = baseHeight * originScale;
+    var relativeX = originWidth ? (point.x - originX) / originWidth : 0;
+    var relativeY = originHeight ? (point.y - originY) / originHeight : 0;
+
+    currentScale = clamp(nextScale, 1, maxScale);
+    currentX = point.x - relativeX * getDisplayedWidth(currentScale);
+    currentY = point.y - relativeY * getDisplayedHeight(currentScale);
+
+    clampOffsets();
+    applyTransform();
+  }
+
+  function syncDragOrigin() {
+    var remainingPointer;
+
+    if (activePointers.size !== 1) {
+      dragOrigin = null;
+      return;
+    }
+
+    remainingPointer = Array.from(activePointers.values())[0];
+    dragOrigin = {
+      x: remainingPointer.x - currentX,
+      y: remainingPointer.y - currentY
     };
   }
 
@@ -315,7 +413,9 @@
     lightboxImage.alt = "";
     lightboxImage.decoding = "async";
     lightboxImage.draggable = false;
-    lightboxImage.addEventListener("load", updateLightboxImageSize);
+    lightboxImage.addEventListener("load", function () {
+      updateLightboxImageSize(false);
+    });
 
     lightboxStage.appendChild(lightboxImage);
     lightbox.appendChild(closeButton);
@@ -333,64 +433,77 @@
     });
 
     lightboxStage.addEventListener("dblclick", function (event) {
+      var point;
+
       event.preventDefault();
+      point = getStagePoint(event);
 
       if (currentScale > 1.01) {
-        resetTransform();
-        return;
-      }
-
-      currentScale = 2;
-      currentX = 0;
-      currentY = 0;
-      applyTransform();
-    });
-
-    lightboxStage.addEventListener("pointerdown", function (event) {
-      lightboxStage.setPointerCapture(event.pointerId);
-      activePointers.set(event.pointerId, { clientX: event.clientX, clientY: event.clientY });
-
-      if (activePointers.size === 1) {
-        dragOrigin = {
-          x: event.clientX - currentX,
-          y: event.clientY - currentY
-        };
-        lightbox.classList.add("is-panning");
-      }
-
-      if (activePointers.size === 2) {
-        var pointers = Array.from(activePointers.values());
-        pinchDistance = getDistance(pointers[0], pointers[1]);
-        pinchCenter = getCenter(pointers[0], pointers[1]);
-        startScale = currentScale;
-        startX = currentX;
-        startY = currentY;
-      }
-    });
-
-    lightboxStage.addEventListener("pointermove", function (event) {
-      if (!activePointers.has(event.pointerId)) {
-        return;
-      }
-
-      activePointers.set(event.pointerId, { clientX: event.clientX, clientY: event.clientY });
-
-      if (activePointers.size === 2) {
-        var pointers = Array.from(activePointers.values());
-        var center = getCenter(pointers[0], pointers[1]);
-        var nextDistance = getDistance(pointers[0], pointers[1]);
-        var scaleRatio = pinchDistance ? nextDistance / pinchDistance : 1;
-
-        currentScale = Math.min(4, Math.max(1, startScale * scaleRatio));
-        currentX = startX + (center.x - pinchCenter.x);
-        currentY = startY + (center.y - pinchCenter.y);
+        currentScale = 1;
+        currentX = 0;
+        currentY = 0;
+        dragOrigin = null;
+        pinchState = null;
+        lightbox.classList.remove("is-panning");
+        clampOffsets();
         applyTransform();
         return;
       }
 
+      setScaleAroundPoint(Math.min(maxScale, 2), point);
+    });
+
+    lightboxStage.addEventListener("pointerdown", function (event) {
+      var pinchSnapshot;
+
+      if (event.pointerType === "mouse" && event.button !== 0) {
+        return;
+      }
+
+      lightboxStage.setPointerCapture(event.pointerId);
+      activePointers.set(event.pointerId, getStagePoint(event));
+
+      if (activePointers.size === 1) {
+        syncDragOrigin();
+        lightbox.classList.add("is-panning");
+      }
+
+      if (activePointers.size === 2) {
+        pinchSnapshot = getPointerCenterAndDistance();
+        pinchState = {
+          center: pinchSnapshot.center,
+          distance: pinchSnapshot.distance,
+          scale: currentScale,
+          x: currentX,
+          y: currentY
+        };
+        dragOrigin = null;
+        lightbox.classList.remove("is-panning");
+      }
+    });
+
+    lightboxStage.addEventListener("pointermove", function (event) {
+      var pinchSnapshot;
+      var nextScale;
+
+      if (!activePointers.has(event.pointerId)) {
+        return;
+      }
+
+      activePointers.set(event.pointerId, getStagePoint(event));
+
+      if (activePointers.size === 2 && pinchState) {
+        pinchSnapshot = getPointerCenterAndDistance();
+        nextScale = pinchState.distance ? pinchState.scale * (pinchSnapshot.distance / pinchState.distance) : pinchState.scale;
+
+        setScaleAroundPoint(nextScale, pinchSnapshot.center, pinchState);
+        return;
+      }
+
       if (activePointers.size === 1 && dragOrigin && currentScale > 1.01) {
-        currentX = event.clientX - dragOrigin.x;
-        currentY = event.clientY - dragOrigin.y;
+        currentX = activePointers.get(event.pointerId).x - dragOrigin.x;
+        currentY = activePointers.get(event.pointerId).y - dragOrigin.y;
+        clampOffsets();
         applyTransform();
       }
     });
@@ -401,41 +514,39 @@
         lightboxStage.releasePointerCapture(event.pointerId);
       }
 
+      pinchState = null;
+
       if (activePointers.size === 0) {
         dragOrigin = null;
         lightbox.classList.remove("is-panning");
       } else if (activePointers.size === 1) {
-        var remainingPointer = Array.from(activePointers.values())[0];
-        dragOrigin = {
-          x: remainingPointer.clientX - currentX,
-          y: remainingPointer.clientY - currentY
-        };
+        syncDragOrigin();
+        lightbox.classList.add("is-panning");
       }
 
       if (currentScale <= 1.01) {
-        resetTransform();
+        currentScale = 1;
+        currentX = 0;
+        currentY = 0;
       }
+
+      clampOffsets();
+      applyTransform();
     }
 
     lightboxStage.addEventListener("pointerup", releasePointer);
     lightboxStage.addEventListener("pointercancel", releasePointer);
-    lightboxStage.addEventListener("pointerleave", releasePointer);
 
     lightboxStage.addEventListener("wheel", function (event) {
-      var nextScale;
+      var point = getStagePoint(event);
+      var nextScale = currentScale + (event.deltaY < 0 ? 0.2 : -0.2);
 
       event.preventDefault();
-      nextScale = currentScale + (event.deltaY < 0 ? 0.2 : -0.2);
-      currentScale = Math.min(4, Math.max(1, nextScale));
-      applyTransform();
-
-      if (currentScale <= 1.01) {
-        resetTransform();
-      }
+      setScaleAroundPoint(nextScale, point);
     });
 
     window.addEventListener("resize", function () {
-      updateLightboxImageSize();
+      updateLightboxImageSize(true);
     });
   }
 
@@ -444,6 +555,9 @@
 
     ensureLightbox();
     resetTransform();
+    lightboxImage.style.width = "";
+    lightboxImage.style.height = "";
+    lightboxImage.style.transform = "";
 
     fullSrc = image.getAttribute("data-full-src") || image.currentSrc || image.getAttribute("src") || "";
     lightboxImage.src = fullSrc;
@@ -461,6 +575,9 @@
     lightbox.classList.remove("is-visible");
     lightbox.setAttribute("aria-hidden", "true");
     lightboxImage.removeAttribute("src");
+    lightboxImage.style.width = "";
+    lightboxImage.style.height = "";
+    lightboxImage.style.transform = "";
     document.body.style.overflow = "";
     resetTransform();
   }
