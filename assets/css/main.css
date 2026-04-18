@@ -96,8 +96,8 @@ img {
   backface-visibility: hidden;
   display: block;
   height: auto;
-  max-height: 92vh;
-  max-width: min(96vw, 140rem);
+  max-height: none;
+  max-width: none;
   transform-origin: center center;
   transition: none;
   user-select: none;
@@ -1629,8 +1629,8 @@ body.sidebar-collapsed .sub-menu {
   }
 
   .image-lightbox img {
-    max-height: calc(100vh - 2.4rem);
-    max-width: calc(100vw - 2.4rem);
+    max-height: none;
+    max-width: none;
   }
 }
 

@@ -124,6 +124,35 @@
   var pinchDistance = 0;
   var pinchCenter = null;
   var dragOrigin = null;
+  var fittedImageWidth = 0;
+  var fittedImageHeight = 0;
+
+  function updateLightboxImageSize() {
+    var stageWidth;
+    var stageHeight;
+    var widthRatio;
+    var heightRatio;
+    var fitRatio;
+
+    if (!lightboxImage || !lightboxStage || !lightboxImage.naturalWidth || !lightboxImage.naturalHeight) {
+      return;
+    }
+
+    stageWidth = lightboxStage.clientWidth;
+    stageHeight = lightboxStage.clientHeight;
+
+    if (!stageWidth || !stageHeight) {
+      return;
+    }
+
+    widthRatio = stageWidth / lightboxImage.naturalWidth;
+    heightRatio = stageHeight / lightboxImage.naturalHeight;
+    fitRatio = Math.min(widthRatio, heightRatio, 1);
+
+    fittedImageWidth = lightboxImage.naturalWidth * fitRatio;
+    fittedImageHeight = lightboxImage.naturalHeight * fitRatio;
+    applyTransform();
+  }
 
   function parseCloudflareImageUrl(url) {
     var absoluteUrl;
@@ -221,7 +250,15 @@
       return;
     }
 
-    lightboxImage.style.transform = "translate3d(" + currentX + "px, " + currentY + "px, 0) scale(" + currentScale + ")";
+    if (fittedImageWidth && fittedImageHeight) {
+      lightboxImage.style.width = fittedImageWidth * currentScale + "px";
+      lightboxImage.style.height = fittedImageHeight * currentScale + "px";
+    } else {
+      lightboxImage.style.width = "";
+      lightboxImage.style.height = "";
+    }
+
+    lightboxImage.style.transform = "translate3d(" + currentX + "px, " + currentY + "px, 0)";
     lightbox.classList.toggle("is-zoomed", currentScale > 1.01);
   }
 
@@ -235,6 +272,8 @@
     pinchDistance = 0;
     pinchCenter = null;
     dragOrigin = null;
+    fittedImageWidth = 0;
+    fittedImageHeight = 0;
     activePointers.clear();
     if (lightbox) {
       lightbox.classList.remove("is-panning", "is-zoomed");
@@ -276,6 +315,7 @@
     lightboxImage.alt = "";
     lightboxImage.decoding = "async";
     lightboxImage.draggable = false;
+    lightboxImage.addEventListener("load", updateLightboxImageSize);
 
     lightboxStage.appendChild(lightboxImage);
     lightbox.appendChild(closeButton);
@@ -392,6 +432,10 @@
       if (currentScale <= 1.01) {
         resetTransform();
       }
+    });
+
+    window.addEventListener("resize", function () {
+      updateLightboxImageSize();
     });
   }
 
