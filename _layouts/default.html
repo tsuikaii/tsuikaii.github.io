@@ -29,7 +29,7 @@
     {% seo %}
     {% endif %}
   </head>
-  <body class="{% if page.layout == 'home' %}home{% endif %} {% if page.layout == 'post' %}content-focused{% endif %} layout-{{ page.layout | default: 'default' }}">
+  <body class="{% if page.layout == 'home' %}home{% endif %} {% if page.layout == 'post' %}content-focused{% endif %} layout-{{ page.layout | default: 'default' }}{% if page.category_slug %} page-category-{{ page.category_slug }}{% endif %}">
     <div id="page" class="site">
       <a class="skip-link" href="#content">跳至内容</a>
 

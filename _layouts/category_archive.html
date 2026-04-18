@@ -13,7 +13,30 @@ layout: default
 {% if posts and posts.size > 0 %}
   <div class="archive-posts" data-category-pagination data-page-size="5">
     {% for post in posts %}
-      <article class="post hentry archive-post">
+      <article class="post hentry archive-post{% if post.cover_image %} has-cover{% endif %} photo-format-{{ post.photo_format | default: 'none' }}">
+        {% if post.cover_image %}
+          {% assign cover_image_url = post.cover_image %}
+          {% unless cover_image_url contains '://' %}
+            {% assign cover_image_url = post.cover_image | relative_url %}
+          {% endunless %}
+          {% assign uses_cloudflare_image = false %}
+          {% if cover_image_url contains 'assets.hszhe9.com/cdn-cgi/image/width=' %}
+            {% assign uses_cloudflare_image = true %}
+          {% endif %}
+          <a class="entry-cover" href="{{ post.url | relative_url }}" rel="bookmark" aria-label="{{ post.title }}">
+            <img
+              src="{{ cover_image_url }}"
+              {% if uses_cloudflare_image %}
+              srcset="{{ cover_image_url | replace: 'width=1200', 'width=480' }} 480w, {{ cover_image_url | replace: 'width=1200', 'width=800' }} 800w, {{ cover_image_url }} 1200w"
+              sizes="(min-width: 48em) min(64rem, calc(100vw - 8rem)), calc(100vw - 1.6rem)"
+              {% endif %}
+              alt="{{ post.cover_alt | default: post.title }}"
+              decoding="async"
+              loading="lazy"
+              fetchpriority="low"
+            >
+          </a>
+        {% endif %}
         <header class="entry-header">
           <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
         </header>
