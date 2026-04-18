@@ -125,6 +125,97 @@
   var pinchCenter = null;
   var dragOrigin = null;
 
+  function parseCloudflareImageUrl(url) {
+    var absoluteUrl;
+    var match;
+
+    if (!url) {
+      return null;
+    }
+
+    try {
+      absoluteUrl = new URL(url, window.location.href).href;
+    } catch (error) {
+      return null;
+    }
+
+    match = absoluteUrl.match(/^(https?:\/\/[^/]+)\/cdn-cgi\/image\/[^/]+(\/.+)$/);
+
+    if (!match) {
+      return null;
+    }
+
+    return {
+      origin: match[1],
+      assetPath: match[2]
+    };
+  }
+
+  function extractAssetUrl(url) {
+    var transformed = parseCloudflareImageUrl(url);
+    var parsedUrl;
+
+    if (transformed) {
+      return transformed.origin + transformed.assetPath;
+    }
+
+    try {
+      parsedUrl = new URL(url, window.location.href);
+    } catch (error) {
+      return "";
+    }
+
+    return parsedUrl.origin + parsedUrl.pathname;
+  }
+
+  function buildCloudflareImageUrl(assetUrl, width, quality) {
+    var parsedUrl;
+
+    if (!assetUrl) {
+      return "";
+    }
+
+    try {
+      parsedUrl = new URL(assetUrl, window.location.href);
+    } catch (error) {
+      return "";
+    }
+
+    if (parsedUrl.hostname !== "assets.hszhe9.com") {
+      return "";
+    }
+
+    return parsedUrl.origin + "/cdn-cgi/image/width=" + width + ",quality=" + quality + ",format=auto" + parsedUrl.pathname;
+  }
+
+  function prepareEntryImages() {
+    var inlineWidths = [640, 960, 1200, 1600, 2000];
+    var inlineSizes = "(min-width: 48em) min(84rem, calc(100vw - 6rem)), calc(100vw - 3.2rem)";
+    var images = document.querySelectorAll(".post .entry-content img");
+
+    images.forEach(function (image, index) {
+      var imageSrc = image.getAttribute("src") || image.currentSrc || "";
+      var assetUrl = image.getAttribute("data-full-src") || extractAssetUrl(imageSrc);
+      var transformed = parseCloudflareImageUrl(imageSrc);
+      if (!image.hasAttribute("loading")) {
+        image.loading = index < 2 ? "eager" : "lazy";
+      }
+
+      if (!image.hasAttribute("decoding")) {
+        image.decoding = "async";
+      }
+
+      if (!transformed || image.getAttribute("srcset")) {
+        return;
+      }
+
+      image.setAttribute("sizes", inlineSizes);
+      image.setAttribute("srcset", inlineWidths.map(function (width) {
+        return buildCloudflareImageUrl(assetUrl, width, 82) + " " + width + "w";
+      }).join(", "));
+    });
+  }
+
   function applyTransform() {
     if (!lightboxImage) {
       return;
@@ -183,6 +274,7 @@
 
     lightboxImage = document.createElement("img");
     lightboxImage.alt = "";
+    lightboxImage.decoding = "async";
     lightboxImage.draggable = false;
 
     lightboxStage.appendChild(lightboxImage);
@@ -304,9 +396,13 @@
   }
 
   function openLightbox(image) {
+    var fullSrc;
+
     ensureLightbox();
     resetTransform();
-    lightboxImage.src = image.getAttribute("data-full-src") || image.currentSrc || image.src;
+
+    fullSrc = image.getAttribute("data-full-src") || image.currentSrc || image.getAttribute("src") || "";
+    lightboxImage.src = fullSrc;
     lightboxImage.alt = image.alt || "";
     lightbox.classList.add("is-visible");
     lightbox.setAttribute("aria-hidden", "false");
@@ -324,6 +420,8 @@
     document.body.style.overflow = "";
     resetTransform();
   }
+
+  prepareEntryImages();
 
   document.addEventListener("click", function (event) {
     var image = event.target.closest(".zoomable-image");
