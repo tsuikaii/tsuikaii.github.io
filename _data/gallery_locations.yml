@@ -1,0 +1,112 @@
+在爱因霍温:
+  id: eindhoven
+  name: 爱因霍温
+  place: 荷兰北布拉班特
+  lat: 51.4381
+  lng: 5.4752
+  zoom: 11
+  scope: 城市级
+在巴中:
+  id: bazhong
+  name: 巴中
+  place: 四川巴中南江
+  lat: 32.684
+  lng: 106.843
+  zoom: 10
+  scope: 景区级
+在阿坝:
+  id: aba
+  name: 阿坝
+  place: 四川阿坝小金
+  lat: 31.1
+  lng: 102.9
+  zoom: 10
+  scope: 景区级
+在爱丁堡:
+  id: edinburgh
+  name: 爱丁堡
+  place: 苏格兰
+  lat: 55.9533
+  lng: -3.1883
+  zoom: 11
+  scope: 城市级
+在格拉斯哥:
+  id: glasgow
+  name: 格拉斯哥
+  place: 苏格兰
+  lat: 55.8642
+  lng: -4.2518
+  zoom: 11
+  scope: 城市级
+在大阪:
+  id: osaka
+  name: 大阪
+  place: 日本关西
+  lat: 34.6937
+  lng: 135.5023
+  zoom: 11
+  scope: 城市级
+在富士山:
+  id: fuji
+  name: 富士山
+  place: 日本山梨与静冈一带
+  lat: 35.3606
+  lng: 138.7274
+  zoom: 10
+  scope: 景区级
+在京都:
+  id: kyoto
+  name: 京都
+  place: 日本关西
+  lat: 35.0116
+  lng: 135.7681
+  zoom: 11
+  scope: 城市级
+在神户:
+  id: kobe
+  name: 神户
+  place: 日本兵库
+  lat: 34.6901
+  lng: 135.1955
+  zoom: 11
+  scope: 城市级
+在香港:
+  id: hong-kong
+  name: 香港
+  place: 中国香港
+  lat: 22.3193
+  lng: 114.1694
+  zoom: 10
+  scope: 城市级
+关西之旅:
+  id: kansai
+  name: 关西地区
+  place: 日本关西广域
+  lat: 34.85
+  lng: 135.62
+  zoom: 8
+  scope: 区域级
+在海牙:
+  id: hague
+  name: 海牙
+  place: 荷兰南荷兰
+  lat: 52.0705
+  lng: 4.3007
+  zoom: 11
+  scope: 城市级
+在镰仓:
+  id: kamakura
+  name: 镰仓
+  place: 日本神奈川
+  lat: 35.3192
+  lng: 139.5467
+  zoom: 11
+  scope: 城市级
+在东京:
+  id: tokyo
+  name: 东京
+  place: 日本东京
+  lat: 35.6762
+  lng: 139.6503
+  zoom: 10
+  scope: 城市级

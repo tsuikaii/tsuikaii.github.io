@@ -402,6 +402,216 @@
 })();
 
 (function () {
+  var mapRoot = document.querySelector("[data-gallery-map]");
+  var detailRoot = document.querySelector("[data-gallery-map-detail]");
+  var listRoot = document.querySelector("[data-gallery-map-list]");
+  var dataElement = document.getElementById("gallery-map-data");
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  if (!mapRoot || !detailRoot || !listRoot || !dataElement || typeof window.L === "undefined") {
+    return;
+  }
+
+  var rawEntries;
+
+  try {
+    rawEntries = JSON.parse(dataElement.textContent);
+  } catch (error) {
+    return;
+  }
+
+  var groupedLocations = {};
+  var locationButtons = new Map();
+  var locationMarkers = new Map();
+  var activeLocationId = null;
+  var entries = Array.isArray(rawEntries) ? rawEntries : [];
+
+  entries.forEach(function (entry) {
+    var location = entry && entry.location;
+    var id;
+    var photoCount;
+
+    if (!location || typeof location.lat === "undefined" || typeof location.lng === "undefined") {
+      return;
+    }
+
+    id = location.id || entry.title;
+    photoCount = entry.photo_count || (entry.photos ? entry.photos.length : 0) || 0;
+
+    if (!groupedLocations[id]) {
+      groupedLocations[id] = {
+        id: id,
+        location: location,
+        entries: [],
+        photos: [],
+        photoCount: 0
+      };
+    }
+
+    groupedLocations[id].entries.push(entry);
+    groupedLocations[id].photoCount += photoCount;
+
+    (entry.photos || []).forEach(function (photo) {
+      groupedLocations[id].photos.push({
+        src: photo.src,
+        full_src: photo.full_src,
+        caption: photo.caption,
+        alt: photo.alt,
+        post_title: entry.title,
+        post_url: entry.url,
+        post_date_display: entry.date_display
+      });
+    });
+  });
+
+  var locations = Object.keys(groupedLocations).map(function (id) {
+    return groupedLocations[id];
+  }).sort(function (first, second) {
+    return second.photoCount - first.photoCount;
+  });
+
+  if (!locations.length) {
+    return;
+  }
+
+  var map = L.map(mapRoot, {
+    scrollWheelZoom: false,
+    zoomControl: true
+  });
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  function getMarkerRadius(photoCount) {
+    return Math.max(8, Math.min(18, 7 + Math.round(photoCount / 4)));
+  }
+
+  function updateActiveState() {
+    locationButtons.forEach(function (button, id) {
+      button.classList.toggle("is-active", id === activeLocationId);
+      button.setAttribute("aria-pressed", id === activeLocationId ? "true" : "false");
+    });
+
+    locationMarkers.forEach(function (marker, id) {
+      marker.setStyle({
+        color: id === activeLocationId ? "#1a4f8c" : "rgba(26, 79, 140, 0.76)",
+        fillColor: id === activeLocationId ? "#2f7fd7" : "#8db9ea",
+        fillOpacity: id === activeLocationId ? 0.92 : 0.78,
+        weight: id === activeLocationId ? 3 : 2
+      });
+    });
+  }
+
+  function buildDetailMarkup(group) {
+    var scope = group.location.scope ? "<span class=\"gallery-map-scope\">" + escapeHtml(group.location.scope) + "</span>" : "";
+    var entriesMarkup = group.entries.map(function (entry) {
+      return (
+        "<a class=\"gallery-map-post-link\" href=\"" + escapeHtml(entry.url) + "\">" +
+          "<span class=\"gallery-map-post-title\">" + escapeHtml(entry.title) + "</span>" +
+          "<span class=\"gallery-map-post-meta\">" + escapeHtml(entry.date_display) + " · " + escapeHtml(String(entry.photo_count)) + " 张</span>" +
+        "</a>"
+      );
+    }).join("");
+    var photosMarkup = group.photos.slice(0, 6).map(function (photo) {
+      return (
+        "<figure class=\"gallery-map-thumb\">" +
+          "<img src=\"" + escapeHtml(photo.src) + "\" alt=\"" + escapeHtml(photo.alt || photo.caption || group.location.name) + "\" class=\"zoomable-image\" data-full-src=\"" + escapeHtml(photo.full_src || photo.src) + "\" loading=\"lazy\">" +
+          "<figcaption>" + escapeHtml(photo.caption || photo.post_title) + "</figcaption>" +
+        "</figure>"
+      );
+    }).join("");
+
+    return (
+      "<div class=\"gallery-map-detail-header\">" +
+        "<p class=\"gallery-map-eyebrow\">地图选中地点</p>" +
+        "<h3 class=\"gallery-map-place\">" + escapeHtml(group.location.name) + "</h3>" +
+        "<p class=\"gallery-map-place-subtitle\">" + escapeHtml(group.location.place || "") + scope + "</p>" +
+      "</div>" +
+      "<div class=\"gallery-map-summary\">" +
+        "<span>" + escapeHtml(String(group.photoCount)) + " 张照片</span>" +
+        "<span>" + escapeHtml(String(group.entries.length)) + " 篇文章</span>" +
+      "</div>" +
+      "<div class=\"gallery-map-posts\">" + entriesMarkup + "</div>" +
+      "<div class=\"gallery-map-thumbs\">" + photosMarkup + "</div>"
+    );
+  }
+
+  function selectLocation(id, shouldFly) {
+    var group = groupedLocations[id];
+    var targetZoom;
+
+    if (!group) {
+      return;
+    }
+
+    activeLocationId = id;
+    updateActiveState();
+    detailRoot.innerHTML = buildDetailMarkup(group);
+
+    if (shouldFly) {
+      targetZoom = parseInt(group.location.zoom, 10) || 10;
+      map.flyTo([group.location.lat, group.location.lng], targetZoom, {
+        duration: 0.45
+      });
+    }
+  }
+
+  locations.forEach(function (group) {
+    var button = document.createElement("button");
+    var marker = L.circleMarker([group.location.lat, group.location.lng], {
+      radius: getMarkerRadius(group.photoCount),
+      color: "rgba(26, 79, 140, 0.76)",
+      fillColor: "#8db9ea",
+      fillOpacity: 0.78,
+      weight: 2
+    });
+
+    button.type = "button";
+    button.className = "gallery-map-location-button";
+    button.innerHTML =
+      "<span class=\"gallery-map-location-name\">" + escapeHtml(group.location.name) + "</span>" +
+      "<span class=\"gallery-map-location-meta\">" + escapeHtml(String(group.photoCount)) + " 张</span>";
+    button.addEventListener("click", function () {
+      selectLocation(group.id, true);
+    });
+
+    marker.addTo(map);
+    marker.bindTooltip(group.location.name + " · " + group.photoCount + " 张", {
+      direction: "top",
+      opacity: 0.94
+    });
+    marker.on("click", function () {
+      selectLocation(group.id, true);
+    });
+
+    listRoot.appendChild(button);
+    locationButtons.set(group.id, button);
+    locationMarkers.set(group.id, marker);
+  });
+
+  if (locations.length === 1) {
+    map.setView([locations[0].location.lat, locations[0].location.lng], parseInt(locations[0].location.zoom, 10) || 10);
+  } else {
+    map.fitBounds(locations.map(function (group) {
+      return [group.location.lat, group.location.lng];
+    }), {
+      padding: [36, 36]
+    });
+  }
+
+  selectLocation(locations[0].id, false);
+})();
+
+(function () {
   var roots = document.querySelectorAll("[data-pagination-root], [data-category-pagination]");
 
   function getPageUrl(pageNumber) {

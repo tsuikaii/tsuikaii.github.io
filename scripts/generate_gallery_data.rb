@@ -8,6 +8,7 @@ require "yaml"
 ROOT = File.expand_path("..", __dir__)
 POSTS_DIR = File.join(ROOT, "_posts")
 OUTPUT_PATH = File.join(ROOT, "_data", "gallery.yml")
+LOCATION_PATH = File.join(ROOT, "_data", "gallery_locations.yml")
 POST_URL_PATTERN = /\A(\d{4})-(\d{2})-(\d{2})-(.+)\z/
 SOURCE_LABELS = {
   "local" => "本地 assets",
@@ -23,6 +24,12 @@ def extract_front_matter(raw)
   front_matter = YAML.safe_load(match[1], permitted_classes: [Date, Time], aliases: true) || {}
   body = raw[match[0].length..] || ""
   [front_matter, body]
+end
+
+def load_location_metadata
+  return {} unless File.exist?(LOCATION_PATH)
+
+  YAML.safe_load(File.read(LOCATION_PATH, encoding: "UTF-8"), permitted_classes: [Date, Time], aliases: true) || {}
 end
 
 def extract_attr(tag, attr_name)
@@ -177,6 +184,8 @@ def build_post_url(path, categories, date)
   "#{prefix}/#{date.strftime("%Y/%m/%d")}/#{match[4]}/"
 end
 
+location_metadata = load_location_metadata
+
 entries = Dir.glob(File.join(POSTS_DIR, "*.*")).sort.filter_map do |path|
   raw = File.read(path, encoding: "UTF-8")
   front_matter, body = extract_front_matter(raw)
@@ -185,18 +194,21 @@ entries = Dir.glob(File.join(POSTS_DIR, "*.*")).sort.filter_map do |path|
   photos = (figure_photos + inline_photos).compact
   next if photos.empty?
 
+  title = front_matter["title"].to_s
   categories = normalize_categories(front_matter["categories"])
   date = Time.parse(front_matter["date"].to_s)
+  location = location_metadata[title]
 
   {
-    "title" => front_matter["title"].to_s,
+    "title" => title,
     "excerpt" => front_matter["excerpt"].to_s.strip,
     "date" => date.iso8601,
     "date_display" => date.strftime("%Y年%-m月%-d日"),
     "url" => build_post_url(path, categories, date),
     "category" => categories.first.to_s,
     "photo_count" => photos.size,
-    "photos" => photos
+    "photos" => photos,
+    "location" => location && location.dup
   }
 end
 

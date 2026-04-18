@@ -12,8 +12,8 @@ layout: default
   {% if gallery and gallery.total_photos %}
     <div class="gallery-stats" aria-label="图库统计">
       <button type="button" class="gallery-stats-button" data-gallery-refresh>刷新卡片</button>
+      <a class="gallery-stats-button" href="{{ '/gallery-map/' | relative_url }}">地图相册</a>
       <span>{{ gallery.total_photos }} 张照片</span>
-      <span>本地 {{ gallery.source_counts.local | default: 0 }}</span>
       <span>Flickr {{ gallery.source_counts.flickr | default: 0 }}</span>
       <span>R2 {{ gallery.source_counts.r2 | default: 0 }}</span>
     </div>
