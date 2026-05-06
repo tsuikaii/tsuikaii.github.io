@@ -637,6 +637,187 @@
 })();
 
 (function () {
+  var SCROLL_STATE_PREFIX = "page-scroll-state:";
+  var SCROLL_STATE_MAX_AGE = 1000 * 60 * 60 * 12;
+  var restoreState = null;
+  var restoreAttempts = 0;
+  var maxRestoreAttempts = 8;
+  var userInteracted = false;
+
+  function canUseSessionStorage() {
+    try {
+      return Boolean(window.sessionStorage);
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function getPageKey(url) {
+    return url.pathname + url.search;
+  }
+
+  function getCurrentPageKey() {
+    return getPageKey(new URL(window.location.href));
+  }
+
+  function getStorageKey(pageKey) {
+    return SCROLL_STATE_PREFIX + pageKey;
+  }
+
+  function getNavigationType() {
+    var navigationEntries;
+
+    if (window.performance && typeof window.performance.getEntriesByType === "function") {
+      navigationEntries = window.performance.getEntriesByType("navigation");
+
+      if (navigationEntries && navigationEntries[0] && navigationEntries[0].type) {
+        return navigationEntries[0].type;
+      }
+    }
+
+    if (window.performance && window.performance.navigation && window.performance.navigation.type === 2) {
+      return "back_forward";
+    }
+
+    return "";
+  }
+
+  function isRestorableHistoryNavigation(pageShowEvent) {
+    return Boolean(pageShowEvent && pageShowEvent.persisted) || getNavigationType() === "back_forward";
+  }
+
+  function readState() {
+    var rawState;
+    var state;
+
+    if (!canUseSessionStorage()) {
+      return null;
+    }
+
+    rawState = window.sessionStorage.getItem(getStorageKey(getCurrentPageKey()));
+
+    if (!rawState) {
+      return null;
+    }
+
+    try {
+      state = JSON.parse(rawState);
+    } catch (error) {
+      return null;
+    }
+
+    if (!state || !state.time || Date.now() - state.time > SCROLL_STATE_MAX_AGE) {
+      window.sessionStorage.removeItem(getStorageKey(getCurrentPageKey()));
+      return null;
+    }
+
+    return state;
+  }
+
+  function writeState(nextState) {
+    var currentState = readState() || {};
+    var state;
+
+    if (!canUseSessionStorage()) {
+      return;
+    }
+
+    state = {
+      x: typeof nextState.x === "number" ? nextState.x : window.scrollX,
+      y: typeof nextState.y === "number" ? nextState.y : window.scrollY,
+      target: nextState.target || currentState.target || "",
+      time: Date.now()
+    };
+
+    window.sessionStorage.setItem(getStorageKey(getCurrentPageKey()), JSON.stringify(state));
+  }
+
+  function getInternalLinkUrl(link) {
+    var url;
+
+    if (!link || !link.href) {
+      return null;
+    }
+
+    try {
+      url = new URL(link.href, window.location.href);
+    } catch (error) {
+      return null;
+    }
+
+    if (url.origin !== window.location.origin || url.href === window.location.href) {
+      return null;
+    }
+
+    return url;
+  }
+
+  function isPostListLink(link) {
+    return Boolean(link.closest(".home-posts .hentry, .archive-posts .hentry, .gallery-map-post-link"));
+  }
+
+  function findTargetArticle(target) {
+    var links;
+    var index;
+    var linkUrl;
+
+    if (!target) {
+      return null;
+    }
+
+    links = document.querySelectorAll(".home-posts .hentry a[href], .archive-posts .hentry a[href], .gallery-map-post-link[href]");
+
+    for (index = 0; index < links.length; index += 1) {
+      linkUrl = getInternalLinkUrl(links[index]);
+
+      if (linkUrl && getPageKey(linkUrl) === target) {
+        return links[index].closest(".hentry") || links[index];
+      }
+    }
+
+    return null;
+  }
+
+  function restoreScrollPosition() {
+    var targetArticle;
+    var top;
+
+    if (!restoreState || userInteracted) {
+      return;
+    }
+
+    targetArticle = findTargetArticle(restoreState.target);
+
+    if (targetArticle) {
+      top = targetArticle.getBoundingClientRect().top + window.scrollY - Math.max(12, window.innerHeight * 0.12);
+      window.scrollTo(restoreState.x || 0, Math.max(0, top));
+    } else if (typeof restoreState.y === "number") {
+      window.scrollTo(restoreState.x || 0, restoreState.y);
+    }
+
+    restoreAttempts += 1;
+
+    if (restoreAttempts < maxRestoreAttempts) {
+      window.setTimeout(restoreScrollPosition, 180);
+    }
+  }
+
+  function beginRestore(pageShowEvent) {
+    if (!isRestorableHistoryNavigation(pageShowEvent)) {
+      return;
+    }
+
+    restoreState = readState();
+
+    if (!restoreState) {
+      return;
+    }
+
+    restoreAttempts = 0;
+    window.requestAnimationFrame(restoreScrollPosition);
+    window.addEventListener("load", restoreScrollPosition, { once: true });
+  }
+
   if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
   }
@@ -658,6 +839,38 @@
       window.location.href = url.pathname + url.search + url.hash;
     });
   });
+
+  ["touchstart", "wheel", "keydown"].forEach(function (eventName) {
+    window.addEventListener(eventName, function () {
+      userInteracted = true;
+    }, { passive: true, once: true });
+  });
+
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest("a[href]");
+    var linkUrl = getInternalLinkUrl(link);
+
+    if (!linkUrl || !isPostListLink(link)) {
+      return;
+    }
+
+    writeState({
+      target: getPageKey(linkUrl)
+    });
+  });
+
+  window.addEventListener("pagehide", function () {
+    writeState({});
+  });
+
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") {
+      writeState({});
+    }
+  });
+
+  beginRestore();
+  window.addEventListener("pageshow", beginRestore);
 })();
 
 (function () {
