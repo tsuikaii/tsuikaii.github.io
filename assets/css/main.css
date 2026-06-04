@@ -51,6 +51,11 @@ img {
   max-width: 100%;
 }
 
+body.layout-home,
+.entry-cover img {
+  filter: grayscale(100%);
+}
+
 [hidden] {
   display: none !important;
 }
