@@ -116,7 +116,8 @@ img {
   cursor: grab;
 }
 
-.image-lightbox-close {
+.image-lightbox-close,
+.image-lightbox-original {
   appearance: none;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.24);
@@ -128,9 +129,23 @@ img {
   line-height: 1;
   padding: 1rem 1.2rem;
   position: absolute;
-  right: max(1.6rem, env(safe-area-inset-right));
   top: max(1.6rem, env(safe-area-inset-top));
   z-index: 2;
+}
+
+.image-lightbox-close {
+  right: max(1.6rem, env(safe-area-inset-right));
+}
+
+.image-lightbox-original {
+  left: max(1.6rem, env(safe-area-inset-left));
+  text-decoration: none;
+}
+
+.image-lightbox-original:hover,
+.image-lightbox-original:focus {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
 .screen-reader-text,

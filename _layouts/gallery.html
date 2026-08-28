@@ -37,10 +37,18 @@ layout: default
           {% if photo.source_type == 'local' %}
             {% assign photo_source_label = 'assets' %}
           {% endif %}
+          {% assign uses_cloudflare_image = false %}
+          {% if photo_src contains 'assets.hszhe9.com/cdn-cgi/image/width=' %}
+            {% assign uses_cloudflare_image = true %}
+          {% endif %}
 
           <figure class="gallery-card">
             <img
               src="{{ photo_src }}"
+              {% if uses_cloudflare_image %}
+              srcset="{{ photo_src | replace: 'width=1200', 'width=800' }} 800w, {{ photo_src }} 1200w"
+              sizes="(min-width: 75em) 25vw, (min-width: 48em) 33vw, calc(100vw - 3.2rem)"
+              {% endif %}
               alt="{{ photo.alt | default: photo.caption }}"
               class="zoomable-image"
               data-full-src="{{ photo_full_src }}"

@@ -27,7 +27,7 @@ layout: default
             <img
               src="{{ cover_image_url }}"
               {% if uses_cloudflare_image %}
-              srcset="{{ cover_image_url | replace: 'width=1200', 'width=480' }} 480w, {{ cover_image_url | replace: 'width=1200', 'width=800' }} 800w, {{ cover_image_url }} 1200w"
+              srcset="{{ cover_image_url | replace: 'width=1200', 'width=800' }} 800w, {{ cover_image_url }} 1200w"
               sizes="(min-width: 48em) min(64rem, calc(100vw - 8rem)), calc(100vw - 1.6rem)"
               {% endif %}
               alt="{{ post.cover_alt | default: post.title }}"

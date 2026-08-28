@@ -114,6 +114,8 @@
   var lightboxStage;
   var lightboxImage;
   var closeButton;
+  var originalLink;
+  var lightboxLoadToken = 0;
   var activePointers = new Map();
   var dragOrigin = null;
   var pinchState = null;
@@ -283,7 +285,7 @@
   }
 
   function prepareEntryImages() {
-    var inlineWidths = [640, 960, 1200, 1600, 2000];
+    var inlineWidths = [800, 1200];
     var inlineSizes = "(min-width: 48em) min(84rem, calc(100vw - 6rem)), calc(100vw - 3.2rem)";
     var images = document.querySelectorAll(".post .entry-content img");
 
@@ -305,7 +307,7 @@
 
       image.setAttribute("sizes", inlineSizes);
       image.setAttribute("srcset", inlineWidths.map(function (width) {
-        return buildCloudflareImageUrl(assetUrl, width, 82) + " " + width + "w";
+        return buildCloudflareImageUrl(assetUrl, width, 75) + " " + width + "w";
       }).join(", "));
     });
   }
@@ -406,6 +408,13 @@
     closeButton.className = "image-lightbox-close";
     closeButton.textContent = "关闭";
 
+    originalLink = document.createElement("a");
+    originalLink.className = "image-lightbox-original";
+    originalLink.textContent = "查看原图";
+    originalLink.target = "_blank";
+    originalLink.rel = "noopener";
+    originalLink.hidden = true;
+
     lightboxStage = document.createElement("div");
     lightboxStage.className = "image-lightbox-stage";
 
@@ -419,6 +428,7 @@
 
     lightboxStage.appendChild(lightboxImage);
     lightbox.appendChild(closeButton);
+    lightbox.appendChild(originalLink);
     lightbox.appendChild(lightboxStage);
     document.body.appendChild(lightbox);
 
@@ -552,6 +562,11 @@
 
   function openLightbox(image) {
     var fullSrc;
+    var assetUrl;
+    var displaySrc;
+    var previewSrc;
+    var displayImage;
+    var loadToken;
 
     ensureLightbox();
     resetTransform();
@@ -560,11 +575,30 @@
     lightboxImage.style.transform = "";
 
     fullSrc = image.getAttribute("data-full-src") || image.currentSrc || image.getAttribute("src") || "";
-    lightboxImage.src = fullSrc;
+    assetUrl = extractAssetUrl(fullSrc);
+    displaySrc = buildCloudflareImageUrl(assetUrl, 2560, 90) || fullSrc;
+    previewSrc = image.currentSrc || image.getAttribute("src") || displaySrc;
+    loadToken = ++lightboxLoadToken;
+    lightboxImage.src = previewSrc;
     lightboxImage.alt = image.alt || "";
+    originalLink.href = fullSrc;
+    originalLink.hidden = !assetUrl || displaySrc === fullSrc;
     lightbox.classList.add("is-visible");
     lightbox.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+
+    if (displaySrc !== previewSrc) {
+      displayImage = new Image();
+      displayImage.decoding = "async";
+      displayImage.addEventListener("load", function () {
+        if (loadToken !== lightboxLoadToken || !lightbox.classList.contains("is-visible")) {
+          return;
+        }
+
+        lightboxImage.src = displaySrc;
+      });
+      displayImage.src = displaySrc;
+    }
   }
 
   function closeLightbox() {
@@ -574,7 +608,10 @@
 
     lightbox.classList.remove("is-visible");
     lightbox.setAttribute("aria-hidden", "true");
+    lightboxLoadToken += 1;
     lightboxImage.removeAttribute("src");
+    originalLink.removeAttribute("href");
+    originalLink.hidden = true;
     lightboxImage.style.width = "";
     lightboxImage.style.height = "";
     lightboxImage.style.transform = "";
