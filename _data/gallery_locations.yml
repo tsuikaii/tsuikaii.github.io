@@ -110,3 +110,27 @@
   lng: 139.6503
   zoom: 10
   scope: 城市级
+广岛行:
+  id: hiroshima
+  name: 广岛
+  place: 日本广岛县
+  lat: 34.35
+  lng: 132.35
+  zoom: 9
+  scope: 区域级
+高松行:
+  id: takamatsu
+  name: 高松
+  place: 日本香川县高松与小豆岛
+  lat: 34.4
+  lng: 134.0
+  zoom: 9
+  scope: 区域级
+福冈行:
+  id: fukuoka
+  name: 福冈
+  place: 日本福冈县福冈市
+  lat: 33.5904
+  lng: 130.4017
+  zoom: 11
+  scope: 城市级
