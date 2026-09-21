@@ -798,17 +798,6 @@ body.sidebar-collapsed .sub-menu {
   margin: 0.75rem 0 0;
 }
 
-.gallery-map-scope {
-  background: rgba(231, 240, 248, 0.9);
-  border: 1px solid rgba(51, 51, 51, 0.08);
-  border-radius: 999px;
-  color: #1d5186;
-  display: inline-flex;
-  font-size: 1.05rem;
-  line-height: 1;
-  padding: 0.45rem 0.8rem;
-}
-
 .gallery-map-summary {
   display: flex;
   flex-wrap: wrap;
@@ -882,50 +871,6 @@ body.sidebar-collapsed .sub-menu {
   font-size: 1.08rem;
   line-height: 1.55;
   margin-top: 0.55rem;
-}
-
-.gallery-map-location-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  margin-top: 1.4rem;
-}
-
-.gallery-map-location-button {
-  appearance: none;
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(51, 51, 51, 0.1);
-  border-radius: 999px;
-  color: #333;
-  cursor: pointer;
-  display: inline-flex;
-  gap: 0.7rem;
-  padding: 0.8rem 1rem;
-  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
-}
-
-.gallery-map-location-button:hover,
-.gallery-map-location-button:focus {
-  background: rgba(245, 248, 251, 0.96);
-  border-color: rgba(47, 127, 215, 0.36);
-  transform: translateY(-1px);
-}
-
-.gallery-map-location-button.is-active {
-  background: rgba(231, 240, 248, 0.96);
-  border-color: rgba(47, 127, 215, 0.38);
-  color: #163f6a;
-}
-
-.gallery-map-location-name {
-  font-size: 1.16rem;
-  line-height: 1;
-}
-
-.gallery-map-location-meta {
-  color: rgba(51, 51, 51, 0.56);
-  font-size: 1.06rem;
-  line-height: 1;
 }
 
 .gallery-pagination {

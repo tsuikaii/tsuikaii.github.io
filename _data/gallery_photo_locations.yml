@@ -1,0 +1,221 @@
+# 照片级地图坐标。规则按顺序匹配；坐标优先依据图注与文章上下文推定。
+# 私人生活场景只落到附近的公共城市地标，不记录住宅位置。
+places:
+  ritsurin-garden: { id: ritsurin-garden, name: 栗林公园, place: 日本香川县高松市, lat: 34.3297, lng: 134.0442, zoom: 15, scope: 地标级 }
+  takamatsu-port: { id: takamatsu-port, name: 高松港, place: 日本香川县高松市, lat: 34.3507, lng: 134.0468, zoom: 15, scope: 地标级 }
+  setouchi-ferry: { id: setouchi-ferry, name: 濑户内海渡轮航线, place: 高松至小豆岛航线, lat: 34.4130, lng: 134.1040, zoom: 11, scope: 路线级 }
+  tonosho-port: { id: tonosho-port, name: 土庄港, place: 日本香川县小豆岛, lat: 34.4827, lng: 134.1708, zoom: 15, scope: 地标级 }
+  angel-road: { id: angel-road, name: 天使之路, place: 日本香川县小豆岛, lat: 34.4807, lng: 134.1806, zoom: 16, scope: 地标级 }
+
+  miyajimaguchi: { id: miyajimaguchi, name: 宫岛口渡轮码头, place: 日本广岛县廿日市市, lat: 34.3125, lng: 132.3046, zoom: 16, scope: 地标级 }
+  miyajima-port: { id: miyajima-port, name: 宫岛码头, place: 日本广岛县廿日市市, lat: 34.2998, lng: 132.3220, zoom: 16, scope: 地标级 }
+  miyajima-ferry: { id: miyajima-ferry, name: 宫岛渡轮航线, place: 宫岛口至宫岛航线, lat: 34.3070, lng: 132.3130, zoom: 14, scope: 路线级 }
+  itsukushima-shrine: { id: itsukushima-shrine, name: 严岛神社, place: 日本广岛县宫岛, lat: 34.2959, lng: 132.3199, zoom: 17, scope: 地标级 }
+  daishoin: { id: daishoin, name: 大圣院, place: 日本广岛县宫岛, lat: 34.2924, lng: 132.3196, zoom: 17, scope: 地标级 }
+  kiyomori-shrine: { id: kiyomori-shrine, name: 清盛神社, place: 日本广岛县宫岛, lat: 34.2947, lng: 132.3153, zoom: 17, scope: 地标级 }
+  miyajima-waterfront: { id: miyajima-waterfront, name: 宫岛海滨, place: 日本广岛县宫岛, lat: 34.3006, lng: 132.3215, zoom: 16, scope: 地标级 }
+  hiroshima-peace-park: { id: hiroshima-peace-park, name: 广岛和平纪念公园, place: 日本广岛市中区, lat: 34.3916, lng: 132.4523, zoom: 16, scope: 地标级 }
+  hiroshima-station: { id: hiroshima-station, name: 广岛站, place: 日本广岛市南区, lat: 34.3974, lng: 132.4756, zoom: 16, scope: 地标级 }
+
+  fukuoka-disaster-center: { id: fukuoka-disaster-center, name: 福冈市民防灾中心, place: 日本福冈市早良区, lat: 33.5938, lng: 130.3521, zoom: 17, scope: 地标级 }
+  nishijin: { id: nishijin, name: 西新通, place: 日本福冈市早良区, lat: 33.5838, lng: 130.3595, zoom: 16, scope: 街区级 }
+  ichiran-headquarters: { id: ichiran-headquarters, name: 一兰总社本店, place: 日本福冈市博多区中洲, lat: 33.5930, lng: 130.4062, zoom: 17, scope: 地标级 }
+  ohori-park: { id: ohori-park, name: 大濠公园, place: 日本福冈市中央区, lat: 33.5862, lng: 130.3764, zoom: 16, scope: 地标级 }
+  maizuru-park: { id: maizuru-park, name: 舞鹤公园, place: 日本福冈市中央区, lat: 33.5866, lng: 130.3838, zoom: 16, scope: 地标级 }
+  fukuoka-tower: { id: fukuoka-tower, name: 福冈塔, place: 日本福冈市早良区, lat: 33.5933, lng: 130.3515, zoom: 17, scope: 地标级 }
+
+  piazza-del-campo: { id: piazza-del-campo, name: 田野广场与曼吉亚塔楼, place: 意大利锡耶纳, lat: 43.3183, lng: 11.3317, zoom: 17, scope: 地标级 }
+  siena-cathedral: { id: siena-cathedral, name: 锡耶纳主教座堂, place: 意大利锡耶纳, lat: 43.3177, lng: 11.3289, zoom: 17, scope: 地标级 }
+
+  jiuzhai-changhai: { id: jiuzhai-changhai, name: 长海, place: 四川九寨沟景区则查洼沟, lat: 33.0014, lng: 103.9252, zoom: 15, scope: 景点级 }
+  jiuzhai-five-color-pond: { id: jiuzhai-five-color-pond, name: 五彩池, place: 四川九寨沟景区则查洼沟, lat: 33.0104, lng: 103.9180, zoom: 16, scope: 景点级 }
+  jiuzhai-panda-lake: { id: jiuzhai-panda-lake, name: 熊猫海, place: 四川九寨沟景区日则沟, lat: 33.1500, lng: 103.8790, zoom: 16, scope: 景点级 }
+  jiuzhai-rize-viewpoint: { id: jiuzhai-rize-viewpoint, name: 日则沟观景点, place: 四川九寨沟景区, lat: 33.1450, lng: 103.8840, zoom: 14, scope: 景点级 }
+  jiuzhai-mirror-lake: { id: jiuzhai-mirror-lake, name: 镜海, place: 四川九寨沟景区日则沟, lat: 33.1235, lng: 103.9000, zoom: 15, scope: 图注推定 }
+
+  eindhoven-center: { id: eindhoven-center, name: 爱因霍温市中心, place: 荷兰北布拉班特, lat: 51.4381, lng: 5.4752, zoom: 14, scope: 隐私保护 }
+  karpendonkse-plas: { id: karpendonkse-plas, name: Karpendonkse Plas, place: 荷兰爱因霍温, lat: 51.4537, lng: 5.5050, zoom: 15, scope: 公园级 }
+  veldhoven-center: { id: veldhoven-center, name: 费尔德霍芬市中心, place: 荷兰北布拉班特, lat: 51.4183, lng: 5.4076, zoom: 14, scope: 城市级 }
+  genneper-parken: { id: genneper-parken, name: Genneper Parken, place: 荷兰爱因霍温, lat: 51.4230, lng: 5.4820, zoom: 15, scope: 公园级 }
+  eindhoven-airport: { id: eindhoven-airport, name: 爱因霍温机场, place: 荷兰爱因霍温, lat: 51.4501, lng: 5.3745, zoom: 15, scope: 地标级 }
+  tue-campus: { id: tue-campus, name: 埃因霍温理工大学, place: 荷兰爱因霍温, lat: 51.4485, lng: 5.4907, zoom: 16, scope: 校园级 }
+
+  guangwu-mountain: { id: guangwu-mountain, name: 光雾山旅游景区, place: 四川巴中南江县, lat: 32.6840, lng: 106.8430, zoom: 13, scope: 景区级 }
+  siguniang-shuangqiao: { id: siguniang-shuangqiao, name: 双桥沟, place: 四川阿坝四姑娘山景区, lat: 31.1050, lng: 102.8410, zoom: 13, scope: 景区级 }
+  siguniang-changping: { id: siguniang-changping, name: 长坪沟, place: 四川阿坝四姑娘山景区, lat: 31.0930, lng: 102.9010, zoom: 13, scope: 图序推定 }
+
+  edinburgh-old-town: { id: edinburgh-old-town, name: 爱丁堡旧城, place: 苏格兰爱丁堡, lat: 55.9497, lng: -3.1905, zoom: 15, scope: 街区级 }
+  arthurs-seat: { id: arthurs-seat, name: 亚瑟王座, place: 苏格兰爱丁堡, lat: 55.9441, lng: -3.1618, zoom: 15, scope: 地标级 }
+  national-museum-scotland: { id: national-museum-scotland, name: 苏格兰国家博物馆, place: 苏格兰爱丁堡, lat: 55.9469, lng: -3.1900, zoom: 17, scope: 地标级 }
+  calton-hill: { id: calton-hill, name: 卡尔顿山, place: 苏格兰爱丁堡, lat: 55.9550, lng: -3.1827, zoom: 16, scope: 地标级 }
+  stirling-castle: { id: stirling-castle, name: 斯特灵城堡, place: 苏格兰斯特灵, lat: 56.1238, lng: -3.9489, zoom: 16, scope: 地标级 }
+
+  loch-lomond: { id: loch-lomond, name: 洛蒙德湖畔, place: 苏格兰巴洛赫, lat: 56.0027, lng: -4.5830, zoom: 13, scope: 湖畔级 }
+  greenock-esplanade: { id: greenock-esplanade, name: 格里诺克海滨大道, place: 苏格兰格里诺克, lat: 55.9530, lng: -4.7760, zoom: 15, scope: 街区级 }
+  university-of-glasgow: { id: university-of-glasgow, name: 格拉斯哥大学, place: 苏格兰格拉斯哥, lat: 55.8721, lng: -4.2882, zoom: 16, scope: 校园级 }
+  glasgow-clyde: { id: glasgow-clyde, name: 克莱德河畔, place: 苏格兰格拉斯哥, lat: 55.8570, lng: -4.2570, zoom: 15, scope: 河畔级 }
+
+  osaka-center: { id: osaka-center, name: 大阪市中心, place: 日本大阪府, lat: 34.6937, lng: 135.5023, zoom: 13, scope: 城市级 }
+  osaka-port: { id: osaka-port, name: 大阪港, place: 日本大阪市港区, lat: 34.6551, lng: 135.4308, zoom: 15, scope: 港区级 }
+  tsutenkaku: { id: tsutenkaku, name: 通天阁, place: 日本大阪市浪速区, lat: 34.6525, lng: 135.5063, zoom: 17, scope: 地标级 }
+
+  lake-kawaguchi: { id: lake-kawaguchi, name: 河口湖, place: 日本山梨县富士河口湖町, lat: 35.5171, lng: 138.7518, zoom: 14, scope: 湖区级 }
+  fuji-viewpoint: { id: fuji-viewpoint, name: 河口湖北岸富士山观景点, place: 日本山梨县富士河口湖町, lat: 35.5282, lng: 138.7645, zoom: 15, scope: 观景点级 }
+
+  fushimi-inari: { id: fushimi-inari, name: 伏见稻荷大社, place: 日本京都市伏见区, lat: 34.9671, lng: 135.7727, zoom: 17, scope: 地标级 }
+  kiyomizu-dera: { id: kiyomizu-dera, name: 清水寺, place: 日本京都市东山区, lat: 34.9949, lng: 135.7850, zoom: 17, scope: 地标级 }
+  ninenzaka: { id: ninenzaka, name: 二年坂, place: 日本京都市东山区, lat: 34.9975, lng: 135.7808, zoom: 17, scope: 街区级 }
+  nijo-castle: { id: nijo-castle, name: 二条城, place: 日本京都市中京区, lat: 35.0142, lng: 135.7482, zoom: 16, scope: 地标级 }
+  togetsukyo: { id: togetsukyo, name: 渡月桥, place: 日本京都市岚山, lat: 35.0136, lng: 135.6778, zoom: 17, scope: 地标级 }
+  tenryuji: { id: tenryuji, name: 天龙寺, place: 日本京都市岚山, lat: 35.0159, lng: 135.6738, zoom: 17, scope: 地标级 }
+  nishiki-market: { id: nishiki-market, name: 锦市场, place: 日本京都市中京区, lat: 35.0050, lng: 135.7646, zoom: 17, scope: 街区级 }
+  uji-river: { id: uji-river, name: 宇治川, place: 日本京都府宇治市, lat: 34.8894, lng: 135.8078, zoom: 15, scope: 河畔级 }
+  kamo-river-shijo: { id: kamo-river-shijo, name: 鸭川四条河原, place: 日本京都市, lat: 35.0037, lng: 135.7705, zoom: 16, scope: 河畔级 }
+  shijo-karasuma: { id: shijo-karasuma, name: 四条乌丸, place: 日本京都市下京区, lat: 35.0038, lng: 135.7590, zoom: 16, scope: 街区级 }
+
+  maiko-park: { id: maiko-park, name: 舞子公园与明石海峡大桥, place: 日本神户市垂水区, lat: 34.6319, lng: 135.0346, zoom: 16, scope: 地标级 }
+  kobe-waterfront: { id: kobe-waterfront, name: 神户港海滨, place: 日本神户市中央区, lat: 34.6826, lng: 135.1867, zoom: 15, scope: 港区级 }
+  venus-bridge: { id: venus-bridge, name: 维纳斯桥, place: 日本神户市中央区, lat: 34.6982, lng: 135.1815, zoom: 16, scope: 观景点级 }
+
+  victoria-harbour: { id: victoria-harbour, name: 维多利亚港尖沙咀海滨, place: 中国香港九龙, lat: 22.2930, lng: 114.1694, zoom: 16, scope: 海滨级 }
+  star-ferry-tst: { id: star-ferry-tst, name: 天星码头, place: 中国香港尖沙咀, lat: 22.2935, lng: 114.1689, zoom: 17, scope: 地标级 }
+  hk-convention-centre: { id: hk-convention-centre, name: 香港会议展览中心, place: 中国香港湾仔, lat: 22.2818, lng: 114.1730, zoom: 17, scope: 地标级 }
+  wan-chai: { id: wan-chai, name: 湾仔街区, place: 中国香港, lat: 22.2764, lng: 114.1750, zoom: 16, scope: 街区级 }
+
+  baotu-spring: { id: baotu-spring, name: 趵突泉, place: 中国山东济南, lat: 36.6605, lng: 117.0090, zoom: 17, scope: 地标级 }
+  black-tiger-spring: { id: black-tiger-spring, name: 黑虎泉, place: 中国山东济南, lat: 36.6633, lng: 117.0260, zoom: 17, scope: 地标级 }
+  five-dragon-pool: { id: five-dragon-pool, name: 五龙潭公园, place: 中国山东济南, lat: 36.6659, lng: 117.0065, zoom: 16, scope: 图序推定 }
+  nara-station: { id: nara-station, name: 奈良站, place: 日本奈良市, lat: 34.6805, lng: 135.8189, zoom: 16, scope: 地标级 }
+  todaiji-nara-park: { id: todaiji-nara-park, name: 东大寺与奈良公园, place: 日本奈良市, lat: 34.6890, lng: 135.8398, zoom: 16, scope: 景点级 }
+  nara-center: { id: nara-center, name: 奈良市中心, place: 日本奈良市, lat: 34.6845, lng: 135.8270, zoom: 15, scope: 城市级 }
+  biwako-valley: { id: biwako-valley, name: 琵琶湖山谷, place: 日本滋贺县大津市, lat: 35.2090, lng: 135.8850, zoom: 14, scope: 景点级 }
+
+  scheveningen-beach: { id: scheveningen-beach, name: 斯海弗宁恩海滩, place: 荷兰海牙, lat: 52.1125, lng: 4.2794, zoom: 15, scope: 海滨级 }
+  scheveningen-harbour: { id: scheveningen-harbour, name: 斯海弗宁恩港, place: 荷兰海牙, lat: 52.1038, lng: 4.2685, zoom: 15, scope: 港区级 }
+
+  enoshima-coast: { id: enoshima-coast, name: 江之岛海岸, place: 日本神奈川县藤泽市, lat: 35.3017, lng: 139.4808, zoom: 15, scope: 海滨级 }
+  kamakurakokomae: { id: kamakurakokomae, name: 镰仓高校前, place: 日本神奈川县镰仓市, lat: 35.3067, lng: 139.5008, zoom: 17, scope: 地标级 }
+  enoden-koshigoe: { id: enoden-koshigoe, name: 江之电腰越段, place: 日本神奈川县镰仓市, lat: 35.3085, lng: 139.4930, zoom: 16, scope: 路线级 }
+  katase-enoshima: { id: katase-enoshima, name: 片濑江之岛站, place: 日本神奈川县藤泽市, lat: 35.3090, lng: 139.4871, zoom: 17, scope: 地标级 }
+
+  odaiba: { id: odaiba, name: 台场, place: 日本东京都港区, lat: 35.6272, lng: 139.7758, zoom: 15, scope: 街区级 }
+  azabudai-hills: { id: azabudai-hills, name: 麻布台之丘, place: 日本东京都港区, lat: 35.6604, lng: 139.7404, zoom: 17, scope: 地标级 }
+  tokyo-tower: { id: tokyo-tower, name: 东京塔, place: 日本东京都港区, lat: 35.6586, lng: 139.7454, zoom: 17, scope: 地标级 }
+  yurakucho: { id: yurakucho, name: 有乐町站周边, place: 日本东京都千代田区, lat: 35.6751, lng: 139.7637, zoom: 16, scope: 图注推定 }
+  akihabara: { id: akihabara, name: 秋叶原, place: 日本东京都千代田区, lat: 35.6984, lng: 139.7731, zoom: 16, scope: 街区级 }
+  yoyogi-park: { id: yoyogi-park, name: 代代木公园, place: 日本东京都涩谷区, lat: 35.6717, lng: 139.6949, zoom: 16, scope: 地标级 }
+  ginza: { id: ginza, name: 银座, place: 日本东京都中央区, lat: 35.6717, lng: 139.7650, zoom: 16, scope: 街区级 }
+
+  lake-windermere: { id: lake-windermere, name: 温德米尔湖畔, place: 英国英格兰湖区, lat: 54.3650, lng: -2.9220, zoom: 13, scope: 相册上下文推定 }
+
+rules:
+  - { title: 高松行, pattern: '/takamatsu_[1-4]\.jpg$', place: ritsurin-garden }
+  - { title: 高松行, pattern: '/takamatsu_5\.jpg$', place: takamatsu-port }
+  - { title: 高松行, pattern: '/takamatsu_[67]\.jpg$', place: setouchi-ferry }
+  - { title: 高松行, pattern: '/takamatsu_[89]\.jpg$', place: tonosho-port }
+  - { title: 高松行, pattern: '/takamatsu_1[01]\.jpg$', place: angel-road }
+
+  - { title: 广岛行, pattern: '/hiroshima_1\.jpg$', place: miyajimaguchi }
+  - { title: 广岛行, pattern: '/hiroshima_2\.jpg$', place: miyajima-port }
+  - { title: 广岛行, pattern: '/hiroshima_3\.jpg$', place: miyajima-ferry }
+  - { title: 广岛行, pattern: '/hiroshima_[4-7]\.jpg$', place: itsukushima-shrine }
+  - { title: 广岛行, pattern: '/hiroshima_8\.jpg$', place: daishoin }
+  - { title: 广岛行, pattern: '/hiroshima_9\.jpg$', place: kiyomori-shrine }
+  - { title: 广岛行, pattern: '/hiroshima_10\.jpg$', place: miyajima-waterfront }
+  - { title: 广岛行, pattern: '/hiroshima_11\.jpg$', place: hiroshima-peace-park }
+  - { title: 广岛行, pattern: '/hiroshima_12\.jpg$', place: hiroshima-station }
+
+  - { title: 福冈行, pattern: '/fukuoka_1\.jpg$', place: fukuoka-disaster-center }
+  - { title: 福冈行, pattern: '/fukuoka_2\.jpg$', place: nishijin }
+  - { title: 福冈行, pattern: '/fukuoka_3\.jpg$', place: ichiran-headquarters }
+  - { title: 福冈行, pattern: '/fukuoka_[4-7]\.jpg$', place: ohori-park }
+  - { title: 福冈行, pattern: '/fukuoka_(8|9|10)\.jpg$', place: maizuru-park }
+  - { title: 福冈行, pattern: '/fukuoka_1[1-4]\.jpg$', place: fukuoka-tower }
+
+  - { title: 在锡耶纳, pattern: '/siena-(1|3|4|13)\.jpg$', place: piazza-del-campo }
+  - { title: 在锡耶纳, pattern: '/siena-(2|6|7|8|9|10|11|12)\.jpg$', place: siena-cathedral }
+
+  - { title: 在九寨沟, pattern: '/jz-[1-5]\.jpg$', place: jiuzhai-changhai }
+  - { title: 在九寨沟, pattern: '/jz-[67]\.jpg$', place: jiuzhai-five-color-pond }
+  - { title: 在九寨沟, pattern: '/jz-[89]\.jpg$', place: jiuzhai-panda-lake }
+  - { title: 在九寨沟, pattern: '/jz-10\.jpg$', place: jiuzhai-rize-viewpoint }
+  - { title: 在九寨沟, pattern: '/jz-11\.jpg$', place: jiuzhai-mirror-lake, note: 图注未注明湖名，按游览顺序推定 }
+
+  - { title: 在爱因霍温, pattern: '/eind-(1|2|3|4|5|6|10|16|20)\.jpg$', place: eindhoven-center, note: 私人生活场景仅标记公共市中心 }
+  - { title: 在爱因霍温, pattern: '/eind-[789]\.jpg$', place: karpendonkse-plas }
+  - { title: 在爱因霍温, pattern: '/eind-11\.jpg$', place: veldhoven-center }
+  - { title: 在爱因霍温, pattern: '/eind-(12|13|14)\.jpg$', place: genneper-parken }
+  - { title: 在爱因霍温, pattern: '/eind-15\.jpg$', place: eindhoven-airport }
+  - { title: 在爱因霍温, pattern: '/eind-(21|22|23|24|25|26|27)\.jpg$', place: tue-campus }
+
+  - { title: 在观雾山, pattern: '/maples/[^/]+\.jpg$', place: guangwu-mountain }
+  - { title: 在四姑娘山, pattern: '/mounts/P101[^/]+\.jpg$', place: siguniang-shuangqiao }
+  - { title: 在四姑娘山, pattern: '/mounts/P102[^/]+\.jpg$', place: siguniang-changping }
+  - { title: 在四姑娘山, pattern: '/55198250176_[^/]+\.jpg$', place: siguniang-changping }
+
+  - { title: 在爱丁堡, pattern: '/(54816862086|54816012137|54816011537)_[^/]+\.jpg$', place: edinburgh-old-town }
+  - { title: 在爱丁堡, pattern: '/(54817116089|54817196975)_[^/]+\.jpg$', place: arthurs-seat }
+  - { title: 在爱丁堡, pattern: '/54416885909_[^/]+\.jpg$', place: national-museum-scotland }
+  - { title: 在爱丁堡, pattern: '/(54416696131|54416885899)_[^/]+\.jpg$', place: calton-hill }
+  - { title: 在爱丁堡, pattern: '/54817115429_[^/]+\.jpg$', place: stirling-castle }
+
+  - { title: 在格拉斯哥, pattern: '/(54817116164|54816861641|54816861511|54817115884|54817121678)_[^/]+\.jpg$', place: loch-lomond }
+  - { title: 在格拉斯哥, pattern: '/(54817196490|54817121458|54816011742|54816011647|54817196385|54816861191)_[^/]+\.jpg$', place: greenock-esplanade }
+  - { title: 在格拉斯哥, pattern: '/54816011432_[^/]+\.jpg$', place: university-of-glasgow }
+  - { title: 在格拉斯哥, pattern: '/54817121038_[^/]+\.jpg$', place: glasgow-clyde }
+
+  - { title: 在大阪, pattern: '/(54816041377|54817145094|54816040832)_[^/]+\.jpg$', place: osaka-center }
+  - { title: 在大阪, pattern: '/(54817151018|54817144764)_[^/]+\.jpg$', place: osaka-port }
+  - { title: 在大阪, pattern: '/54816041027_[^/]+\.jpg$', place: tsutenkaku }
+
+  - { title: 在富士山, pattern: '/(54817026099|54815922662|54816771521|54815922572)_[^/]+\.jpg$', place: lake-kawaguchi }
+  - { title: 在富士山, pattern: '/54817025859_[^/]+\.jpg$', place: fuji-viewpoint }
+
+  - { title: 在京都, pattern: '/(54816771301|54817225010|54816040062)_[^/]+\.jpg$', place: fushimi-inari }
+  - { title: 在京都, pattern: '/54816771421_[^/]+\.jpg$', place: kiyomizu-dera }
+  - { title: 在京都, pattern: '/54815922457_[^/]+\.jpg$', place: ninenzaka }
+  - { title: 在京都, pattern: '/54815922232_[^/]+\.jpg$', place: nijo-castle }
+  - { title: 在京都, pattern: '/54815922117_[^/]+\.jpg$', place: togetsukyo }
+  - { title: 在京都, pattern: '/54816771146_[^/]+\.jpg$', place: tenryuji }
+  - { title: 在京都, pattern: '/54816889786_[^/]+\.jpg$', place: nishiki-market }
+  - { title: 在京都, pattern: '/(54817150728|54816040692)_[^/]+\.jpg$', place: uji-river }
+
+  - { title: 在神户, pattern: '/(54817028098|54815919947|54817023494)_[^/]+\.jpg$', place: maiko-park }
+  - { title: 在神户, pattern: '/54817030163_[^/]+\.jpg$', place: kobe-waterfront }
+
+  - { title: 在香港, pattern: '/(54817026449|54817107060|54817107270)_[^/]+\.jpg$', place: victoria-harbour }
+  - { title: 在香港, pattern: '/54817026264_[^/]+\.jpg$', place: star-ferry-tst }
+  - { title: 在香港, pattern: '/54817026494_[^/]+\.jpg$', place: hk-convention-centre }
+  - { title: 在香港, pattern: '/(54815922757|54817026109)_[^/]+\.jpg$', place: wan-chai }
+
+  - { title: 关西之旅, pattern: '/IMG_3290\.webp$', place: baotu-spring }
+  - { title: 关西之旅, pattern: '/IMG_3301\.webp$', place: black-tiger-spring }
+  - { title: 关西之旅, pattern: '/IMG_3304\.webp$', place: five-dragon-pool }
+  - { title: 关西之旅, pattern: '/P1000498\.webp$', place: nara-station }
+  - { title: 关西之旅, pattern: '/P10004(87|89|92)\.webp$', place: todaiji-nara-park }
+  - { title: 关西之旅, pattern: '/IMG_3348\.webp$', place: nara-center }
+  - { title: 关西之旅, pattern: '/(IMG_3349|P1000520|P1000534|P1000519|IMG_3354|IMG_3358)\.webp$', place: maiko-park }
+  - { title: 关西之旅, pattern: '/(55206819189|55206969370|55206819184)_[^/]+\.jpg$', place: venus-bridge }
+  - { title: 关西之旅, pattern: '/(55206819799|55206723013|55205674877|55206819564|55205674942)_[^/]+\.jpg$', place: nijo-castle }
+  - { title: 关西之旅, pattern: '/55206723908_[^/]+\.jpg$', place: biwako-valley }
+  - { title: 关西之旅, pattern: '/55205675002_[^/]+\.jpg$', place: kamo-river-shijo }
+  - { title: 关西之旅, pattern: '/(55206969115|55205674402|55206819074)_[^/]+\.jpg$', place: shijo-karasuma }
+  - { title: 关西之旅, pattern: '/(55205675727|55206723923|55206577416|55205675492|55206577161|55206819994|55206577266)_[^/]+\.jpg$', place: fushimi-inari }
+
+  - { title: 在海牙, pattern: '/eind-19\.jpg$', place: scheveningen-beach }
+  - { title: 在海牙, pattern: '/eind-(17|18)\.jpg$', place: scheveningen-harbour }
+
+  - { title: 在镰仓, pattern: '/kam[1-4]\.jpg$', place: enoshima-coast }
+  - { title: 在镰仓, pattern: '/kam[56]\.jpg$', place: kamakurakokomae }
+  - { title: 在镰仓, pattern: '/kam[789]\.jpg$', place: enoden-koshigoe }
+  - { title: 在镰仓, pattern: '/kam1[01]\.jpg$', place: katase-enoshima }
+
+  - { title: 在东京, pattern: '/tokyo_1\.jpg$', place: odaiba }
+  - { title: 在东京, pattern: '/tokyo_[23]\.jpg$', place: azabudai-hills }
+  - { title: 在东京, pattern: '/tokyo_4\.jpg$', place: tokyo-tower }
+  - { title: 在东京, pattern: '/tokyo_[56]\.jpg$', place: yurakucho }
+  - { title: 在东京, pattern: '/tokyo_[789]\.jpg$', place: akihabara }
+  - { title: 在东京, pattern: '/tokyo_10\.jpg$', place: yoyogi-park }
+  - { title: 在东京, pattern: '/tokyo_11\.jpg$', place: ginza }
+
+  - { title: 在湖区, pattern: '/lake/IMG_[0-9]+\.jpeg$', place: lake-windermere, note: 相册无具体图注，按整组拍摄上下文定位 }

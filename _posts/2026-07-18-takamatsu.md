@@ -4,7 +4,7 @@ title: "高松行"
 date: 2026-07-18 11:16:22 +0900
 categories: article
 excerpt: "从栗林公园沿濑户内海走到小豆岛。"
-cover_image: "https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_5.jpg"
+cover_image: "https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_5.jpg"
 cover_alt: "高松港的渡轮"
 photo_format: r2
 ---
@@ -17,40 +17,40 @@ photo_format: r2
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_1.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_1.jpg"
     alt="栗林公园里的古松"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_1.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_1.jpg"
   />
   <figcaption style="text-align: center;">园中的松</figcaption>
 </figure>
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_2.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_2.jpg"
     alt="栗林公园松林小径"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_2.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_2.jpg"
   />
   <figcaption style="text-align: center;">松林小径</figcaption>
 </figure>
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_3.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_3.jpg"
     alt="栗林公园的夏日绿荫"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_3.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_3.jpg"
   />
   <figcaption style="text-align: center;">夏日绿荫</figcaption>
 </figure>
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_4.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_4.jpg"
     alt="栗林公园掬月亭"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_4.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_4.jpg"
   />
   <figcaption style="text-align: center;">掬月亭</figcaption>
 </figure>
@@ -67,50 +67,50 @@ photo_format: r2
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_5.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_5.jpg"
     alt="停靠在高松港的渡轮"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_5.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_5.jpg"
   />
   <figcaption style="text-align: center;">高松港</figcaption>
 </figure>
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_6.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_6.jpg"
     alt="渡轮甲板与濑户内海"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_6.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_6.jpg"
   />
   <figcaption style="text-align: center;">濑户内海</figcaption>
 </figure>
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_7.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_7.jpg"
     alt="渡轮上的露天座位"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_7.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_7.jpg"
   />
   <figcaption style="text-align: center;">渡轮甲板</figcaption>
 </figure>
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_8.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_8.jpg"
     alt="小豆岛观光地图"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_8.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_8.jpg"
   />
   <figcaption style="text-align: center;">小豆岛</figcaption>
 </figure>
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_9.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_9.jpg"
     alt="小豆岛港口与远山"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_9.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_9.jpg"
   />
   <figcaption style="text-align: center;">抵达小豆岛</figcaption>
 </figure>
@@ -125,20 +125,20 @@ photo_format: r2
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_10.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_10.jpg"
     alt="小豆岛恋人圣地之钟"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_10.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_10.jpg"
   />
   <figcaption style="text-align: center;">恋人圣地之钟</figcaption>
 </figure>
 
 <figure style="text-align: center;">
   <img
-    src="https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_11.jpg"
+    src="https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_11.jpg"
     alt="退潮时的小豆岛天使之路"
     class="zoomable-image"
-    data-full-src="https://assets.hszhe9.com/takamatsu/takamatsu_11.jpg"
+    data-full-src="https://img.tsuikaii.com/takamatsu/takamatsu_11.jpg"
   />
   <figcaption style="text-align: center;">天使之路</figcaption>
 </figure>

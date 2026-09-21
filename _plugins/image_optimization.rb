@@ -5,7 +5,7 @@ require "uri"
 
 module Tsuikaii
   module ImageOptimization
-    ASSET_HOST = "assets.hszhe9.com"
+    ASSET_HOST = "img.tsuikaii.com"
     INLINE_WIDTHS = [800, 1200].freeze
     INLINE_QUALITY = 75
     INLINE_SIZES = "(min-width: 48em) min(84rem, calc(100vw - 6rem)), calc(100vw - 3.2rem)"

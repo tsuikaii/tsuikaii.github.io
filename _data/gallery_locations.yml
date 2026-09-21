@@ -6,7 +6,7 @@
   lng: 5.4752
   zoom: 11
   scope: 城市级
-在巴中:
+在观雾山:
   id: bazhong
   name: 巴中
   place: 四川巴中南江
@@ -14,7 +14,7 @@
   lng: 106.843
   zoom: 10
   scope: 景区级
-在阿坝:
+在四姑娘山:
   id: aba
   name: 阿坝
   place: 四川阿坝小金

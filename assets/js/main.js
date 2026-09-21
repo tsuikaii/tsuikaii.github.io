@@ -277,7 +277,7 @@
       return "";
     }
 
-    if (parsedUrl.hostname !== "assets.hszhe9.com") {
+    if (parsedUrl.hostname !== "img.tsuikaii.com") {
       return "";
     }
 
@@ -913,7 +913,6 @@
 (function () {
   var mapRoot = document.querySelector("[data-gallery-map]");
   var detailRoot = document.querySelector("[data-gallery-map-detail]");
-  var listRoot = document.querySelector("[data-gallery-map-list]");
   var dataElement = document.getElementById("gallery-map-data");
 
   function escapeHtml(value) {
@@ -925,7 +924,7 @@
       .replace(/'/g, "&#39;");
   }
 
-  if (!mapRoot || !detailRoot || !listRoot || !dataElement || typeof window.L === "undefined") {
+  if (!mapRoot || !detailRoot || !dataElement || typeof window.L === "undefined") {
     return;
   }
 
@@ -938,37 +937,48 @@
   }
 
   var groupedLocations = {};
-  var locationButtons = new Map();
   var locationMarkers = new Map();
   var activeLocationId = null;
   var entries = Array.isArray(rawEntries) ? rawEntries : [];
 
   entries.forEach(function (entry) {
-    var location = entry && entry.location;
-    var id;
-    var photoCount;
-
-    if (!location || typeof location.lat === "undefined" || typeof location.lng === "undefined") {
-      return;
-    }
-
-    id = location.id || entry.title;
-    photoCount = entry.photo_count || (entry.photos ? entry.photos.length : 0) || 0;
-
-    if (!groupedLocations[id]) {
-      groupedLocations[id] = {
-        id: id,
-        location: location,
-        entries: [],
-        photos: [],
-        photoCount: 0
-      };
-    }
-
-    groupedLocations[id].entries.push(entry);
-    groupedLocations[id].photoCount += photoCount;
-
     (entry.photos || []).forEach(function (photo) {
+      var location = photo.location || entry.location;
+      var id;
+      var linkedEntry;
+
+      if (!location || typeof location.lat === "undefined" || typeof location.lng === "undefined") {
+        return;
+      }
+
+      id = location.id || entry.title;
+
+      if (!groupedLocations[id]) {
+        groupedLocations[id] = {
+          id: id,
+          location: location,
+          entries: [],
+          photos: [],
+          photoCount: 0
+        };
+      }
+
+      linkedEntry = groupedLocations[id].entries.find(function (candidate) {
+        return candidate.url === entry.url;
+      });
+
+      if (!linkedEntry) {
+        linkedEntry = {
+          title: entry.title,
+          url: entry.url,
+          date_display: entry.date_display,
+          photo_count: 0
+        };
+        groupedLocations[id].entries.push(linkedEntry);
+      }
+
+      linkedEntry.photo_count += 1;
+      groupedLocations[id].photoCount += 1;
       groupedLocations[id].photos.push({
         src: photo.src,
         full_src: photo.full_src,
@@ -1005,11 +1015,6 @@
   }
 
   function updateActiveState() {
-    locationButtons.forEach(function (button, id) {
-      button.classList.toggle("is-active", id === activeLocationId);
-      button.setAttribute("aria-pressed", id === activeLocationId ? "true" : "false");
-    });
-
     locationMarkers.forEach(function (marker, id) {
       marker.setStyle({
         color: id === activeLocationId ? "#1a4f8c" : "rgba(26, 79, 140, 0.76)",
@@ -1021,7 +1026,6 @@
   }
 
   function buildDetailMarkup(group) {
-    var scope = group.location.scope ? "<span class=\"gallery-map-scope\">" + escapeHtml(group.location.scope) + "</span>" : "";
     var entriesMarkup = group.entries.map(function (entry) {
       return (
         "<a class=\"gallery-map-post-link\" href=\"" + escapeHtml(entry.url) + "\">" +
@@ -1043,7 +1047,7 @@
       "<div class=\"gallery-map-detail-header\">" +
         "<p class=\"gallery-map-eyebrow\">地图选中地点</p>" +
         "<h3 class=\"gallery-map-place\">" + escapeHtml(group.location.name) + "</h3>" +
-        "<p class=\"gallery-map-place-subtitle\">" + escapeHtml(group.location.place || "") + scope + "</p>" +
+        "<p class=\"gallery-map-place-subtitle\">" + escapeHtml(group.location.place || "") + "</p>" +
       "</div>" +
       "<div class=\"gallery-map-summary\">" +
         "<span>" + escapeHtml(String(group.photoCount)) + " 张照片</span>" +
@@ -1075,22 +1079,12 @@
   }
 
   locations.forEach(function (group) {
-    var button = document.createElement("button");
     var marker = L.circleMarker([group.location.lat, group.location.lng], {
       radius: getMarkerRadius(group.photoCount),
       color: "rgba(26, 79, 140, 0.76)",
       fillColor: "#8db9ea",
       fillOpacity: 0.78,
       weight: 2
-    });
-
-    button.type = "button";
-    button.className = "gallery-map-location-button";
-    button.innerHTML =
-      "<span class=\"gallery-map-location-name\">" + escapeHtml(group.location.name) + "</span>" +
-      "<span class=\"gallery-map-location-meta\">" + escapeHtml(String(group.photoCount)) + " 张</span>";
-    button.addEventListener("click", function () {
-      selectLocation(group.id, true);
     });
 
     marker.addTo(map);
@@ -1102,8 +1096,6 @@
       selectLocation(group.id, true);
     });
 
-    listRoot.appendChild(button);
-    locationButtons.set(group.id, button);
     locationMarkers.set(group.id, marker);
   });
 

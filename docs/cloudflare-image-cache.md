@@ -1,6 +1,6 @@
 # Cloudflare 图片缓存配置
 
-目标域名：`assets.hszhe9.com`
+目标域名：`img.tsuikaii.com`
 
 当前状态（2026-08-29）：
 
@@ -21,7 +21,7 @@
 匹配表达式：
 
 ```text
-(http.host eq "assets.hszhe9.com")
+(http.host eq "img.tsuikaii.com")
 ```
 
 设置：
@@ -46,7 +46,7 @@
 如果覆盖了同一路径的原图，应清除原图 URL，而不是只清除 `/cdn-cgi/image/` 转换 URL。例如：
 
 ```text
-https://assets.hszhe9.com/siena/siena-3.jpg
+https://img.tsuikaii.com/siena/siena-3.jpg
 ```
 
 Cloudflare 会连同该原图的 800、1200 和 2560 像素转换变体一起失效。
@@ -58,7 +58,7 @@ Cloudflare 会连同该原图的 800、1200 和 2560 像素转换变体一起失
 ```bash
 curl -sS -D - -o /dev/null \
   -H 'Accept: image/avif,image/webp,image/*,*/*;q=0.8' \
-  'https://assets.hszhe9.com/cdn-cgi/image/width=1200,quality=75,format=auto/siena/siena-3.jpg'
+  'https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/siena/siena-3.jpg'
 ```
 
 检查响应头：

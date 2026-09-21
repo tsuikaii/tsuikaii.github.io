@@ -9,6 +9,7 @@ ROOT = File.expand_path("..", __dir__)
 POSTS_DIR = File.join(ROOT, "_posts")
 OUTPUT_PATH = File.join(ROOT, "_data", "gallery.yml")
 LOCATION_PATH = File.join(ROOT, "_data", "gallery_locations.yml")
+PHOTO_LOCATION_PATH = File.join(ROOT, "_data", "gallery_photo_locations.yml")
 POST_URL_PATTERN = /\A(\d{4})-(\d{2})-(\d{2})-(.+)\z/
 SOURCE_LABELS = {
   "local" => "本地 assets",
@@ -30,6 +31,39 @@ def load_location_metadata
   return {} unless File.exist?(LOCATION_PATH)
 
   YAML.safe_load(File.read(LOCATION_PATH, encoding: "UTF-8"), permitted_classes: [Date, Time], aliases: true) || {}
+end
+
+def load_photo_location_metadata
+  return [{}, []] unless File.exist?(PHOTO_LOCATION_PATH)
+
+  metadata = YAML.safe_load(File.read(PHOTO_LOCATION_PATH, encoding: "UTF-8"), permitted_classes: [Date, Time], aliases: true) || {}
+  places = metadata.fetch("places", {})
+  rules = metadata.fetch("rules", []).map do |rule|
+    pattern = rule.fetch("pattern")
+    rule.merge("regexp" => Regexp.new(pattern))
+  rescue RegexpError => error
+    raise "Invalid gallery photo location pattern #{pattern.inspect}: #{error.message}"
+  end
+
+  rules.each do |rule|
+    place_id = rule.fetch("place")
+    raise "Unknown gallery photo place #{place_id.inspect}" unless places.key?(place_id)
+  end
+
+  [places, rules]
+end
+
+def find_photo_location(photo, post_title, places, rules)
+  source = photo["full_src"] || photo["src"] || ""
+  rule = rules.find do |candidate|
+    (!candidate["title"] || candidate["title"] == post_title) && candidate["regexp"].match?(source)
+  end
+  return nil unless rule
+
+  location = places.fetch(rule.fetch("place")).dup
+  location["source"] = rule["source"] || location["source"] || "inferred"
+  location["note"] = rule["note"] if rule["note"]
+  location
 end
 
 def extract_attr(tag, attr_name)
@@ -76,7 +110,7 @@ end
 def detect_source(src)
   return "remote" if src.nil? || src.empty?
   return "flickr" if src.include?("live.staticflickr.com")
-  return "r2" if src.include?("assets.hszhe9.com")
+  return "r2" if src.include?("img.tsuikaii.com")
   return "local" if src.start_with?("/assets/")
 
   "remote"
@@ -185,6 +219,7 @@ def build_post_url(path, categories, date)
 end
 
 location_metadata = load_location_metadata
+photo_places, photo_location_rules = load_photo_location_metadata
 
 entries = Dir.glob(File.join(POSTS_DIR, "*.*")).sort.filter_map do |path|
   raw = File.read(path, encoding: "UTF-8")
@@ -198,6 +233,11 @@ entries = Dir.glob(File.join(POSTS_DIR, "*.*")).sort.filter_map do |path|
   categories = normalize_categories(front_matter["categories"])
   date = Time.parse(front_matter["date"].to_s)
   location = location_metadata[title]
+
+  photos.each do |photo|
+    photo["location"] = find_photo_location(photo, title, photo_places, photo_location_rules)
+    photo["location"] ||= location && location.dup
+  end
 
   {
     "title" => title,
@@ -217,10 +257,16 @@ entries.reverse!
 
 source_counts = { "local" => 0, "flickr" => 0, "r2" => 0, "remote" => 0 }
 all_photos = []
+located_photos = 0
+location_ids = {}
 
 entries.each do |entry|
   entry["photos"].each do |photo|
     source_counts[photo["source_type"]] += 1 if source_counts.key?(photo["source_type"])
+    if photo["location"]
+      located_photos += 1
+      location_ids[photo["location"]["id"]] = true
+    end
     all_photos << photo.merge(
       "post_title" => entry["title"],
       "post_url" => entry["url"],
@@ -234,6 +280,8 @@ data = {
   "generated_at" => Time.now.iso8601,
   "total_posts" => entries.size,
   "total_photos" => entries.sum { |entry| entry["photo_count"] },
+  "located_photos" => located_photos,
+  "total_locations" => location_ids.size,
   "source_counts" => source_counts,
   "entries" => entries,
   "photos" => all_photos
