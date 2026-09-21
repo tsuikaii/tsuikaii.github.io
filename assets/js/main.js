@@ -1230,8 +1230,8 @@
     list = document.createElement("ol");
     list.className = "home-pagination-list";
 
-    firstPage = Math.max(1, currentPage - 1);
-    lastPage = Math.min(totalPages, currentPage + 1);
+    firstPage = Math.min(currentPage, Math.max(1, totalPages - 2));
+    lastPage = Math.min(totalPages, firstPage + 2);
 
     for (pageNumber = firstPage; pageNumber <= lastPage; pageNumber += 1) {
       list.appendChild(createPaginationItem(pageNumber, currentPage));

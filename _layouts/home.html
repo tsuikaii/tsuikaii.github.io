@@ -73,8 +73,18 @@ layout: default
       <span class="home-pagination-link home-pagination-arrow is-disabled" aria-disabled="true">上一页</span>
     {% endif %}
 
+    {% assign first_page_number = paginator.page %}
+    {% assign last_page_number = first_page_number | plus: 2 %}
+    {% if last_page_number > paginator.total_pages %}
+      {% assign last_page_number = paginator.total_pages %}
+      {% assign first_page_number = last_page_number | minus: 2 %}
+    {% endif %}
+    {% if first_page_number < 1 %}
+      {% assign first_page_number = 1 %}
+    {% endif %}
+
     <ol class="home-pagination-list">
-      {% for page_number in (1..paginator.total_pages) %}
+      {% for page_number in (first_page_number..last_page_number) %}
         {% if page_number == 1 %}
           {% assign page_url = '/' | relative_url %}
         {% else %}

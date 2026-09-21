@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://live.staticflickr.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="shortcut icon" href="{{ site.logo }}">
-    <link rel="icon" type="image/png" href="{{ site.logo }}">
+    <link rel="shortcut icon" href="{{ site.logo | relative_url }}">
+    <link rel="icon" type="image/png" href="{{ site.logo | relative_url }}">
     <link rel="apple-touch-icon" href="{{ site.logo }}">
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
     {% if page.layout == 'gallery_map' %}
@@ -39,7 +39,7 @@
         <header id="masthead" class="site-header">
           <div class="site-branding">
             <a href="{{ '/' | relative_url }}" class="custom-logo-link" rel="home">
-              <img src="{{ site.logo }}" class="custom-logo" alt="{{ site.title }}">
+              <img src="{{ site.logo | relative_url }}" class="custom-logo" alt="{{ site.title }}">
             </a>
           </div>
 

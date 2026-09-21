@@ -2,8 +2,8 @@
 layout: post
 title: "高松行"
 date: 2026-07-18 11:16:22 +0900
-categories: article
-excerpt: "从栗林公园沿濑户内海走到小豆岛。"
+categories: album
+excerpt: "松影摇进海风里，夏日一路漂向小豆岛。"
 cover_image: "https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/takamatsu/takamatsu_5.jpg"
 cover_alt: "高松港的渡轮"
 photo_format: r2
