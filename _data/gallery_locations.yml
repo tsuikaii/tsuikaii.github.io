@@ -134,3 +134,11 @@
   lng: 130.4017
   zoom: 11
   scope: 城市级
+在新加坡:
+  id: singapore
+  name: 新加坡
+  place: 新加坡
+  lat: 1.2903
+  lng: 103.8519
+  zoom: 12
+  scope: 城市级

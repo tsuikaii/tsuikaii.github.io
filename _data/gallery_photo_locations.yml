@@ -108,6 +108,17 @@ places:
 
   lake-windermere: { id: lake-windermere, name: 温德米尔湖畔, place: 英国英格兰湖区, lat: 54.3650, lng: -2.9220, zoom: 13, scope: 相册上下文推定 }
 
+  jewel-changi: { id: jewel-changi, name: 星耀樟宜, place: 新加坡樟宜机场, lat: 1.3602, lng: 103.9898, zoom: 17, scope: 地标级 }
+  merlion-park: { id: merlion-park, name: 鱼尾狮公园, place: 新加坡滨海湾, lat: 1.2868, lng: 103.8545, zoom: 17, scope: 地标级 }
+  victoria-theatre: { id: victoria-theatre, name: 维多利亚剧院与音乐厅, place: 新加坡市政区, lat: 1.2887, lng: 103.8514, zoom: 17, scope: 地标级 }
+  national-gallery-singapore: { id: national-gallery-singapore, name: 新加坡国家美术馆, place: 新加坡市政区, lat: 1.2906, lng: 103.8518, zoom: 17, scope: 地标级 }
+  singapore-civic-district: { id: singapore-civic-district, name: 新加坡市政区, place: 新加坡市中心, lat: 1.2902, lng: 103.8504, zoom: 16, scope: 街区级 }
+  old-hill-street-police-station: { id: old-hill-street-police-station, name: 旧禧街警察局, place: 新加坡禧街, lat: 1.2907, lng: 103.8484, zoom: 17, scope: 地标级 }
+  fort-canning-park: { id: fort-canning-park, name: 福康宁公园, place: 新加坡市中心, lat: 1.2947, lng: 103.8460, zoom: 16, scope: 公园级 }
+  clarke-quay: { id: clarke-quay, name: 克拉码头, place: 新加坡河畔, lat: 1.2906, lng: 103.8465, zoom: 16, scope: 街区级 }
+  marina-bay-promenade: { id: marina-bay-promenade, name: 滨海湾金沙步道, place: 新加坡滨海湾, lat: 1.2834, lng: 103.8607, zoom: 16, scope: 海滨级 }
+  supertree-grove: { id: supertree-grove, name: 擎天树林, place: 新加坡滨海湾花园, lat: 1.2816, lng: 103.8636, zoom: 17, scope: 地标级 }
+
 rules:
   - { title: 高松行, pattern: '/takamatsu_[1-4]\.jpg$', place: ritsurin-garden }
   - { title: 高松行, pattern: '/takamatsu_5\.jpg$', place: takamatsu-port }
@@ -219,3 +230,14 @@ rules:
   - { title: 在东京, pattern: '/tokyo_11\.jpg$', place: ginza }
 
   - { title: 在湖区, pattern: '/lake/IMG_[0-9]+\.jpeg$', place: lake-windermere, note: 相册无具体图注，按整组拍摄上下文定位 }
+
+  - { title: 在新加坡, pattern: '/singapore/singapore_1\.jpg$', place: jewel-changi }
+  - { title: 在新加坡, pattern: '/singapore/singapore_[23]\.jpg$', place: merlion-park }
+  - { title: 在新加坡, pattern: '/singapore/singapore_4\.jpg$', place: victoria-theatre }
+  - { title: 在新加坡, pattern: '/singapore/singapore_5\.jpg$', place: national-gallery-singapore }
+  - { title: 在新加坡, pattern: '/singapore/singapore_[67]\.jpg$', place: singapore-civic-district }
+  - { title: 在新加坡, pattern: '/singapore/singapore_8\.jpg$', place: old-hill-street-police-station }
+  - { title: 在新加坡, pattern: '/singapore/singapore_9\.jpg$', place: fort-canning-park }
+  - { title: 在新加坡, pattern: '/singapore/singapore_10\.jpg$', place: clarke-quay }
+  - { title: 在新加坡, pattern: '/singapore/singapore_(12|13|14|15|16)\.jpg$', place: marina-bay-promenade }
+  - { title: 在新加坡, pattern: '/singapore/singapore_(17|19|20|21)\.jpg$', place: supertree-grove }
