@@ -142,3 +142,11 @@
   lng: 103.8519
   zoom: 12
   scope: 城市级
+山阴行:
+  id: sanin
+  name: 山阴地区
+  place: 日本鸟取县与岛根县
+  lat: 35.41
+  lng: 133.49
+  zoom: 8
+  scope: 区域级

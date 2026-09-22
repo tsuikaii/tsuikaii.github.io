@@ -119,6 +119,15 @@ places:
   marina-bay-promenade: { id: marina-bay-promenade, name: 滨海湾金沙步道, place: 新加坡滨海湾, lat: 1.2834, lng: 103.8607, zoom: 16, scope: 海滨级 }
   supertree-grove: { id: supertree-grove, name: 擎天树林, place: 新加坡滨海湾花园, lat: 1.2816, lng: 103.8636, zoom: 17, scope: 地标级 }
 
+  tottori-sand-dunes: { id: tottori-sand-dunes, name: 鸟取砂丘, place: 日本鸟取县鸟取市, lat: 35.5445, lng: 134.2345, zoom: 16, scope: 景区级 }
+  dentetsu-izumoshi-station: { id: dentetsu-izumoshi-station, name: 电铁出云市站, place: 日本岛根县出云市, lat: 35.3613, lng: 132.7581, zoom: 17, scope: 地标级 }
+  izumo-taisha-seidamari: { id: izumo-taisha-seidamari, name: 势溜大鸟居, place: 日本岛根县出云大社, lat: 35.3963, lng: 132.6865, zoom: 17, scope: 地标级 }
+  izumo-taisha-shinen: { id: izumo-taisha-shinen, name: 出云大社神苑, place: 日本岛根县出云大社, lat: 35.3992, lng: 132.6861, zoom: 17, scope: 地标级 }
+  izumo-taisha-keidai: { id: izumo-taisha-keidai, name: 出云大社境内, place: 日本岛根县出云大社, lat: 35.4012, lng: 132.6853, zoom: 17, scope: 地标级 }
+  izumo-taisha-usagi: { id: izumo-taisha-usagi, name: 出云大社兔子雕像, place: 日本岛根县出云大社神苑, lat: 35.3986, lng: 132.6860, zoom: 17, scope: 地标级 }
+  izumo-taisha-uga-torii: { id: izumo-taisha-uga-torii, name: 宇迦桥大鸟居, place: 日本岛根县出云市, lat: 35.3910, lng: 132.6874, zoom: 17, scope: 地标级 }
+  izumoshi-station: { id: izumoshi-station, name: 出云市站, place: 日本岛根县出云市, lat: 35.3609, lng: 132.7570, zoom: 17, scope: 地标级 }
+
 rules:
   - { title: 高松行, pattern: '/takamatsu_[1-4]\.jpg$', place: ritsurin-garden }
   - { title: 高松行, pattern: '/takamatsu_5\.jpg$', place: takamatsu-port }
@@ -241,3 +250,13 @@ rules:
   - { title: 在新加坡, pattern: '/singapore/singapore_10\.jpg$', place: clarke-quay }
   - { title: 在新加坡, pattern: '/singapore/singapore_(12|13|14|15|16)\.jpg$', place: marina-bay-promenade }
   - { title: 在新加坡, pattern: '/singapore/singapore_(17|19|20|21)\.jpg$', place: supertree-grove }
+
+  - { title: 山阴行, pattern: '/sanin/sanin_(1|3|4|5|6|8)\.jpg$', place: tottori-sand-dunes }
+  - { title: 山阴行, pattern: '/sanin/sanin_(10|11)\.jpg$', place: dentetsu-izumoshi-station }
+  - { title: 山阴行, pattern: '/sanin/sanin_12\.jpg$', place: izumo-taisha-seidamari }
+  - { title: 山阴行, pattern: '/sanin/sanin_13\.jpg$', place: izumo-taisha-shinen }
+  - { title: 山阴行, pattern: '/sanin/sanin_(14|15|16|17|18|19|20|21|22|23|24)\.jpg$', place: izumo-taisha-keidai }
+  - { title: 山阴行, pattern: '/sanin/sanin_(25|26|27|28)\.jpg$', place: izumo-taisha-usagi }
+  - { title: 山阴行, pattern: '/sanin/sanin_(29|30)\.jpg$', place: izumo-taisha-shinen }
+  - { title: 山阴行, pattern: '/sanin/sanin_31\.jpg$', place: izumo-taisha-uga-torii }
+  - { title: 山阴行, pattern: '/sanin/sanin_(33|34|35|36|37)\.jpg$', place: izumoshi-station }

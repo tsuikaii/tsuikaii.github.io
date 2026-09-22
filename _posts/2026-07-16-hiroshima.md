@@ -3,7 +3,7 @@ layout: post
 title: "广岛行"
 date: 2026-07-16 10:35:12 +0900
 categories: album
-excerpt: "海上的朱红与城中的沉静，都留在这一日。"
+excerpt: "沉重的历史和现代繁华。"
 cover_image: "https://img.tsuikaii.com/cdn-cgi/image/width=1200,quality=75,format=auto/hiroshima/hiroshima_6.jpg"
 cover_alt: "严岛神社海上大鸟居"
 photo_format: r2
