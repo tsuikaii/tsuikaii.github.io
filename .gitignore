@@ -10,4 +10,5 @@ node_modules/
 .dev.vars
 .dev.vars.*
 worker/.env*
+_config.local.yml
 !worker/.dev.vars.example

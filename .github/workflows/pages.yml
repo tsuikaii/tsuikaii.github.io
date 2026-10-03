@@ -44,6 +44,8 @@ jobs:
         run: npm test
 
       - name: Build site
+        env:
+          MAPBOX_PUBLIC_TOKEN: ${{ secrets.MAPBOX_PUBLIC_TOKEN }}
         run: |
           ruby scripts/generate_gallery_data.rb
           bundle exec jekyll build --baseurl ""

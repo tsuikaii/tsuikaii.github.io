@@ -8,6 +8,10 @@ logo: "/assets/images/logo-mark.png"
 baseurl: ""
 url: "https://tsuikaii.com"
 lang: zh-CN
+mapbox:
+  public_token: ""
+  style: "mapbox://styles/mapbox/light-v11"
+  dark_style: "mapbox://styles/mapbox/dark-v11"
 # Public service URL only; the API key is stored in Cloudflare Worker Secrets.
 translation_endpoint: "https://tsuikaii-translations.zhe-cf.workers.dev"
 exclude:
@@ -19,6 +23,7 @@ exclude:
   - package.json
   - package-lock.json
   - README.md
+  - _config.local.yml
 timezone: Asia/Shanghai
 plugins:
   - jekyll-feed
