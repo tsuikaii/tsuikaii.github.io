@@ -6,14 +6,14 @@ layout: default
 {% assign gallery = site.data.gallery %}
 
 <header class="archive-heading gallery-heading">
-  <p class="gallery-kicker">全站照片归档</p>
-  <h1 class="archive-title">{{ page.title | default: item.label }}</h1>
+  <p class="gallery-kicker" data-i18n="archive">全站照片归档</p>
+  <h1 class="archive-title" data-i18n="{{ page.category_slug }}">{{ page.title | default: item.label }}</h1>
 
   {% if gallery and gallery.total_photos %}
-    <div class="gallery-stats" aria-label="图库统计">
-      <button type="button" class="gallery-stats-button" data-gallery-refresh>刷新卡片</button>
-      <a class="gallery-stats-button" href="{{ '/gallery-map/' | relative_url }}">地图相册</a>
-      <span>{{ gallery.total_photos }} 张照片</span>
+    <div class="gallery-stats" aria-label="图库统计" data-i18n-aria="galleryStats">
+      <button type="button" class="gallery-stats-button" data-gallery-refresh data-i18n="refresh">刷新卡片</button>
+      <a class="gallery-stats-button" href="{{ '/gallery-map/' | relative_url }}" data-i18n="mapAlbum">地图相册</a>
+      <span data-i18n="photos" data-count="{{ gallery.total_photos }}">{{ gallery.total_photos }} 张照片</span>
       <span>Flickr {{ gallery.source_counts.flickr | default: 0 }}</span>
       <span>R2 {{ gallery.source_counts.r2 | default: 0 }}</span>
     </div>
@@ -22,7 +22,7 @@ layout: default
 
 {% if gallery and gallery.photos and gallery.photos.size > 0 %}
   <div class="gallery-pagination-wrap" data-randomize-items data-randomize-selector=".gallery-card" data-pagination-root data-item-selector=".gallery-card" data-nav-selector="[data-gallery-pagination-nav]" data-page-size="12">
-    <section class="gallery-panel" aria-label="随机照片画廊">
+    <section class="gallery-panel" aria-label="随机照片画廊" data-i18n-aria="galleryPanel">
       <div class="gallery-grid">
         {% for photo in gallery.photos %}
           {% assign photo_src = photo.src %}
@@ -66,14 +66,14 @@ layout: default
       </div>
     </section>
     <div class="gallery-mobile-refresh-wrap">
-      <button type="button" class="gallery-refresh-button gallery-refresh-button-bottom" data-gallery-refresh>刷新卡片</button>
+      <button type="button" class="gallery-refresh-button gallery-refresh-button-bottom" data-gallery-refresh data-i18n="refresh">刷新卡片</button>
     </div>
-    <nav class="home-pagination archive-pagination gallery-pagination" data-gallery-pagination-nav aria-label="图库分页导航" hidden></nav>
+    <nav class="home-pagination archive-pagination gallery-pagination" data-gallery-pagination-nav aria-label="图库分页导航" data-i18n-aria="pagination" hidden></nav>
   </div>
 {% else %}
   <article class="page type-page hentry archive-empty">
     <div class="entry-content">
-      <p class="category-empty">这里还没有可展示的照片。</p>
+      <p class="category-empty" data-i18n="noPhotos">这里还没有可展示的照片。</p>
     </div>
   </article>
 {% endif %}

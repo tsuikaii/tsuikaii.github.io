@@ -4,17 +4,17 @@ layout: default
 
 {% assign gallery = site.data.gallery %}
 
-<header class="archive-heading gallery-heading">
-  <p class="gallery-kicker">全站照片归档</p>
-  <h1 class="archive-title">{{ page.title }}</h1>
+<header class="archive-heading gallery-heading" data-no-llm>
+  <p class="gallery-kicker" data-i18n="archive">全站照片归档</p>
+  <h1 class="archive-title" data-i18n="mapAlbum">{{ page.title }}</h1>
 
   {% if gallery and gallery.total_photos %}
-    <div class="gallery-stats" aria-label="地图相册统计">
-      <a class="gallery-stats-button gallery-map-back-link" href="{{ '/category/gallery/' | relative_url }}">
+    <div class="gallery-stats" aria-label="地图相册统计" data-i18n-aria="mapStats">
+      <a class="gallery-stats-button gallery-map-back-link" data-i18n="backGallery" href="{{ '/category/gallery/' | relative_url }}">
         返回图库
       </a>
-      <span>{{ gallery.total_locations }} 个地点</span>
-      <span>{{ gallery.located_photos }} 张已定位照片</span>
+      <span data-i18n="locations" data-count="{{ gallery.total_locations }}">{{ gallery.total_locations }} 个地点</span>
+      <span data-i18n="located" data-count="{{ gallery.located_photos }}">{{ gallery.located_photos }} 张已定位照片</span>
     </div>
   {% endif %}
 </header>
@@ -23,14 +23,14 @@ layout: default
   <section class="gallery-map-panel gallery-map-panel-page" aria-labelledby="gallery-map-title">
     <div class="gallery-map-header">
       <div>
-        <p class="gallery-map-kicker">照片足迹</p>
-        <h2 id="gallery-map-title" class="gallery-map-title">地图浏览</h2>
+        <p class="gallery-map-kicker" data-i18n="footprints">照片足迹</p>
+        <h2 id="gallery-map-title" class="gallery-map-title" data-i18n="browseMap">地图浏览</h2>
       </div>
     </div>
     <div class="gallery-map-layout">
-      <div id="gallery-map" class="gallery-map-canvas" data-gallery-map aria-label="照片地图"></div>
+      <div id="gallery-map" class="gallery-map-canvas" data-gallery-map aria-label="照片地图" data-i18n-aria="photoMap"></div>
       <aside class="gallery-map-detail" data-gallery-map-detail>
-        <p class="gallery-map-empty">点一下地图上的地点，右侧会展开这里的照片和相关文章。</p>
+        <p class="gallery-map-empty" data-i18n="mapHint">点一下地图上的地点，右侧会展开这里的照片和相关文章。</p>
       </aside>
     </div>
     <script id="gallery-map-data" type="application/json">{{ gallery.entries | jsonify }}</script>
@@ -38,7 +38,7 @@ layout: default
 {% else %}
   <article class="page type-page hentry archive-empty">
     <div class="entry-content">
-      <p class="category-empty">这里还没有可展示的地图照片。</p>
+      <p class="category-empty" data-i18n="noMap">这里还没有可展示的地图照片。</p>
     </div>
   </article>
 {% endif %}

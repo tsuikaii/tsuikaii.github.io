@@ -31,6 +31,18 @@ jobs:
           ruby-version: "3.3"
           bundler-cache: true
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install translation dependencies
+        run: npm ci
+
+      - name: Check translation service
+        run: npm test
+
       - name: Build site
         run: |
           ruby scripts/generate_gallery_data.rb

@@ -8,6 +8,17 @@ logo: "/assets/images/logo-mark.png"
 baseurl: ""
 url: "https://tsuikaii.com"
 lang: zh-CN
+# Public service URL only; the API key is stored in Cloudflare Worker Secrets.
+translation_endpoint: "https://tsuikaii-translations.zhe-cf.workers.dev"
+exclude:
+  - node_modules
+  - worker
+  - tests
+  - scripts
+  - docs
+  - package.json
+  - package-lock.json
+  - README.md
 timezone: Asia/Shanghai
 plugins:
   - jekyll-feed

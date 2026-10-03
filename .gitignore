@@ -5,3 +5,9 @@ _site/
 .bundle/
 vendor/
 .DS_Store
+node_modules/
+.wrangler/
+.dev.vars
+.dev.vars.*
+worker/.env*
+!worker/.dev.vars.example

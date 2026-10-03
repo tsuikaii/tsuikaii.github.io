@@ -1,3 +1,11 @@
+function blogT(key, count) {
+  if (window.BlogI18n) return window.BlogI18n.t(key, count);
+  var message = window.BLOG_MESSAGES && window.BLOG_MESSAGES['zh-Hans'][key];
+  return (message || key).replace('{count}', String(count));
+}
+function blogText(value) { return window.BlogI18n ? window.BlogI18n.text(value) : value; }
+function blogDate(value) { return window.BlogI18n ? window.BlogI18n.date(value) : value; }
+
 (function () {
   var submenuLinks = document.querySelectorAll(".menu-item-has-children > .submenu-link");
   var mobileQuery = window.matchMedia("(max-width: 48em)");
@@ -406,11 +414,13 @@
     closeButton = document.createElement("button");
     closeButton.type = "button";
     closeButton.className = "image-lightbox-close";
-    closeButton.textContent = "关闭";
+    closeButton.dataset.i18n = 'close';
+    closeButton.textContent = blogT('close');
 
     originalLink = document.createElement("a");
     originalLink.className = "image-lightbox-original";
-    originalLink.textContent = "查看原图";
+    originalLink.dataset.i18n = 'original';
+    originalLink.textContent = blogT('original');
     originalLink.target = "_blank";
     originalLink.rel = "noopener";
     originalLink.hidden = true;
@@ -1029,29 +1039,29 @@
     var entriesMarkup = group.entries.map(function (entry) {
       return (
         "<a class=\"gallery-map-post-link\" href=\"" + escapeHtml(entry.url) + "\">" +
-          "<span class=\"gallery-map-post-title\">" + escapeHtml(entry.title) + "</span>" +
-          "<span class=\"gallery-map-post-meta\">" + escapeHtml(entry.date_display) + " · " + escapeHtml(String(entry.photo_count)) + " 张</span>" +
+          "<span class=\"gallery-map-post-title\" data-source-text=\"" + escapeHtml(entry.title) + "\">" + escapeHtml(blogText(entry.title)) + "</span>" +
+          "<span class=\"gallery-map-post-meta\">" + escapeHtml(blogDate(entry.date_display)) + " · " + escapeHtml(blogT('photoShort', entry.photo_count)) + "</span>" +
         "</a>"
       );
     }).join("");
     var photosMarkup = group.photos.slice(0, 6).map(function (photo) {
       return (
         "<figure class=\"gallery-map-thumb\">" +
-          "<img src=\"" + escapeHtml(photo.src) + "\" alt=\"" + escapeHtml(photo.alt || photo.caption || group.location.name) + "\" class=\"zoomable-image\" data-full-src=\"" + escapeHtml(photo.full_src || photo.src) + "\" loading=\"lazy\">" +
-          "<figcaption>" + escapeHtml(photo.caption || photo.post_title) + "</figcaption>" +
+          "<img src=\"" + escapeHtml(photo.src) + "\" alt=\"" + escapeHtml(blogText(photo.alt || photo.caption || group.location.name)) + "\" data-source-alt=\"" + escapeHtml(photo.alt || photo.caption || group.location.name) + "\" class=\"zoomable-image\" data-full-src=\"" + escapeHtml(photo.full_src || photo.src) + "\" loading=\"lazy\">" +
+          "<figcaption data-source-text=\"" + escapeHtml(photo.caption || photo.post_title) + "\">" + escapeHtml(blogText(photo.caption || photo.post_title)) + "</figcaption>" +
         "</figure>"
       );
     }).join("");
 
     return (
       "<div class=\"gallery-map-detail-header\">" +
-        "<p class=\"gallery-map-eyebrow\">地图选中地点</p>" +
-        "<h3 class=\"gallery-map-place\">" + escapeHtml(group.location.name) + "</h3>" +
-        "<p class=\"gallery-map-place-subtitle\">" + escapeHtml(group.location.place || "") + "</p>" +
+        "<p class=\"gallery-map-eyebrow\" data-i18n=\"selectedPlace\">" + escapeHtml(blogT('selectedPlace')) + "</p>" +
+        "<h3 class=\"gallery-map-place\" data-source-text=\"" + escapeHtml(group.location.name) + "\">" + escapeHtml(blogText(group.location.name)) + "</h3>" +
+        "<p class=\"gallery-map-place-subtitle\" data-source-text=\"" + escapeHtml(group.location.place || '') + "\">" + escapeHtml(blogText(group.location.place || '')) + "</p>" +
       "</div>" +
       "<div class=\"gallery-map-summary\">" +
-        "<span>" + escapeHtml(String(group.photoCount)) + " 张照片</span>" +
-        "<span>" + escapeHtml(String(group.entries.length)) + " 篇文章</span>" +
+        "<span data-i18n=\"photos\" data-count=\"" + group.photoCount + "\">" + escapeHtml(blogT('photos', group.photoCount)) + "</span>" +
+        "<span data-i18n=\"posts\" data-count=\"" + group.entries.length + "\">" + escapeHtml(blogT('posts', group.entries.length)) + "</span>" +
       "</div>" +
       "<div class=\"gallery-map-posts\">" + entriesMarkup + "</div>" +
       "<div class=\"gallery-map-thumbs\">" + photosMarkup + "</div>"
@@ -1088,7 +1098,7 @@
     });
 
     marker.addTo(map);
-    marker.bindTooltip(group.location.name + " · " + group.photoCount + " 张", {
+    marker.bindTooltip(escapeHtml(blogText(group.location.name) + " · " + blogT('photoShort', group.photoCount)), {
       direction: "top",
       opacity: 0.94
     });
@@ -1110,6 +1120,13 @@
   }
 
   selectLocation(locations[0].id, false);
+  document.addEventListener('blog:languagechange', function () {
+    if (activeLocationId) selectLocation(activeLocationId, false);
+    locationMarkers.forEach(function (marker, id) {
+      var group = groupedLocations[id];
+      marker.setTooltipContent(escapeHtml(blogText(group.location.name) + ' · ' + blogT('photoShort', group.photoCount)));
+    });
+  });
 })();
 
 (function () {
@@ -1191,6 +1208,8 @@
     var pageNumber;
     var firstPage;
     var lastPage;
+    var previousActions;
+    var nextActions;
 
     if (!nav) {
       return;
@@ -1219,36 +1238,41 @@
 
     nav.hidden = false;
     nav.innerHTML = "";
-    nav.appendChild(
-      createArrow(
-        "上一页",
-        currentPage > 1 ? currentPage - 1 : null,
-        "home-pagination-link home-pagination-arrow"
-      )
-    );
+    previousActions = document.createElement("div");
+    previousActions.className = "home-pagination-actions";
+    if (currentPage === totalPages) {
+      previousActions.appendChild(createArrow(blogT('first'), 1, "home-pagination-link"));
+    }
+    if (currentPage > 1) {
+      previousActions.appendChild(createArrow(blogT('previous'), currentPage - 1, "home-pagination-link home-pagination-arrow"));
+    }
+    nav.appendChild(previousActions);
 
     list = document.createElement("ol");
     list.className = "home-pagination-list";
-
-    firstPage = Math.min(currentPage, Math.max(1, totalPages - 2));
+    firstPage = Math.max(1, Math.min(currentPage - 1, totalPages - 2));
     lastPage = Math.min(totalPages, firstPage + 2);
-
     for (pageNumber = firstPage; pageNumber <= lastPage; pageNumber += 1) {
       list.appendChild(createPaginationItem(pageNumber, currentPage));
     }
-
     nav.appendChild(list);
-    nav.appendChild(
-      createArrow(
-        "下一页",
-        currentPage < totalPages ? currentPage + 1 : null,
-        "home-pagination-link home-pagination-arrow"
-      )
-    );
+
+    nextActions = document.createElement("div");
+    nextActions.className = "home-pagination-actions";
+    if (currentPage < totalPages) {
+      nextActions.appendChild(createArrow(blogT('next'), currentPage + 1, "home-pagination-link home-pagination-arrow"));
+    }
+    if (currentPage === 1) {
+      nextActions.appendChild(createArrow(blogT('last'), totalPages, "home-pagination-link"));
+    }
+    nav.appendChild(nextActions);
   }
 
   roots.forEach(function (root) {
     renderPagination(root);
+  });
+  document.addEventListener('blog:languagechange', function () {
+    roots.forEach(function (root) { renderPagination(root); });
   });
 })();
 
@@ -1277,17 +1301,20 @@
     button = document.createElement("button");
     button.type = "button";
     button.className = "code-copy-button";
-    button.textContent = "复制";
+    button.dataset.i18n = 'copy';
+    button.textContent = blogT('copy');
 
     button.addEventListener("click", function () {
       var text = codeBlock.textContent;
       var resetTimer;
 
       function markCopied() {
-        button.textContent = "已复制";
+        button.dataset.i18n = 'copied';
+        button.textContent = blogT('copied');
         window.clearTimeout(resetTimer);
         resetTimer = window.setTimeout(function () {
-          button.textContent = "复制";
+          button.dataset.i18n = 'copy';
+          button.textContent = blogT('copy');
         }, 1600);
       }
 
