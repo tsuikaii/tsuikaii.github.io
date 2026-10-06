@@ -146,3 +146,11 @@ Jekyll 构建、自动测试和浏览器检查覆盖文本格式保护、版本�
 参考：[DeepSeek JSON 输出](https://api-docs.deepseek.com/guides/json_mode/)、
 [Cloudflare Secrets](https://developers.cloudflare.com/workers/configuration/secrets/)、
 [Durable Object 持久化](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/)。
+
+## 电影站中文（2026-10-06）
+
+`https://5cm.tsuikaii.com/` 默认日语，点击中文才调用同一个 Worker 的 `zh-Hans` 翻译。
+Worker 根据受允许的 Origin 选择该站的可信原文清单，缓存键包含网站来源，防止与博客混用。
+电影站只接受中文目标；博客仍只接受英日目标。两站共享 DeepSeek Secret、调用额度和 30 天缓存策略。
+电影站构建覆盖正文、图片标签、曲名、播放器动态标签及错误提示；切回日语恢复原文。
+原文更新自动使新请求使用新的哈希，失败不缓存，前端不会把模型输出当作 HTML 执行。

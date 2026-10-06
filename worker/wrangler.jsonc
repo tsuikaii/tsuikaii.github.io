@@ -5,7 +5,8 @@
   "compatibility_date": "2026-10-03",
   "vars": {
     "SITE_ORIGIN": "https://tsuikaii.com",
-    "ALLOWED_ORIGINS": "https://tsuikaii.com",
+    "ALLOWED_ORIGINS": "https://tsuikaii.com,https://5cm.tsuikaii.com",
+    "FILM_ORIGIN": "https://5cm.tsuikaii.com",
     "LLM_BASE_URL": "https://api.deepseek.com",
     "LLM_MODEL": "deepseek-flash",
     "MAX_DAILY_CALLS": "50",

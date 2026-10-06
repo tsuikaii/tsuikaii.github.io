@@ -242,3 +242,34 @@ test('edge cache reuses successful translations and still validates source and C
     assert.equal((await worker.fetch(new Request('https://worker/translate'), runtime)).status, 403);
   } finally { globalThis.fetch = originalFetch; globalThis.caches = originalCaches; }
 });
+
+test('film origin requests Chinese from its own trusted source; blog keeps its languages', async () => {
+  const filmOrigin = 'https://5cm.tsuikaii.com';
+  const filmSource = { ...source, page: '/', sourceLanguage: 'ja' };
+  const filmBody = { page: '/', language: 'zh-Hans', sourceHash: hash };
+  const originalFetch = globalThis.fetch;
+  let fetched;
+  let forwarded;
+  globalThis.fetch = async url => { fetched = String(url); return Response.json(filmSource); };
+  const runtime = { ...env, FILM_ORIGIN: filmOrigin, ALLOWED_ORIGINS: env.SITE_ORIGIN + ',' + filmOrigin, TRANSLATIONS: { idFromName: name => name, get: () => ({ fetch: async request => { forwarded = await request.json(); return Response.json({ hash, language: 'zh-Hans', segments: translated }); } }) } };
+  const request = (origin, body) => new Request('https://worker/translate', { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  try {
+    const response = await worker.fetch(request(filmOrigin, filmBody), runtime);
+    assert.equal(response.status, 200);
+    assert(fetched.startsWith(filmOrigin + '/translations/source/'));
+    assert.equal(forwarded.siteOrigin, filmOrigin);
+    assert.equal(response.headers.get('Access-Control-Allow-Origin'), filmOrigin);
+    assert.equal((await worker.fetch(request(env.SITE_ORIGIN, filmBody), runtime)).status, 400);
+    assert.equal((await worker.fetch(request(filmOrigin, { ...filmBody, language: 'en' }), runtime)).status, 400);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test('Chinese translation uses DeepSeek JSON mode and preserves the film title', async () => {
+  let prompt;
+  await translatePage(segments, 'zh-Hans', env, async (_url, options) => {
+    prompt = JSON.parse(options.body).messages[0].content;
+    return Response.json(providerBody(translated));
+  });
+  assert(prompt.includes('Simplified Chinese'));
+  assert(prompt.includes('秒速5厘米'));
+});
