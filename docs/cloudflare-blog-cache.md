@@ -17,7 +17,12 @@
 - Smart Tiered Cache：已启用。
 
 发布后可在 Caching → Configuration → Custom Purge 按 URL 清除首页、分页、
-分类、About 和 feed 的旧缓存。浏览器缓存不受 Cloudflare 清除影响。
+分类、About 和 feed 的旧缓存，**同时包含 `?lang=zh-Hans`、`?lang=zh-Hant`、
+`?lang=en`、`?lang=ja` 的地址**。Cloudflare 默认按查询参数分别缓存，
+仅清除 `/about/` 不会清除 `/about/?lang=zh-Hans`。
+2026-10-06 已确认该参数地址命中旧 About，导致音乐链接缺失，并按完整 URL 清除。
+默认中文导航现在删除 `lang` 参数，英日及繁中仍明确携带目标语言。
+浏览器缓存不受 Cloudflare 清除影响。
 
 ## 翻译缓存
 

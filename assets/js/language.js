@@ -126,7 +126,8 @@
     document.documentElement.lang = target;
     if (updateURL) {
       var url = new URL(window.location.href);
-      url.searchParams.set('lang', target);
+      if (target === 'zh-Hans') url.searchParams.delete('lang');
+      else url.searchParams.set('lang', target);
       history.replaceState(history.state, '', url);
     }
     translated = Object.create(null);
@@ -187,7 +188,8 @@
     if (!anchor || anchor.hasAttribute('download') || anchor.getAttribute('href').startsWith('#')) return;
     var url = new URL(anchor.href, window.location.href);
     if (url.origin !== window.location.origin || !/\/$|\.html$/.test(url.pathname)) return;
-    url.searchParams.set('lang', language);
+    if (language === 'zh-Hans') url.searchParams.delete('lang');
+    else url.searchParams.set('lang', language);
     anchor.href = url.href;
   }, true);
   var scheduled = false;
