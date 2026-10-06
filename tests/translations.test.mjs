@@ -228,7 +228,7 @@ test('edge cache reuses successful translations and still validates source and C
   let calls = 0;
   let currentSource = source;
   globalThis.fetch = async () => Response.json(currentSource);
-  const runtime = { ...env, TRANSLATIONS: { idFromName: name => name, get: () => ({ fetch: async () => { calls++; return Response.json({ hash, language: 'en', segments: translated }); } }) } };
+  const runtime = { ...env, TRANSLATIONS: { idFromName: name => name, get: () => ({ fetch: async () => { calls++; return originalFetch('data:application/json,' + encodeURIComponent(JSON.stringify({ hash, language: 'en', segments: translated }))); } }) } };
   const request = () => new Request('https://worker/translate', { method: 'POST', headers: { Origin: env.SITE_ORIGIN, 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody) });
   try {
     assert.equal((await worker.fetch(request(), runtime)).status, 200);

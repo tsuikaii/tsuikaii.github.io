@@ -251,7 +251,9 @@ export default {
       const store = env.TRANSLATIONS.get(env.TRANSLATIONS.idFromName('blog'));
       const response = await store.fetch(new Request('https://internal/translate', { method: 'POST', body: JSON.stringify({ source, language: body.language, ip }) }));
       if (edge && response.ok) {
-        const cached = response.clone();
+        const copy = response.clone();
+        // Responses from Durable Object fetch have immutable headers.
+        const cached = new Response(copy.body, copy);
         cached.headers.set('Cache-Control', 'public, max-age=' + CACHE_TTL);
         const write = edge.put(cacheRequest, cached);
         if (ctx?.waitUntil) ctx.waitUntil(write);
