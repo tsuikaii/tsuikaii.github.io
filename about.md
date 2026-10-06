@@ -14,5 +14,6 @@ permalink: /about/
 - 旅行片段
 - 交易
 - 日常
+- [音乐](https://c.tsuikaii.com "CN, JP, IT IP Only")
 
 随便写写。

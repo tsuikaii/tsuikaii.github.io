@@ -72,7 +72,7 @@ test('source fetched only from configured host; updates and disabled pages are r
   let requested;
   const fetcher = async url => { requested = String(url); return Response.json(source); };
   assert.deepEqual(await loadSource(requestBody, env, fetcher), source);
-  assert.equal(requested, 'https://tsuikaii.com/translations/source/' + await sha256('/about/') + '.json');
+  assert.equal(requested, 'https://tsuikaii.com/translations/source/' + await sha256('/about/') + '.json?v=' + hash);
   await assert.rejects(loadSource({ ...requestBody, sourceHash: 'a'.repeat(64) }, env, fetcher), error => error.status === 409);
   await assert.rejects(loadSource(requestBody, env, async () => Response.json({ ...source, llmEnabled: false })), error => error.status === 403);
   await assert.rejects(loadSource(requestBody, env, async () => Response.json({ ...source, segments: [{ id: 's0', text: '改动' }] })), error => error.status === 502);
@@ -119,7 +119,7 @@ test('missing, duplicate, truncated and invalid model outputs are rejected', asy
   await assert.rejects(translatePage(segments, 'en', env, async () => Response.json(providerBody([]))));
 });
 
-test('each translation request calls the provider once without storing any translated text', async () => {
+test('concurrent readers and object restarts reuse durable translations', async () => {
   const state = storageMock();
   const store = new TranslationStore(state, { ...env, MAX_DAILY_CALLS: '10' });
   let calls = 0;
@@ -128,14 +128,19 @@ test('each translation request calls the provider once without storing any trans
   try {
     const responses = await Promise.all([store.fetch(internal()), store.fetch(internal()), store.fetch(internal())]);
     assert(responses.every(response => response.status === 200));
-    assert.equal(calls, 3);
+    assert.equal(calls, 1);
     assert.equal((await store.fetch(internal())).status, 200);
-    assert.equal(calls, 4);
+    assert.equal(calls, 1);
     const restarted = new TranslationStore(state, { ...env, MAX_DAILY_CALLS: '10' });
     assert.equal((await restarted.fetch(internal())).status, 200);
-    assert.equal(calls, 5);
-    assert(!Array.from(state.values.keys()).some(key => key.startsWith('cache:')));
-    assert(!JSON.stringify(Array.from(state.values)).includes('Welcome to the blog.'));
+    assert.equal(calls, 1);
+    assert(Array.from(state.values.keys()).some(key => key.startsWith('translation:')));
+    assert(JSON.stringify(Array.from(state.values)).includes('Welcome to the blog.'));
+    assert.equal((await restarted.fetch(internal('ja'))).headers.get('X-Translation-Cache'), 'MISS');
+    assert.equal(calls, 2);
+    const edited = { ...source, hash: 'a'.repeat(64) };
+    assert.equal((await restarted.fetch(internal('en', edited))).headers.get('X-Translation-Cache'), 'MISS');
+    assert.equal(calls, 3);
   } finally { globalThis.fetch = originalFetch; }
 });
 
@@ -192,4 +197,48 @@ test('endpoint enforces CORS and wraps immutable fetch responses safely', async 
     assert.equal(response.headers.get('Access-Control-Allow-Origin'), env.SITE_ORIGIN);
     assert.equal((await response.json()).segments[0].text, translated[0].text);
   } finally { globalThis.fetch = originalFetch; }
+});
+
+test('expired translations regenerate and alarms remove stale chunks', async () => {
+  const state = storageMock();
+  const store = new TranslationStore(state, env);
+  const originalFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => { calls++; return Response.json(providerBody(translated)); };
+  try {
+    await store.fetch(internal());
+    const key = Array.from(state.values.keys()).find(key => key.endsWith(':meta'));
+    state.values.get(key).expiresAt = 0;
+    assert.equal((await store.fetch(internal())).headers.get('X-Translation-Cache'), 'MISS');
+    assert.equal(calls, 2);
+    state.values.get(key).expiresAt = 0;
+    await store.alarm();
+    assert(!Array.from(state.values.keys()).some(key => key.startsWith('translation:')));
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test('edge cache reuses successful translations and still validates source and CORS', async () => {
+  const originalFetch = globalThis.fetch;
+  const originalCaches = globalThis.caches;
+  const cached = new Map();
+  globalThis.caches = { default: {
+    match: async request => cached.get(request.url)?.clone(),
+    put: async (request, response) => cached.set(request.url, response.clone())
+  } };
+  let calls = 0;
+  let currentSource = source;
+  globalThis.fetch = async () => Response.json(currentSource);
+  const runtime = { ...env, TRANSLATIONS: { idFromName: name => name, get: () => ({ fetch: async () => { calls++; return Response.json({ hash, language: 'en', segments: translated }); } }) } };
+  const request = () => new Request('https://worker/translate', { method: 'POST', headers: { Origin: env.SITE_ORIGIN, 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody) });
+  try {
+    assert.equal((await worker.fetch(request(), runtime)).status, 200);
+    const hit = await worker.fetch(request(), runtime);
+    assert.equal(hit.headers.get('X-Translation-Cache'), 'EDGE-HIT');
+    assert.equal(hit.headers.get('Cache-Control'), 'no-store');
+    assert.equal(hit.headers.get('Access-Control-Allow-Origin'), env.SITE_ORIGIN);
+    assert.equal(calls, 1);
+    currentSource = { ...source, llmEnabled: false };
+    assert.equal((await worker.fetch(request(), runtime)).status, 403);
+    assert.equal((await worker.fetch(new Request('https://worker/translate'), runtime)).status, 403);
+  } finally { globalThis.fetch = originalFetch; globalThis.caches = originalCaches; }
 });

@@ -51,7 +51,7 @@ npm run serve
 
 5. 打开 `http://127.0.0.1:4000/about/?lang=en` 或一篇文章，观察翻译状态。
 
-Wrangler 会将调用额度和限流计数器保存在被 Git 忽略的 `.wrangler` 目录，译文不会存入其中。
+Wrangler 会将调用额度和限流计数器保存在被 Git 忽略的 `.wrangler` 目录，缓存译文及计数器会存入其中。
 本地配置显式允许回环地址；生产配置不允许 HTTP 源或 HTTP 模型接口。
 若切换到日语后马上切回中文，旧请求不会覆盖当前内容；已经到达后端的请求可能继续完成，但不会保存译文。
 
@@ -60,13 +60,18 @@ Wrangler 会将调用额度和限流计数器保存在被 Git 忽略的 `.wrangl
 `worker/src/core.js` 实现翻译，`worker/src/index.js` 只导出 Worker 入口和 Durable Object 类。
 `worker/wrangler.jsonc` 保存非敏感配置。
 
-每次选择英语或日语，后端以整页文本片段调用一次 DeepSeek，并把结果直接返回当前页面。
-不缓存译文、不保存译文文件、不跨读者共享译文；切回中文或离开页面后，当前译文不再保留。
-重复选择英语、切换到日语或刷新明确指定了语言的网址，都会重新调用模型。
-响应带 `Cache-Control: no-store`，前端也不使用浏览器存储保存译文或语言偏好。
+英语和日语译文按页面路径、原文 SHA256、目标语言、模型配置和提示词版本缓存 30 天。
+首次请求调用一次 DeepSeek；后续读者共享同一译文，同页并发请求合并为一次模型调用。
+Cloudflare Cache API 保存边缘副本，SQLite Durable Object 保存跨节点共享副本及调用额度。
+原文清单请求携带 `?v=<原文哈希>`，避免 CDN 旧清单阻碍新版本翻译。
+正文或 About 修改后原文哈希变化，自动生成新译文，不复用旧版本；过期副本定时清理。
+模型错误和无效输出不缓存，缓存命中不消耗模型额度。来源及原文清单仍在每次请求时校验。
+边缘命中直接返回；进入 Durable Object 的请求仍受每 IP 限流。
 
-SQLite Durable Object 仅协调限流和每日调用额度，存储计数器，不存储原文或译文。
-之前版本写入的译文缓存会在这个对象启动时清除。未提供管理员手工译文编辑入口。
+客户端响应保持 `Cache-Control: no-store`，前端不保存译文或语言偏好到浏览器存储。
+`X-Translation-Cache` 显示 `MISS`、`HIT`（持久缓存或并发复用）或 `EDGE-HIT`。
+旧版 `cache:` 数据仍在启动时清除，新缓存使用独立的 `translation:` 前缀。
+未提供管理员手工译文编辑入口。
 
 默认限制：
 
@@ -121,7 +126,7 @@ Jekyll 的 `_plugins/translations.rb` 会在构建后调用 `scripts/build-trans
 3. 部署 Worker：`npm run worker:deploy`。
 4. 将 `_config.yml` 的 `translation_endpoint` 改为实际 Worker 地址（只填服务根地址，不带 `/translate`），
    并通过原有 GitHub Actions 发布博客，确保 `translations/source` 同时发布。
-5. 验证英日按次翻译、繁体切回原文，以及地图页零 LLM 调用。
+5. 验证英日首次翻译与重复缓存命中、繁体切回原文，以及地图页零 LLM 调用。
 
 Worker 地址无需使用自定义域名；可先用 Cloudflare 分配的 `workers.dev` 地址。
 生产环境不要配置 `ALLOW_LOCAL_SOURCE=true`，也不要将 API key 写入 Wrangler vars、GitHub Pages 或前端代码。
@@ -132,9 +137,9 @@ Worker 地址无需使用自定义域名；可先用 Cloudflare 分配的 `worke
 本地文件权限设置为 `600`，只有当前账户可以读写；浏览器发给 Worker 的请求仅含页面路径、原文哈希和目标语言。
 key 不会进入前端脚本、页面清单或响应。正式部署时使用 Cloudflare Secret。
 
-## 本地验证（2026-10-03）
+## 本地验证（2026-10-06）
 
-Jekyll 构建、自动测试和浏览器检查覆盖文本格式保护、版本与输出校验、按次调用、无译文持久化、
+Jekyll 构建、自动测试和浏览器检查覆盖文本格式保护、版本与输出校验、缓存复用、版本失效、过期清理、
 历史缓存清除、调用额度、错误回退、地图禁用、语言面板和手机布局。
 已实际验证 DeepSeek 英日接口。正式发布后，还需核对生产原文清单、英日翻译和地图页禁用规则。
 

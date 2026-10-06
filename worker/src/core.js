@@ -2,6 +2,17 @@
 const MAX_SOURCE_CHARS = 20000;
 const MAX_SEGMENTS = 1000;
 const MAX_RESPONSE_BYTES = 300000;
+const CACHE_TTL = 30 * 86400;
+// Bump when translation instructions change; content hashes invalidate edits.
+const CACHE_VERSION = 'v1';
+async function translationKey(source, language, env) {
+  return CACHE_VERSION + ':' + await sha256(JSON.stringify([source.page, source.hash, language, env.LLM_BASE_URL, env.LLM_MODEL]));
+}
+function cacheResponse(value, status) {
+  const response = json(value);
+  response.headers.set('X-Translation-Cache', status);
+  return response;
+}
 
 class ServiceError extends Error {
   constructor(status, code) { super(code); this.status = status; this.code = code; }
@@ -55,6 +66,7 @@ export async function loadSource(body, env, fetcher = fetch) {
   const origin = trustedURL(env.SITE_ORIGIN, env);
   if (origin.pathname !== '/') fail(503, 'service_not_configured');
   const url = new URL('/translations/source/' + await sha256(body.page) + '.json', origin);
+  url.searchParams.set('v', body.sourceHash);
   const response = await fetcher(url, { redirect: 'manual', signal: AbortSignal.timeout(15000), headers: { Accept: 'application/json' } });
   if (response.status === 404) fail(404, 'page_not_found');
   if (!response.ok) fail(502, 'source_unavailable');
@@ -116,12 +128,12 @@ export async function translatePage(segments, language, env, fetcher = fetch) {
   return result;
 }
 
-// This object stores only request/budget counters. Translated text is returned
-// directly to the caller and never written to storage or shared with readers.
+// Shared durable translations avoid repeating model calls across edge locations.
 export class TranslationStore {
   constructor(state, env) {
     this.state = state;
     this.env = env;
+    this.pending = new Map();
     this.ready = this.clearLegacyTranslations();
   }
   async clearLegacyTranslations() {
@@ -150,7 +162,13 @@ export class TranslationStore {
     const budgets = await this.state.storage.list({ prefix: 'budget:' });
     const today = new Date().toISOString().slice(0, 10);
     for (const key of budgets.keys()) if (key !== 'budget:' + today) await this.state.storage.delete(key);
-    if (counters.size > expired.length) await this.state.storage.setAlarm(Date.now() + 120000);
+    const entries = await this.state.storage.list({ prefix: 'translation:' });
+    for (const [key, entry] of entries) {
+      if (!key.endsWith(':meta') || entry.expiresAt > Date.now()) continue;
+      await this.state.storage.delete(key);
+      for (let index = 0; index < entry.chunks; index++) await this.state.storage.delete(key.replace(/:meta$/, ':chunk:' + index));
+    }
+    if (counters.size > expired.length || entries.size) await this.state.storage.setAlarm(Date.now() + 120000);
   }
   async reserve(segments) {
     const key = 'budget:' + new Date().toISOString().slice(0, 10);
@@ -168,15 +186,34 @@ export class TranslationStore {
       const { source, language, ip } = await request.json();
       await this.rateLimit(ip);
       if (!configuredKey(this.env)) fail(503, 'service_not_configured');
-      await this.reserve(source.segments);
-      const segments = await translatePage(source.segments, language, this.env);
-      return json({ hash: source.hash, language, segments });
+      const key = 'translation:' + await translationKey(source, language, this.env);
+      const meta = await this.state.storage.get(key + ':meta');
+      if (meta && meta.expiresAt > Date.now()) {
+        let text = '';
+        for (let index = 0; index < meta.chunks; index++) text += await this.state.storage.get(key + ':chunk:' + index);
+        return cacheResponse(JSON.parse(text), 'HIT');
+      }
+      if (this.pending.has(key)) return cacheResponse(await this.pending.get(key), 'HIT');
+      const pending = (async () => {
+        await this.reserve(source.segments);
+        const segments = await translatePage(source.segments, language, this.env);
+        const value = { hash: source.hash, language, segments };
+        const text = JSON.stringify(value);
+        // Each value stays below Durable Object storage's 128 KiB limit.
+        const chunks = Math.ceil(text.length / 30000);
+        for (let index = 0; index < chunks; index++) await this.state.storage.put(key + ':chunk:' + index, text.slice(index * 30000, (index + 1) * 30000));
+        await this.state.storage.put(key + ':meta', { chunks, expiresAt: Date.now() + CACHE_TTL * 1000 });
+        return value;
+      })();
+      this.pending.set(key, pending);
+      try { return cacheResponse(await pending, 'MISS'); }
+      finally { this.pending.delete(key); }
     } catch (error) { return errorResponse(error); }
   }
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin');
     const allowed = String(env.ALLOWED_ORIGINS || env.SITE_ORIGIN || '').split(',').map(item => item.trim());
     if (!origin || !allowed.includes(origin)) return json({ error: 'origin_not_allowed' }, 403);
@@ -185,6 +222,7 @@ export default {
       response.headers.set('Access-Control-Allow-Origin', origin);
       response.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
       response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
+      response.headers.set('Access-Control-Expose-Headers', 'X-Translation-Cache');
       response.headers.set('Vary', 'Origin');
       return response;
     }
@@ -195,9 +233,30 @@ export default {
       if (!request.headers.get('Content-Type')?.startsWith('application/json')) fail(415, 'json_required');
       const body = validateRequest(await readJSON(request, 2048));
       const source = await loadSource(body, env);
+      const edge = globalThis.caches?.default;
+      const cacheURL = new URL(request.url);
+      cacheURL.pathname = '/translation-cache/' + await translationKey(source, body.language, env);
+      cacheURL.search = '';
+      const cacheRequest = new Request(cacheURL, { method: 'GET' });
+      if (edge) {
+        const cached = await edge.match(cacheRequest);
+        if (cached) {
+          const response = new Response(cached.body, cached);
+          response.headers.set('Cache-Control', 'no-store');
+          response.headers.set('X-Translation-Cache', 'EDGE-HIT');
+          return cors(response);
+        }
+      }
       const ip = await sha256(request.headers.get('CF-Connecting-IP') || 'local');
       const store = env.TRANSLATIONS.get(env.TRANSLATIONS.idFromName('blog'));
       const response = await store.fetch(new Request('https://internal/translate', { method: 'POST', body: JSON.stringify({ source, language: body.language, ip }) }));
+      if (edge && response.ok) {
+        const cached = response.clone();
+        cached.headers.set('Cache-Control', 'public, max-age=' + CACHE_TTL);
+        const write = edge.put(cacheRequest, cached);
+        if (ctx?.waitUntil) ctx.waitUntil(write);
+        else await write;
+      }
       return cors(response);
     } catch (error) {
       if (env.ALLOW_LOCAL_SOURCE === 'true' && !(error instanceof ServiceError)) console.warn('Local translation error:', error.name, error.message);

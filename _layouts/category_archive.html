@@ -13,6 +13,7 @@ layout: default
 {% if posts and posts.size > 0 %}
   <div class="archive-posts" data-category-pagination data-page-size="5">
     {% for post in posts %}
+      {% assign post_link = post.external_url | default: post.url | relative_url %}
       <article class="post hentry archive-post{% if post.cover_image %} has-cover{% endif %} photo-format-{{ post.photo_format | default: 'none' }}">
         {% if post.cover_image %}
           {% assign cover_image_url = post.cover_image %}
@@ -23,7 +24,7 @@ layout: default
           {% if cover_image_url contains 'img.tsuikaii.com/cdn-cgi/image/width=' %}
             {% assign uses_cloudflare_image = true %}
           {% endif %}
-          <a class="entry-cover" href="{{ post.url | relative_url }}" rel="bookmark" aria-label="{{ post.title }}">
+          <a class="entry-cover" href="{{ post_link }}" rel="bookmark" aria-label="{{ post.title }}">
             <img
               src="{{ cover_image_url }}"
               {% if uses_cloudflare_image %}
@@ -38,14 +39,14 @@ layout: default
           </a>
         {% endif %}
         <header class="entry-header">
-          <h2 class="entry-title"><a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a></h2>
+          <h2 class="entry-title"><a href="{{ post_link }}" rel="bookmark">{{ post.title }}</a></h2>
         </header>
         <div class="entry-content">
           <p>{{ post.excerpt | strip_html | strip_newlines | strip }}</p>
         </div>
         <footer class="entry-footer">
           <span class="posted-on">
-            <a href="{{ post.url | relative_url }}" rel="bookmark">
+            <a href="{{ post_link }}" rel="bookmark">
               <time class="entry-date published" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y年%-m月%-d日" }}</time>
             </a>
           </span>
