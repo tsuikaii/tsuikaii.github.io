@@ -34,5 +34,10 @@ caching over the origin's cache headers. Pages now serves and invalidates static
 assets itself. Other media and microsite cache rules are retained.
 
 `tsuikaii.com` and `www.tsuikaii.com` point to `tsuikaii.pages.dev` through proxied
-CNAME records. `_redirects` preserves paths while redirecting `www` to the apex.
-Jekyll's `include` setting copies that file to the deployment output.
+CNAME records. The existing Cloudflare Page Rule for `www.tsuikaii.com/*` now
+uses a 301 redirect to `https://tsuikaii.com/$1`, replacing its old `hszhe9.com`
+target. It preserves paths and query parameters. Domain redirects are managed
+at the zone level because Pages `_redirects` only supports source paths.
+
+GitHub Pages is unpublished and its workflow removed. The final migration push
+was verified to trigger a successful Cloudflare `github:push` deployment.

@@ -68,6 +68,7 @@ Secrets and are not needed by Pages builds.
 
 Pages project: [tsuikaii](https://dash.cloudflare.com/9b5fdc8a73a01db70a0fea0345043dc8/pages/view/tsuikaii).
 The Pages hostname is `tsuikaii.pages.dev`. Both `tsuikaii.com` and
-`www.tsuikaii.com` are attached to Pages; `_redirects` sends `www` requests to
-the canonical apex domain. The old GitHub Pages Actions workflow has been removed.
+`www.tsuikaii.com` are attached to Pages. A Cloudflare Page Rule sends `www`
+requests to the canonical apex domain, preserving paths and query parameters.
+The old GitHub Pages Actions workflow has been removed and GitHub Pages unpublished.
 See [migration notes](docs/cloudflare-pages.md).

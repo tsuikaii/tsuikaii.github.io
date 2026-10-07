@@ -14,8 +14,6 @@ mapbox:
   dark_style: "mapbox://styles/mapbox/dark-v11"
 # Public service URL only; the API key is stored in Cloudflare Worker Secrets.
 translation_endpoint: "https://tsuikaii-translations.zhe-cf.workers.dev"
-include:
-  - _redirects
 exclude:
   - node_modules
   - worker
