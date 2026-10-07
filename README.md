@@ -35,13 +35,38 @@ Run `bundle exec jekyll serve --config _config.yml,_config.local.yml` and open
 for Mapbox requests; use a public token with appropriate URL restrictions.
 The map requires a configured public token.
 
-Production builds read `MAPBOX_PUBLIC_TOKEN` from a repository Actions Secret.
+Production builds read `MAPBOX_PUBLIC_TOKEN` from a Cloudflare Pages build variable.
 Use a dedicated public token with only the map's read permissions and URL
 restrictions for `https://tsuikaii.com` and `https://tsuikaii.github.io`.
 Never use a secret (`sk.`) token: the build rejects it. The public token remains
-visible to site visitors in HTML and Mapbox requests; an Actions Secret keeps it
+visible to site visitors in HTML and Mapbox requests; a build variable keeps it
 out of Git and build logs, not out of the browser.
 
 ## Deployment
 
-Push to the `main` branch of `tsuikaii/tsuikaii.github.io` and enable GitHub Pages with source set to `GitHub Actions`.
+Cloudflare Pages builds and deploys the `main` branch of
+`tsuikaii/tsuikaii.github.io`. GitHub stores the source repository.
+
+Pages build settings (production and preview):
+
+| Setting | Value |
+| --- | --- |
+| Framework preset | None |
+| Root directory | Repository root |
+| Build command | `npm run build:pages` |
+| Build output directory | `_site` |
+| Build system | v3 |
+| `SKIP_DEPENDENCY_INSTALL` | `1` |
+| `MAPBOX_PUBLIC_TOKEN` | Existing public `pk.` token |
+
+Ruby and Node versions are pinned in `.ruby-version` and `.node-version`.
+The build installs locked Ruby and npm dependencies, runs the translation tests,
+generates gallery data, and builds Jekyll and multilingual assets.
+The production canonical URL stays `https://tsuikaii.com`.
+The translation Worker remains a separate service; its secrets stay in Worker
+Secrets and are not needed by Pages builds.
+
+Attach `tsuikaii.com` in the Pages project's **Custom domains** settings so
+Cloudflare provisions the DNS record and TLS certificate. After verifying the
+Pages deployment and domain, unpublish GitHub Pages and remove the old Pages
+Actions workflow. See [migration notes](docs/cloudflare-pages.md).
