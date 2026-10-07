@@ -12,8 +12,9 @@ translation API key to Pages: the translation service has its own Worker.
 
 ## Domain cutover
 
-1. Verify the production `pages.dev` deployment: home, an article, `/archive/`,
-   `/gallery/`, `/gallery-map/`, translation assets, and a missing URL's 404.
+1. Verify the production `pages.dev` deployment: home, an article,
+   `/category/article/`, `/category/gallery/`, `/gallery-map/`, translation assets,
+   and a missing URL's 404.
 2. Add `tsuikaii.com` to Pages Custom domains and activate its DNS record.
 3. Wait for the domain to show Active and verify HTTPS and site content.
 4. Unpublish the old GitHub Pages site and remove `.github/workflows/pages.yml`.
@@ -27,7 +28,11 @@ Pushes to `main` trigger builds in Cloudflare. Inspect build logs and deployment
 status in Workers & Pages. A build failure leaves the last successful deployment
 live. Use Pages' deployment rollback to restore a previous successful build.
 
-The historical GitHub cache rules in `cloudflare-blog-cache.md` describe the old
-origin. Pages serves static assets itself; do not add a new Cache Everything
-rule as part of this migration. Check existing zone rules during cutover so a
-cached GitHub response does not mask the new deployment.
+The historical GitHub cache rule in `cloudflare-blog-cache.md` describes the old
+origin. `Blog CDN` was disabled during migration because it forced two-hour
+caching over the origin's cache headers. Pages now serves and invalidates static
+assets itself. Other media and microsite cache rules are retained.
+
+`tsuikaii.com` and `www.tsuikaii.com` point to `tsuikaii.pages.dev` through proxied
+CNAME records. `_redirects` preserves paths while redirecting `www` to the apex.
+Jekyll's `include` setting copies that file to the deployment output.

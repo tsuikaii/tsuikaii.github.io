@@ -66,7 +66,8 @@ The production canonical URL stays `https://tsuikaii.com`.
 The translation Worker remains a separate service; its secrets stay in Worker
 Secrets and are not needed by Pages builds.
 
-Attach `tsuikaii.com` in the Pages project's **Custom domains** settings so
-Cloudflare provisions the DNS record and TLS certificate. After verifying the
-Pages deployment and domain, unpublish GitHub Pages and remove the old Pages
-Actions workflow. See [migration notes](docs/cloudflare-pages.md).
+Pages project: [tsuikaii](https://dash.cloudflare.com/9b5fdc8a73a01db70a0fea0345043dc8/pages/view/tsuikaii).
+The Pages hostname is `tsuikaii.pages.dev`. Both `tsuikaii.com` and
+`www.tsuikaii.com` are attached to Pages; `_redirects` sends `www` requests to
+the canonical apex domain. The old GitHub Pages Actions workflow has been removed.
+See [migration notes](docs/cloudflare-pages.md).

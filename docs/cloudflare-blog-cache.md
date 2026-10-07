@@ -1,5 +1,9 @@
 # 博客 CDN 与翻译缓存
 
+2026-10-07 主站迁移到 Cloudflare Pages，下述 `Blog CDN` 规则已停用。
+主站静态内容改由 Pages 管理缓存与发布失效；翻译 Worker 的缓存保持不变。
+当前部署见 [Cloudflare Pages](cloudflare-pages.md)。
+
 2026-10-06 已在 `tsuikaii.com` Zone 应用，并验证活动状态。
 
 ## 主站 Cache Rule
