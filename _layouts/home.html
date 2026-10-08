@@ -53,7 +53,7 @@ layout: default
           {% assign category_slug = post.categories.first %}
           {% assign category_item = site.data.categories[category_slug] %}
           <span class="cat-links">
-            <a href="{{ category_item.path | relative_url }}" data-i18n="{{ category_slug }}">{{ category_item.label | default: category_slug }}</a>
+            <a href="{{ category_item.path | relative_url }}">{{ category_item.label | default: category_slug }}</a>
           </span>
         {% endif %}
       </footer>
@@ -62,13 +62,13 @@ layout: default
 </div>
 
 {% if paginator and paginator.total_pages > 1 %}
-  <nav class="home-pagination" aria-label="首页分页导航" data-i18n-aria="pagination">
+  <nav class="home-pagination" aria-label="首页分页导航">
     {% if paginator.previous_page %}
       <div class="home-pagination-actions">
         {% if paginator.page == paginator.total_pages %}
-          <a class="home-pagination-link" href="{{ '/' | relative_url }}" data-i18n="first">首页</a>
+          <a class="home-pagination-link" href="{{ '/' | relative_url }}">首页</a>
         {% endif %}
-        <a class="home-pagination-link home-pagination-arrow" href="{{ paginator.previous_page_path | relative_url }}" data-i18n="previous">上一页</a>
+        <a class="home-pagination-link home-pagination-arrow" href="{{ paginator.previous_page_path | relative_url }}">上一页</a>
       </div>
     {% endif %}
 
@@ -100,10 +100,10 @@ layout: default
 
     {% if paginator.next_page %}
       <div class="home-pagination-actions">
-        <a class="home-pagination-link home-pagination-arrow" href="{{ paginator.next_page_path | relative_url }}" data-i18n="next">下一页</a>
+        <a class="home-pagination-link home-pagination-arrow" href="{{ paginator.next_page_path | relative_url }}">下一页</a>
         {% if paginator.page == 1 %}
           {% assign last_page_url = site.paginate_path | replace: ':num', paginator.total_pages | relative_url %}
-          <a class="home-pagination-link" href="{{ last_page_url }}" data-i18n="last">末页</a>
+          <a class="home-pagination-link" href="{{ last_page_url }}">末页</a>
         {% endif %}
       </div>
     {% endif %}

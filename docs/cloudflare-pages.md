@@ -13,7 +13,7 @@ translation API key to Pages: the translation service has its own Worker.
 ## Domain cutover
 
 1. Verify the production `pages.dev` deployment: home, an article,
-   `/category/article/`, `/category/gallery/`, `/gallery-map/`, translation assets,
+   `/category/article/`, `/category/gallery/`, `/gallery-map/`, local font assets,
    and a missing URL's 404.
 2. Add `tsuikaii.com` to Pages Custom domains and activate its DNS record.
 3. Wait for the domain to show Active and verify HTTPS and site content.

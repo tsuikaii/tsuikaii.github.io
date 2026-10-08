@@ -7,7 +7,7 @@ layout: default
 {% assign posts = posts | where_exp: "post", "post.hidden != true" %}
 
 <header class="archive-heading">
-  <h1 class="archive-title" data-i18n="{{ page.category_slug }}">{{ item.label }}</h1>
+  <h1 class="archive-title">{{ item.label }}</h1>
 </header>
 
 {% if posts and posts.size > 0 %}
@@ -51,17 +51,17 @@ layout: default
             </a>
           </span>
           <span class="cat-links">
-            <a href="{{ item.path | relative_url }}" data-i18n="{{ page.category_slug }}">{{ item.label }}</a>
+            <a href="{{ item.path | relative_url }}">{{ item.label }}</a>
           </span>
         </footer>
       </article>
     {% endfor %}
   </div>
-  <nav class="home-pagination archive-pagination" data-category-pagination-nav aria-label="{{ item.label }}分页导航" data-i18n-aria="pagination" hidden></nav>
+  <nav class="home-pagination archive-pagination" data-category-pagination-nav aria-label="{{ item.label }}分页导航" hidden></nav>
 {% else %}
   <article class="page type-page hentry archive-empty">
     <div class="entry-content">
-      <p class="category-empty" data-i18n="noPosts">这里还没有文章。</p>
+      <p class="category-empty">这里还没有文章。</p>
     </div>
   </article>
 {% endif %}

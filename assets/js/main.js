@@ -1,10 +1,28 @@
-function blogT(key, count) {
-  if (window.BlogI18n) return window.BlogI18n.t(key, count);
-  var message = window.BLOG_MESSAGES && window.BLOG_MESSAGES['zh-Hans'][key];
-  return (message || key).replace('{count}', String(count));
+var siteMessages = {
+  "close": "关闭",
+  "copied": "已复制",
+  "copy": "复制",
+  "first": "首页",
+  "last": "末页",
+  "locations": "{count} 个地点",
+  "mapFailed": "地图暂时无法加载，请稍后刷新重试。",
+  "mapLoading": "正在加载地图…",
+  "mapSwitchDark": "切换深色地图",
+  "mapSwitchLight": "切换浅色地图",
+  "mapUnconfigured": "地图尚未配置。",
+  "mapUnsupported": "此浏览器不支持地图显示。",
+  "next": "下一页",
+  "original": "查看原图",
+  "photoShort": "{count} 张",
+  "photos": "{count} 张照片",
+  "posts": "{count} 篇文章",
+  "previous": "上一页",
+  "selectedPlace": "地图选中地点"
+};
+
+function siteLabel(key, count) {
+  return (siteMessages[key] || key).replace('{count}', String(count));
 }
-function blogText(value) { return window.BlogI18n ? window.BlogI18n.text(value) : value; }
-function blogDate(value) { return window.BlogI18n ? window.BlogI18n.date(value) : value; }
 
 (function () {
   var submenuLinks = document.querySelectorAll(".menu-item-has-children > .submenu-link");
@@ -414,13 +432,11 @@ function blogDate(value) { return window.BlogI18n ? window.BlogI18n.date(value) 
     closeButton = document.createElement("button");
     closeButton.type = "button";
     closeButton.className = "image-lightbox-close";
-    closeButton.dataset.i18n = 'close';
-    closeButton.textContent = blogT('close');
+    closeButton.textContent = siteLabel('close');
 
     originalLink = document.createElement("a");
     originalLink.className = "image-lightbox-original";
-    originalLink.dataset.i18n = 'original';
-    originalLink.textContent = blogT('original');
+    originalLink.textContent = siteLabel('original');
     originalLink.target = "_blank";
     originalLink.rel = "noopener";
     originalLink.hidden = true;
@@ -1033,10 +1049,10 @@ function blogDate(value) { return window.BlogI18n ? window.BlogI18n.date(value) 
     previousActions = document.createElement("div");
     previousActions.className = "home-pagination-actions";
     if (currentPage === totalPages) {
-      previousActions.appendChild(createArrow(blogT('first'), 1, "home-pagination-link"));
+      previousActions.appendChild(createArrow(siteLabel('first'), 1, "home-pagination-link"));
     }
     if (currentPage > 1) {
-      previousActions.appendChild(createArrow(blogT('previous'), currentPage - 1, "home-pagination-link home-pagination-arrow"));
+      previousActions.appendChild(createArrow(siteLabel('previous'), currentPage - 1, "home-pagination-link home-pagination-arrow"));
     }
     nav.appendChild(previousActions);
 
@@ -1052,19 +1068,16 @@ function blogDate(value) { return window.BlogI18n ? window.BlogI18n.date(value) 
     nextActions = document.createElement("div");
     nextActions.className = "home-pagination-actions";
     if (currentPage < totalPages) {
-      nextActions.appendChild(createArrow(blogT('next'), currentPage + 1, "home-pagination-link home-pagination-arrow"));
+      nextActions.appendChild(createArrow(siteLabel('next'), currentPage + 1, "home-pagination-link home-pagination-arrow"));
     }
     if (currentPage === 1) {
-      nextActions.appendChild(createArrow(blogT('last'), totalPages, "home-pagination-link"));
+      nextActions.appendChild(createArrow(siteLabel('last'), totalPages, "home-pagination-link"));
     }
     nav.appendChild(nextActions);
   }
 
   roots.forEach(function (root) {
     renderPagination(root);
-  });
-  document.addEventListener('blog:languagechange', function () {
-    roots.forEach(function (root) { renderPagination(root); });
   });
 })();
 
@@ -1093,20 +1106,17 @@ function blogDate(value) { return window.BlogI18n ? window.BlogI18n.date(value) 
     button = document.createElement("button");
     button.type = "button";
     button.className = "code-copy-button";
-    button.dataset.i18n = 'copy';
-    button.textContent = blogT('copy');
+    button.textContent = siteLabel('copy');
 
     button.addEventListener("click", function () {
       var text = codeBlock.textContent;
       var resetTimer;
 
       function markCopied() {
-        button.dataset.i18n = 'copied';
-        button.textContent = blogT('copied');
+        button.textContent = siteLabel('copied');
         window.clearTimeout(resetTimer);
         resetTimer = window.setTimeout(function () {
-          button.dataset.i18n = 'copy';
-          button.textContent = blogT('copy');
+          button.textContent = siteLabel('copy');
         }, 1600);
       }
 

@@ -27,7 +27,6 @@
 
   var groupedLocations = Object.create(null);
   var activeLocationId = null;
-  var clusterGroups = null;
   var selectionRequest = 0;
   var entries = Array.isArray(rawEntries) ? rawEntries : [];
 
@@ -97,30 +96,30 @@
     var entriesMarkup = group.entries.map(function (entry) {
       return (
         "<a class=\"gallery-map-post-link\" href=\"" + escapeHtml(entry.url) + "\">" +
-          "<span class=\"gallery-map-post-title\" data-source-text=\"" + escapeHtml(entry.title) + "\">" + escapeHtml(blogText(entry.title)) + "</span>" +
-          "<span class=\"gallery-map-post-meta\">" + escapeHtml(blogDate(entry.date_display)) + " · " + escapeHtml(blogT('photoShort', entry.photo_count)) + "</span>" +
+          "<span class=\"gallery-map-post-title\">" + escapeHtml(entry.title) + "</span>" +
+          "<span class=\"gallery-map-post-meta\">" + escapeHtml(entry.date_display) + " · " + escapeHtml(siteLabel('photoShort', entry.photo_count)) + "</span>" +
         "</a>"
       );
     }).join("");
     var photosMarkup = group.photos.slice(1, 6).map(function (photo) {
       return (
         "<figure class=\"gallery-map-thumb\">" +
-          "<img src=\"" + escapeHtml(photo.src) + "\" alt=\"" + escapeHtml(blogText(photo.alt || photo.caption || group.location.name)) + "\" data-source-alt=\"" + escapeHtml(photo.alt || photo.caption || group.location.name) + "\" class=\"zoomable-image\" data-full-src=\"" + escapeHtml(photo.full_src || photo.src) + "\" loading=\"lazy\">" +
-          "<figcaption data-source-text=\"" + escapeHtml(photo.caption || photo.post_title) + "\">" + escapeHtml(blogText(photo.caption || photo.post_title)) + "</figcaption>" +
+          "<img src=\"" + escapeHtml(photo.src) + "\" alt=\"" + escapeHtml(photo.alt || photo.caption || group.location.name) + "\" class=\"zoomable-image\" data-full-src=\"" + escapeHtml(photo.full_src || photo.src) + "\" loading=\"lazy\">" +
+          "<figcaption>" + escapeHtml(photo.caption || photo.post_title) + "</figcaption>" +
         "</figure>"
       );
     }).join("");
 
     return (
-      "<figure class=\"gallery-map-cover\"><img src=\"" + escapeHtml(group.photos[0].src) + "\" alt=\"" + escapeHtml(blogText(group.photos[0].alt || group.location.name)) + "\" data-source-alt=\"" + escapeHtml(group.photos[0].alt || group.location.name) + "\" class=\"zoomable-image\" data-full-src=\"" + escapeHtml(group.photos[0].full_src || group.photos[0].src) + "\"></figure>" +
+      "<figure class=\"gallery-map-cover\"><img src=\"" + escapeHtml(group.photos[0].src) + "\" alt=\"" + escapeHtml(group.photos[0].alt || group.location.name) + "\" class=\"zoomable-image\" data-full-src=\"" + escapeHtml(group.photos[0].full_src || group.photos[0].src) + "\"></figure>" +
       "<div class=\"gallery-map-detail-header\">" +
-        "<p class=\"gallery-map-eyebrow\" data-i18n=\"selectedPlace\">" + escapeHtml(blogT('selectedPlace')) + "</p>" +
-        "<h3 class=\"gallery-map-place\" data-source-text=\"" + escapeHtml(group.location.name) + "\">" + escapeHtml(blogText(group.location.name)) + "</h3>" +
-        "<p class=\"gallery-map-place-subtitle\" data-source-text=\"" + escapeHtml(group.location.place || '') + "\">" + escapeHtml(blogText(group.location.place || '')) + "</p>" +
+        "<p class=\"gallery-map-eyebrow\">" + escapeHtml(siteLabel('selectedPlace')) + "</p>" +
+        "<h3 class=\"gallery-map-place\">" + escapeHtml(group.location.name) + "</h3>" +
+        "<p class=\"gallery-map-place-subtitle\">" + escapeHtml(group.location.place || '') + "</p>" +
       "</div>" +
       "<div class=\"gallery-map-summary\">" +
-        "<span data-i18n=\"photos\" data-count=\"" + group.photoCount + "\">" + escapeHtml(blogT('photos', group.photoCount)) + "</span>" +
-        "<span data-i18n=\"posts\" data-count=\"" + group.entries.length + "\">" + escapeHtml(blogT('posts', group.entries.length)) + "</span>" +
+        "<span>" + escapeHtml(siteLabel('photos', group.photoCount)) + "</span>" +
+        "<span>" + escapeHtml(siteLabel('posts', group.entries.length)) + "</span>" +
       "</div>" +
       "<div class=\"gallery-map-posts\">" + entriesMarkup + "</div>" +
       "<div class=\"gallery-map-thumbs\">" + photosMarkup + "</div>"
@@ -134,7 +133,6 @@
   var hoverPopup;
   var mapReady = false;
   var overviewActive = true;
-  var statusKey = 'mapLoading';
   var token = mapRoot.dataset.mapboxToken || '';
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var closeButton = document.querySelector('[data-gallery-map-close]');
@@ -158,9 +156,8 @@
   function updateThemeButton(theme) {
     if (!themeButton) return;
     var labelKey = theme === 'dark' ? 'mapSwitchLight' : 'mapSwitchDark';
-    themeButton.dataset.i18nAria = labelKey;
-    themeButton.setAttribute('aria-label', blogT(labelKey));
-    themeButton.setAttribute('title', blogT(labelKey));
+    themeButton.setAttribute('aria-label', siteLabel(labelKey));
+    themeButton.setAttribute('title', siteLabel(labelKey));
     themeButton.setAttribute('aria-pressed', String(theme === 'dark'));
   }
 
@@ -198,12 +195,10 @@
   }
 
   function setStatus(key) {
-    statusKey = key;
     if (!statusRoot) return;
     statusRoot.hidden = !key;
     if (key) {
-      statusRoot.dataset.i18n = key;
-      statusRoot.textContent = blogT(key);
+      statusRoot.textContent = siteLabel(key);
     }
   }
 
@@ -225,7 +220,7 @@
     return {
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [group.location.lng, group.location.lat] },
-      properties: { id: group.id, name: blogText(group.location.name), photoCount: group.photoCount }
+      properties: { id: group.id, name: group.location.name, photoCount: group.photoCount }
     };
   }
 
@@ -233,7 +228,6 @@
     var group = groupedLocations[id];
     if (!group) return;
     selectionRequest += 1;
-    clusterGroups = null;
     activeLocationId = id;
     overviewActive = false;
     detailPanel.hidden = false;
@@ -241,8 +235,7 @@
     detailRoot.scrollTop = 0;
     detailPanel.scrollTop = 0;
     if (toggleLabel) {
-      toggleLabel.removeAttribute('data-i18n');
-      toggleLabel.textContent = blogText(group.location.name) + ' · ' + blogT('photoShort', group.photoCount);
+      toggleLabel.textContent = group.location.name + ' · ' + siteLabel('photoShort', group.photoCount);
     }
     expandDetail();
     updateSelection();
@@ -259,7 +252,6 @@
 
   function closeDetail() {
     selectionRequest += 1;
-    clusterGroups = null;
     activeLocationId = null;
     detailPanel.hidden = true;
     if (hoverPopup) hoverPopup.remove();
@@ -279,7 +271,6 @@
   }
 
   function showCluster(groups) {
-    clusterGroups = groups;
     activeLocationId = null;
     overviewActive = false;
     updateSelection();
@@ -287,14 +278,13 @@
     detailPanel.hidden = false;
     expandDetail();
     if (toggleLabel) {
-      toggleLabel.removeAttribute('data-i18n');
-      toggleLabel.textContent = blogT('locations', groups.length);
+      toggleLabel.textContent = siteLabel('locations', groups.length);
     }
     detailRoot.innerHTML = '<div class="gallery-map-location-list">' + groups.map(function (group) {
       return '<button type="button" class="gallery-map-location-item" data-gallery-map-place="' + escapeHtml(group.id) + '">' +
         '<img src="' + escapeHtml(group.photos[0].src) + '" alt="" loading="lazy">' +
-        '<span><strong>' + escapeHtml(blogText(group.location.name)) + '</strong><small>' +
-        escapeHtml(blogT('photoShort', group.photoCount)) + '</small></span></button>';
+        '<span><strong>' + escapeHtml(group.location.name) + '</strong><small>' +
+        escapeHtml(siteLabel('photoShort', group.photoCount)) + '</small></span></button>';
     }).join('') + '</div>';
     detailRoot.scrollTop = 0;
   }
@@ -314,14 +304,6 @@
   mobileQuery.addEventListener('change', function () {
     if (!mobileQuery.matches) expandDetail();
     if (map && activeLocationId) map.easeTo({ padding: cameraPadding(), duration: 0 });
-  });
-  document.addEventListener('blog:languagechange', function () {
-    updateThemeButton(currentTheme);
-    if (activeLocationId) selectLocation(activeLocationId, false);
-    else if (clusterGroups) showCluster(clusterGroups);
-    else if (toggleLabel) toggleLabel.textContent = blogT('selectedPlace');
-    if (mapReady) map.getSource('gallery-locations').setData({ type: 'FeatureCollection', features: locations.map(featureForGroup) });
-    if (statusKey) setStatus(statusKey);
   });
 
   if (!/^pk\./.test(token)) {
@@ -467,7 +449,7 @@
       var feature = nearestFeature(event);
       var group = feature && groupedLocations[feature.properties.id];
       if (group && group.id !== activeLocationId && hoverPopup) {
-        hoverPopup.setLngLat(feature.geometry.coordinates).setText(blogText(group.location.name) + ' · ' + blogT('photoShort', group.photoCount)).addTo(map);
+        hoverPopup.setLngLat(feature.geometry.coordinates).setText(group.location.name + ' · ' + siteLabel('photoShort', group.photoCount)).addTo(map);
       }
     });
     map.on('mouseleave', layerId, function () {

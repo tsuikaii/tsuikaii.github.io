@@ -42,7 +42,7 @@ function setup({ token = 'pk.local-test', supported = true, missingSDK = false, 
   class BoundsMock { extend() { return this; } }
   const sdk = { Map: MapMock, Popup: PopupMock, LngLatBounds: BoundsMock, NavigationControl: class {}, AttributionControl: class {}, supported: () => supported };
   if (!missingSDK) window.mapboxgl = sdk;
-  runInNewContext(script, { window, document, URLSearchParams, Date: class { getHours() { return hour; } }, mapboxgl: sdk, blogT: (key, count) => (messages[key] || key).replace('{count}', count), blogText: value => value, blogDate: value => value });
+  runInNewContext(script, { window, document, URLSearchParams, Date: class { getHours() { return hour; } }, mapboxgl: sdk, siteLabel: (key, count) => (messages[key] || key).replace('{count}', count) });
   return { document, window, setDark(value) { darkMedia.matches = value; mediaListeners.change(); }, resize(width, height) { window.innerWidth = width; window.innerHeight = height; windowListeners.resize(); }, get map() { return map; }, select(id) { map.handlers['click:gallery-points-hit']({ features: [{ properties: { id } }] }); } };
 }
 

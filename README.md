@@ -10,9 +10,13 @@ ruby scripts/generate_gallery_data.rb
 bundle exec jekyll serve
 ```
 
-The build hook prepares local OpenCC assets and trusted translation sources.
-See [multilingual setup](docs/multilingual.md) for local translation testing and
-Cloudflare Worker configuration. Run `npm test` to check the translation service.
+The main blog displays the original content and has no translation controls or
+translation build hook. Its default font is self-hosted Noto Serif SC on desktop
+and mobile; see [font assets](assets/fonts/noto-serif-sc/README.md) for source and
+license details. Run `npm test` to check the map and retained translation service.
+The main blog and film site now show their original content. The former
+translation Worker source and tests are retained as historical tooling; see
+[translation service notes](docs/multilingual.md).
 
 The photo map uses Mapbox GL JS in a fullscreen globe view. It switches to dark
 mode when the system uses a dark appearance. The sun/moon icon overrides the
@@ -60,11 +64,11 @@ Pages build settings (production and preview):
 | `MAPBOX_PUBLIC_TOKEN` | Existing public `pk.` token |
 
 Ruby and Node versions are pinned in `.ruby-version` and `.node-version`.
-The build installs locked Ruby and npm dependencies, runs the translation tests,
-generates gallery data, and builds Jekyll and multilingual assets.
+The build installs locked Ruby and npm dependencies, runs the tests,
+generates gallery data, and builds Jekyll with local font assets.
 The production canonical URL stays `https://tsuikaii.com`.
-The translation Worker remains a separate service; its secrets stay in Worker
-Secrets and are not needed by Pages builds.
+The archived translation Worker is separate from the website builds; its
+secrets stay in Worker Secrets and are not needed by Pages.
 
 Pages project: [tsuikaii](https://dash.cloudflare.com/9b5fdc8a73a01db70a0fea0345043dc8/pages/view/tsuikaii).
 The Pages hostname is `tsuikaii.pages.dev`. Both `tsuikaii.com` and

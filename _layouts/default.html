@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#f1f1f1">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" media="screen and (max-width: 48em)">
+    <link rel="stylesheet" href="{{ '/assets/fonts/noto-serif-sc/font.css' | relative_url }}">
     <link rel="dns-prefetch" href="//img.tsuikaii.com">
     <link rel="preconnect" href="https://img.tsuikaii.com" crossorigin>
     <link rel="dns-prefetch" href="//live.staticflickr.com">
@@ -34,7 +32,7 @@
   </head>
   <body class="{% if page.layout == 'home' %}home{% endif %} {% if page.layout == 'post' %}content-focused{% endif %} layout-{{ page.layout | default: 'default' }}{% if page.category_slug %} page-category-{{ page.category_slug }}{% endif %}">
     <div id="page" class="site">
-      <a class="skip-link" href="#content" data-i18n="skip">跳至内容</a>
+      <a class="skip-link" href="#content">跳至内容</a>
 
       <div id="sidebar" class="sidebar">
         <header id="masthead" class="site-header">
@@ -49,9 +47,9 @@
             {% assign current_category_item = site.data.categories[page.category_slug] %}
           {% endif %}
 
-          <nav id="site-navigation" class="main-navigation" aria-label="主导航" data-i18n-aria="navigation">
+          <nav id="site-navigation" class="main-navigation" aria-label="主导航">
             <ul class="nav-menu">
-              <li class="{% if page.layout == 'home' %}current-menu-item{% endif %}"><a href="{{ '/' | relative_url }}" data-i18n="home">首页</a></li>
+              <li class="{% if page.layout == 'home' %}current-menu-item{% endif %}"><a href="{{ '/' | relative_url }}">首页</a></li>
               <li class="{% if current_category_item %}current-menu-item current-menu-ancestor{% endif %} menu-item-has-children">
                 <a
                   href="#"
@@ -59,37 +57,17 @@
                   aria-current="{% if current_category_item %}page{% endif %}"
                   aria-expanded="false"
                   aria-controls="category-submenu"
-                  data-i18n="categories"
                 >分类</a>
                 <ul id="category-submenu" class="sub-menu">
                   {% for pair in site.data.categories %}
                     {% assign slug = pair[0] %}
                     {% assign item = pair[1] %}
-                    <li class="{% if page.category_slug == slug %}current-menu-item{% endif %}"><a href="{{ item.path | relative_url }}" data-i18n="{{ slug }}">{{ item.label }}</a></li>
+                    <li class="{% if page.category_slug == slug %}current-menu-item{% endif %}"><a href="{{ item.path | relative_url }}">{{ item.label }}</a></li>
                   {% endfor %}
                 </ul>
               </li>
               <li class="nav-about {% if page.url == '/about/' %}current-menu-item{% endif %}">
-                <a href="{{ '/about/' | relative_url }}" data-i18n="about">关于</a>
-                <div class="language-control" data-translation-endpoint="{{ site.translation_endpoint | escape }}">
-                  <button id="language-toggle" class="language-toggle" type="button" aria-label="选择语言" data-i18n-aria="selectLanguage" aria-expanded="false" aria-controls="language-panel">
-                    <svg class="translation-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                      <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17c-.67 1.92-1.73 3.75-3.17 5.35C8.07 10.32 7.3 9.19 6.69 8H4.69c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zM15.88 17l1.62-4.33L19.12 17h-3.24z"/>
-                    </svg>
-                  </button>
-                  <div id="language-panel" class="language-panel" hidden>
-                    <div class="language-options" role="group" aria-label="选择语言" data-i18n-aria="selectLanguage">
-                      <button type="button" data-language="zh-Hans" lang="zh-Hans" aria-pressed="true">简体中文</button>
-                      <button type="button" data-language="zh-Hant" lang="zh-Hant" aria-pressed="false">繁體中文</button>
-                      <button type="button" data-language="en" lang="en" aria-pressed="false">English</button>
-                      <button type="button" data-language="ja" lang="ja" aria-pressed="false">日本語</button>
-                    </div>
-                    <div class="translation-feedback" role="status" aria-live="polite" hidden>
-                      <span id="translation-status"></span>
-                      <button id="translation-retry" type="button" data-i18n="retry" hidden>重试</button>
-                    </div>
-                  </div>
-                </div>
+                <a href="{{ '/about/' | relative_url }}">关于</a>
               </li>
             </ul>
           </nav>
@@ -108,8 +86,6 @@
     {% if page.layout == 'gallery_map' %}
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.32.0/mapbox-gl.js"></script>
     {% endif %}
-    <script src="{{ '/assets/js/i18n.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
-    <script src="{{ '/assets/js/language.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
     <script src="{{ '/assets/js/main.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
     {% if page.layout == 'gallery_map' %}
     <script src="{{ '/assets/js/gallery-map.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
