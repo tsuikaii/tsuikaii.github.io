@@ -27,6 +27,7 @@ layout: default
           <a class="entry-cover" href="{{ post_link }}" rel="bookmark" aria-label="{{ post.title }}">
             <img
               src="{{ cover_image_url }}"
+              {% if post.cover_fit == 'contain' %}style="object-fit: contain;"{% endif %}
               {% if uses_cloudflare_image %}
               srcset="{{ cover_image_url | replace: 'width=1200', 'width=800' }} 800w, {{ cover_image_url }} 1200w"
               sizes="(min-width: 48em) min(64rem, calc(100vw - 8rem)), calc(100vw - 1.6rem)"
